@@ -7,7 +7,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
+            /*migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -90,8 +90,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                     IsRemoved = table.Column<bool>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Price = table.Column<int>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
                     Currency = table.Column<int>(nullable: false),
                     Type = table.Column<int>(nullable: false)
                 },
@@ -217,6 +216,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                     Description = table.Column<string>(nullable: true),
                     UserId = table.Column<long>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     PaymentId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -273,7 +273,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                     Currency = table.Column<int>(nullable: false),
                     PrintingEditionId = table.Column<long>(nullable: false),
                     OrderId = table.Column<long>(nullable: false),
-                    Count = table.Column<int>(nullable: false)
+                    Count = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -354,7 +354,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
                 table: "Orders",
-                column: "UserId");
+                column: "UserId");*/
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -24,8 +24,8 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
                 new PrintingEdition() { Id = 1, CreationDate = DateTime.Now, Currency = Currency.UAH, Description = "Neurotechnologies", Price = 1000 },
                 new PrintingEdition() { Id = 2, CreationDate = DateTime.Now, Currency = Currency.EUR, Description = "C# Starter", Price = 20 },
                 new PrintingEdition() { Id = 3, CreationDate = DateTime.Now, Currency = Currency.USD, Description = "ASP.NET MVC 5", Price = 100 },
-                new PrintingEdition() { Id = 2, CreationDate = DateTime.Now, Currency = Currency.EUR, Description = "How it works", Price = 50 },
-                new PrintingEdition() { Id = 3, CreationDate = DateTime.Now, Currency = Currency.USD, Description = "Angular 9", Price = 70 }
+                new PrintingEdition() { Id = 4, CreationDate = DateTime.Now, Currency = Currency.EUR, Description = "How it works", Price = 50 },
+                new PrintingEdition() { Id = 5, CreationDate = DateTime.Now, Currency = Currency.USD, Description = "Angular 9", Price = 70 }
             };
 
             AuthorInPrintingEdition[] authorInPrintingEditions = new AuthorInPrintingEdition[]
@@ -46,12 +46,11 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
             ApplicationUser[] applicationUsers = new ApplicationUser[]
             {
                 new ApplicationUser() { Id = 1, Email = "admin@example.com", FirstName = "Vladislav", LastName = "Goncharuk", UserName = "vladiator", PhoneNumber = "+380935538212", EmailConfirmed = true, PhoneNumberConfirmed = true},
-                new ApplicationUser() { Id = 1, Email = "user@example.com", FirstName = "Valerij", LastName = "Jmishenko", UserName = "valerajmih", PhoneNumber = "+380503487621", EmailConfirmed = true, PhoneNumberConfirmed = true }
+                new ApplicationUser() { Id = 2, Email = "user@example.com", FirstName = "Valerij", LastName = "Jmishenko", UserName = "valerajmih", PhoneNumber = "+380503487621", EmailConfirmed = true, PhoneNumberConfirmed = true }
             };
 
             IdentityRole<long>[] identityRoles = new IdentityRole<long>[]
             {
-                new IdentityRole<long>() { Id = 0, Name = "None"},
                 new IdentityRole<long>() { Id = 1, Name = "Admin"},
                 new IdentityRole<long>() { Id = 2, Name = "User"}
             };

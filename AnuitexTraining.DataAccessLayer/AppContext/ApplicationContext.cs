@@ -1,4 +1,5 @@
 ﻿using AnuitexTraining.DataAccessLayer.Entities;
+using AnuitexTraining.DataAccessLayer.Initialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,8 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            DataBaseInitialization.SeedData(modelBuilder);
 
             modelBuilder.Entity<AuthorInPrintingEdition>()
                 .HasKey(item => new { item.AuthorId, item.PrintingEditionId });
