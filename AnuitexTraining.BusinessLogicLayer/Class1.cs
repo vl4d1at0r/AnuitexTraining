@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AnuitexTraining.BusinessLogicLayer
+﻿namespace AnuitexTraining.BusinessLogicLayer
 {
     public class Class1
     {
