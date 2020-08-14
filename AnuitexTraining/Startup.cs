@@ -1,5 +1,6 @@
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
+using AnuitexTraining.PresentationLayer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -56,6 +57,8 @@ namespace AnuitexTraining
             {
                 app.UseSpaStaticFiles();
             }
+
+            app.UseErrorHandle();
 
             app.UseRouting();
 

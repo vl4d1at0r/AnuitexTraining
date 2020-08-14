@@ -3,8 +3,6 @@ using AnuitexTraining.DataAccessLayer.Initialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using System;
 
 namespace AnuitexTraining.DataAccessLayer.AppContext
 {
@@ -21,11 +19,6 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
