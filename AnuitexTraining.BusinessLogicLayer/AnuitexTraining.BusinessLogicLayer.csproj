@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AnuitexTraining.DataAccessLayer\AnuitexTraining.DataAccessLayer.csproj" />
+  </ItemGroup>
+
 </Project>

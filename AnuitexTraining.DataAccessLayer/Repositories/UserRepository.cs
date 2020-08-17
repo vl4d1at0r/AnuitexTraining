@@ -3,20 +3,19 @@ using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories
 {
-    public class UserRepository : BaseRepository, IUserRepository
+    public class UserRepository : BaseRepository, IUserRepository<ApplicationUser>
     {
         public UserRepository(ApplicationContext context) : base(context)
         {
 
         }
 
+<<<<<<< HEAD
         public void AddRole(string roleName)
         {
             throw new NotImplementedException();
@@ -38,8 +37,31 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
         }
 
         public void Create(ApplicationUser item)
+=======
+        public void Add(ApplicationUser user)
+>>>>>>> master
         {
-            db.Users.Add(item);
+            db.Users.Add(user);
+        }
+
+        public void AddRole(string roleName)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Authentication()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Authorization()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool CheckPermissions(string roleName)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Delete(int id)
@@ -61,9 +83,9 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             return db.Users;
         }
 
-        public void Update(ApplicationUser item)
+        public void Update(ApplicationUser user)
         {
-            db.Entry(item).State = EntityState.Modified;
+            db.Update(user);
         }
     }
 }

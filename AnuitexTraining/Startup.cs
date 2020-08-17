@@ -1,5 +1,9 @@
+using AnuitexTraining.BusinessLogicLayer.Services;
+using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
+using AnuitexTraining.DataAccessLayer.Repositories;
+using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using AnuitexTraining.PresentationLayer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +29,9 @@ namespace AnuitexTraining
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
+
+            services.AddSingleton<IUserRepository<ApplicationUser>, UserRepository>();
+            services.AddSingleton<IUserService, UserService>();
 
             services.AddIdentity<ApplicationUser, IdentityRole<long>>()
                 .AddEntityFrameworkStores<ApplicationContext>();
