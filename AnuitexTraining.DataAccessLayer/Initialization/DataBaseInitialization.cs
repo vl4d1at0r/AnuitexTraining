@@ -1,5 +1,5 @@
 ﻿using AnuitexTraining.DataAccessLayer.Entities;
-using AnuitexTraining.DataAccessLayer.Entities.Enums;
+using AnuitexTraining.DataAccessLayer.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -1,5 +1,5 @@
 ﻿using AnuitexTraining.DataAccessLayer.Entities.Base;
-using AnuitexTraining.DataAccessLayer.Entities.Enums;
+using AnuitexTraining.DataAccessLayer.Enums;
 using System;
 
 namespace AnuitexTraining.DataAccessLayer.Entities

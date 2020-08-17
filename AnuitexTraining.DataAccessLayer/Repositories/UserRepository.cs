@@ -17,6 +17,26 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         }
 
+        public void AddRole(string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Authentication()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Authorization()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CheckPermissions(string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Create(ApplicationUser item)
         {
             db.Users.Add(item);
