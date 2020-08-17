@@ -3,6 +3,7 @@ using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,6 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         }
 
-<<<<<<< HEAD
         public void AddRole(string roleName)
         {
             throw new NotImplementedException();
@@ -36,32 +36,9 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public void Create(ApplicationUser item)
-=======
-        public void Add(ApplicationUser user)
->>>>>>> master
+        public void Add(ApplicationUser item)
         {
-            db.Users.Add(user);
-        }
-
-        public void AddRole(string roleName)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Authentication()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Authorization()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool CheckPermissions(string roleName)
-        {
-            throw new System.NotImplementedException();
+            db.Users.Add(item);
         }
 
         public void Delete(int id)

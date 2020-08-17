@@ -30,8 +30,8 @@ namespace AnuitexTraining
         {
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
 
-            services.AddSingleton<IUserRepository<ApplicationUser>, UserRepository>();
-            services.AddSingleton<IUserService, UserService>();
+            services.AddTransient<IUserRepository<ApplicationUser>, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddIdentity<ApplicationUser, IdentityRole<long>>()
                 .AddEntityFrameworkStores<ApplicationContext>();
