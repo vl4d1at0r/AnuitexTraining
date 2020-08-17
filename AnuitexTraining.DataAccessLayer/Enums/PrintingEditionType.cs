@@ -1,4 +1,4 @@
-﻿namespace AnuitexTraining.DataAccessLayer.Entities.Enums
+﻿namespace AnuitexTraining.DataAccessLayer.Enums
 {
     public enum PrintingEditionType
     {
