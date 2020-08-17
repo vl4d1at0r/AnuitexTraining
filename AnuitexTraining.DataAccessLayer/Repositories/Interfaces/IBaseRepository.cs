@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
 {
@@ -8,7 +6,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
     {
         public IEnumerable<T> GetAll();
         public T Get(int id);
-        public void Create(T item);
+        public void Add(T item);
         public void Update(T item);
         public void Delete(int id);
     }

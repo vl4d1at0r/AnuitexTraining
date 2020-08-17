@@ -1,7 +1,5 @@
 ﻿using AnuitexTraining.DataAccessLayer.AppContext;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories.Base
 {
