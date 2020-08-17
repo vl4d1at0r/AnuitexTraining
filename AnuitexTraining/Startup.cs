@@ -1,9 +1,7 @@
-using AnuitexTraining.BusinessLogicLayer.Services;
-using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
+using AnuitexTraining.BusinessLogicLayer.Common;
+using AnuitexTraining.BusinessLogicLayer.Common.Interfaces;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
-using AnuitexTraining.DataAccessLayer.Repositories;
-using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using AnuitexTraining.PresentationLayer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +28,10 @@ namespace AnuitexTraining
         {
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
 
-            services.AddTransient<IUserRepository<ApplicationUser>, UserRepository>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddSingleton<ILogger, Logger>();
+
+            //Connecting BLL and DAL
+            BusinessLogicLayer.Startup.InitBusinessLogicLayerServices(services);
 
             services.AddIdentity<ApplicationUser, IdentityRole<long>>()
                 .AddEntityFrameworkStores<ApplicationContext>();

@@ -2,6 +2,6 @@
 {
     public interface ILogger
     {
-        public void LogFile(string path, string error);
+        public void LogFile(string error);
     }
 }

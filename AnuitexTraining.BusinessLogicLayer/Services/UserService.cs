@@ -1,7 +1,6 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services

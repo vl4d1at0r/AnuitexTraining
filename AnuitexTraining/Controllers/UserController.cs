@@ -1,7 +1,6 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
-using AnuitexTraining.DataAccessLayer.AppContext;
+﻿using AnuitexTraining.BusinessLogicLayer.Helpers;
+using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
-using AnuitexTraining.DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -22,6 +21,13 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         public IEnumerable<ApplicationUser> GetAll()
         {
             return service.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        public ApplicationUser Get(int id)
+        {
+            EmailHelper.SendConfirmationMessage("bruh","vladislav.v.goncharuk@gmail.com");
+            return service.Get(id);
         }
 
         [HttpPost]

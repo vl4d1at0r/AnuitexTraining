@@ -2,62 +2,67 @@
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories
 {
     public class UserRepository : BaseRepository, IUserRepository<ApplicationUser>
     {
-        public UserRepository(ApplicationContext context) : base(context)
+        private UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;
+        public UserRepository(ApplicationContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : base(context)
         {
-
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        public void AddRole(string roleName)
+        public void AddToRole(ApplicationUser item, string roleName)
         {
-            throw new NotImplementedException();
+            _userManager.AddToRoleAsync(item, roleName);
         }
 
-        public void Authentication()
+        public void SignOut()
         {
-            throw new NotImplementedException();
+            _signInManager.SignOutAsync();
         }
 
-        public void Authorization()
+        public void SignIn(ApplicationUser item)
         {
-            throw new NotImplementedException();
+            _signInManager.SignInAsync(item, false);
         }
 
-        public bool CheckPermissions(string roleName)
+        public bool CheckPermissions(ApplicationUser item, string roleName)
         {
-            throw new NotImplementedException();
+            return _userManager.IsInRoleAsync(item, roleName).Result;
         }
 
         public void Add(ApplicationUser item)
         {
-            db.Users.Add(item);
+            _userManager.CreateAsync(item);
         }
 
         public void Delete(int id)
         {
-            ApplicationUser user = db.Users.FirstOrDefault(item => item.Id == id);
+            ApplicationUser user = _userManager.FindByIdAsync(id.ToString()).Result;
             if (user != null)
             {
-                db.Users.Remove(user);
+                _userManager.DeleteAsync(user);
             }
         }
 
         public ApplicationUser Get(int id)
         {
-            return db.Users.FirstOrDefault(item => item.Id == id);
+            return _userManager.FindByIdAsync(id.ToString()).Result;
         }
 
         public IEnumerable<ApplicationUser> GetAll()
         {
-            return db.Users;
+            return _userManager.Users;
         }
 
         public void Update(ApplicationUser user)
