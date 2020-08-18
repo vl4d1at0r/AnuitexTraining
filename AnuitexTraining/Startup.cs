@@ -3,6 +3,8 @@ using AnuitexTraining.BusinessLogicLayer.Common.Interfaces;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.PresentationLayer.Extensions;
+using AnuitexTraining.PresentationLayer.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using static AnuitexTraining.Shared.Constants.Constants;
 
 namespace AnuitexTraining
 {
@@ -30,8 +34,28 @@ namespace AnuitexTraining
 
             services.AddSingleton<ILogger, Logger>();
 
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Test API", Version = "v1" });
+            });
+
             //Connecting BLL and DAL
             BusinessLogicLayer.Startup.InitBusinessLogicLayerServices(services);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = AuthOptions.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = AuthOptions.Audience,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = JwtHelper.SymmetricSecurityKey,
+                    ValidateIssuerSigningKey = true
+                };
+            });
 
             services.AddIdentity<ApplicationUser, IdentityRole<long>>()
                 .AddEntityFrameworkStores<ApplicationContext>();
@@ -50,6 +74,11 @@ namespace AnuitexTraining
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Test API v1");
+                });
             }
             else
             {

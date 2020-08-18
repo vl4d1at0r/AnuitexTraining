@@ -2,12 +2,9 @@
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories
 {
@@ -43,7 +40,8 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         public void Add(ApplicationUser item)
         {
-            _userManager.CreateAsync(item);
+            db.Users.Add(item);
+            Save();
         }
 
         public void Delete(int id)
@@ -51,23 +49,25 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             ApplicationUser user = _userManager.FindByIdAsync(id.ToString()).Result;
             if (user != null)
             {
-                _userManager.DeleteAsync(user);
+                db.Users.Remove(user);
             }
+            Save();
         }
 
         public ApplicationUser Get(int id)
         {
-            return _userManager.FindByIdAsync(id.ToString()).Result;
+            return db.Users.FirstOrDefault(item => item.Id == id);
         }
 
         public IEnumerable<ApplicationUser> GetAll()
         {
-            return _userManager.Users;
+            return db.Users;
         }
 
         public void Update(ApplicationUser user)
         {
             db.Update(user);
+            Save();
         }
     }
 }

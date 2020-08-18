@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Net;
 
 namespace AnuitexTraining.BusinessLogicLayer.Helpers
 {
     public static class EmailHelper
     {
-        public static MailAddress fromEmail = new MailAddress("testcsharpsmtp0@gmail.com");
-        public static string confirmationUrl = "https://localhost:44334/api/users/confirmation";
+        private static MailAddress fromEmail = new MailAddress("testcsharpsmtp0@gmail.com");
+        private static string confirmationUrl = "https://localhost:44334/api/users/confirmation";
         public static void SendConfirmationMessage(string code, string email)
         {
             MailAddress toEmail = new MailAddress(email);
