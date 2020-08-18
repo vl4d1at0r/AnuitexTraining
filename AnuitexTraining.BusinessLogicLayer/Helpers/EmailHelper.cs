@@ -8,7 +8,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Helpers
 {
     public static class EmailHelper
     {
-        public static MailAddress fromEmail = new MailAddress("vladislav.v.goncharuk26@gmail.com");
+        public static MailAddress fromEmail = new MailAddress("testcsharpsmtp0@gmail.com");
         public static string confirmationUrl = "https://localhost:44334/api/users/confirmation";
         public static void SendConfirmationMessage(string code, string email)
         {
@@ -17,9 +17,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Helpers
             message.Subject = "Confirmation Link";
             message.Body = $"Your confirmation link: {confirmationUrl}/{code}";
             SmtpClient client = new SmtpClient("smtp.gmail.com");
-            client.Credentials = new NetworkCredential(fromEmail.Address, "kiss2266");
+            client.UseDefaultCredentials = true;
+            client.Credentials = new NetworkCredential(fromEmail.Address, "P!W`k~'NHd^y{4Zu");
             client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
             client.Send(message);
         }
     }

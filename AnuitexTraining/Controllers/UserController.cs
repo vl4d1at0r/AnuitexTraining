@@ -26,7 +26,6 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         [HttpGet("{id}")]
         public ApplicationUser Get(int id)
         {
-            EmailHelper.SendConfirmationMessage("bruh","vladislav.v.goncharuk@gmail.com");
             return service.Get(id);
         }
 
