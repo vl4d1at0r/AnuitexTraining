@@ -1,14 +1,14 @@
-﻿using AnuitexTraining.DataAccessLayer.Entities;
+﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using System.Collections.Generic;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
 {
     public interface IUserService
     {
-        public void Add(ApplicationUser user);
+        public void Add(UserModel user);
         public void Delete(int id);
-        public ApplicationUser Get(int id);
-        public IEnumerable<ApplicationUser> GetAll();
-        public void Update(ApplicationUser user);
+        public UserModel Get(int id);
+        public IEnumerable<UserModel> GetAll();
+        public void Update(UserModel user);
     }
 }

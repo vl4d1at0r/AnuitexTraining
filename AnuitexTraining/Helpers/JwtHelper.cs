@@ -1,6 +1,7 @@
-﻿using AnuitexTraining.DataAccessLayer.Entities;
+﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -13,14 +14,17 @@ namespace AnuitexTraining.PresentationLayer.Helpers
     {
         public static SymmetricSecurityKey SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthOptions.Key));
 
-        public static string GenerateAccessToken(ApplicationUser user)
+        public static string GenerateAccessToken(UserModel user)
         {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName)
+            };
             var jwt = new JwtSecurityToken(
                 issuer: AuthOptions.Issuer,
                 audience: AuthOptions.Audience,
                 notBefore: DateTime.Now,
-                claims: new Claim[] { new Claim(JwtRegisteredClaimNames.Sub, user.UserName), new Claim(JwtRegisteredClaimNames.Email, user.Email), new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) },
-                expires: DateTime.Now.AddMinutes(30),
+                claims: claims,
                 signingCredentials: new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256)
                 );
 

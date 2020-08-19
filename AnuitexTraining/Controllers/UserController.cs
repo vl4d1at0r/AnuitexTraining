@@ -1,5 +1,7 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
-using AnuitexTraining.DataAccessLayer.Entities;
+﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
+using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
+using AnuitexTraining.PresentationLayer.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -17,31 +19,32 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ApplicationUser> GetAll()
+        public IEnumerable<UserModel> GetAll()
         {
             return service.GetAll();
         }
 
         [HttpGet("{id}")]
-        public ApplicationUser Get(int id)
+        public UserModel Get(int id)
         {
             return service.Get(id);
         }
 
         [HttpPost]
-        public IActionResult Add(ApplicationUser user)
+        public IActionResult Add(UserModel user)
         {
             service.Add(user);
             return Ok();
         }
 
         [HttpPut]
-        public IActionResult Update(ApplicationUser user)
+        public IActionResult Update(UserModel user)
         {
             service.Update(user);
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

@@ -1,4 +1,5 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
+﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
+using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             repository = userRepository;
         }
 
-        public void Add(ApplicationUser user)
+        public void Add(UserModel user)
         {
-            repository.Add(user);
+            repository.Add(user.ToDataAccessLayerEntity());
         }
 
         public void Delete(int id)
@@ -24,19 +25,24 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             repository.Delete(id);
         }
 
-        public void Update(ApplicationUser user)
+        public void Update(UserModel user)
         {
-            repository.Update(user);
+            repository.Update(user.ToDataAccessLayerEntity());
         }
 
-        public ApplicationUser Get(int id)
+        public UserModel Get(int id)
         {
-            return repository.Get(id);
+            return UserModel.ToBusinessLogicLayerModel(repository.Get(id));
         }
 
-        public IEnumerable<ApplicationUser> GetAll()
+        public IEnumerable<UserModel> GetAll()
         {
-            return repository.GetAll();
+            List<UserModel> userModels = new List<UserModel>();
+            foreach(ApplicationUser user in repository.GetAll())
+            {
+                userModels.Add(UserModel.ToBusinessLogicLayerModel(user));
+            }
+            return userModels;
         }
     }
 }

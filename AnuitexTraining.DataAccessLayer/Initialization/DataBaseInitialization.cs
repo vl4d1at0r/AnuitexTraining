@@ -45,8 +45,8 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
 
             ApplicationUser[] applicationUsers = new ApplicationUser[]
             {
-                new ApplicationUser() { Id = 1, Email = "admin@example.com", FirstName = "Vladislav", LastName = "Goncharuk", UserName = "vladiator", PhoneNumber = "+380935538212", EmailConfirmed = true, PhoneNumberConfirmed = true},
-                new ApplicationUser() { Id = 2, Email = "user@example.com", FirstName = "Valerij", LastName = "Jmishenko", UserName = "valerajmih", PhoneNumber = "+380503487621", EmailConfirmed = true, PhoneNumberConfirmed = true }
+                new ApplicationUser() { Id = 1, Email = "admin@example.com", FirstName = "Vladislav", LastName = "Goncharuk", UserName = "vladiator", PhoneNumber = "+380935538212", EmailConfirmed = true, PhoneNumberConfirmed = true, PasswordHash = "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244"},
+                new ApplicationUser() { Id = 2, Email = "user@example.com", FirstName = "Valerij", LastName = "Jmishenko", UserName = "valerajmih", PhoneNumber = "+380503487621", EmailConfirmed = true, PhoneNumberConfirmed = true, PasswordHash = "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244" }
             };
 
             IdentityRole<long>[] identityRoles = new IdentityRole<long>[]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace AnuitexTraining.DataAccessLayer.Migrations
 {
@@ -6,7 +7,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            /*migrationBuilder.CreateTable(
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -353,7 +354,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
                 table: "Orders",
-                column: "UserId");*/
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
