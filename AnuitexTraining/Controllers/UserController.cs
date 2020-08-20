@@ -4,6 +4,7 @@ using AnuitexTraining.PresentationLayer.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
 {
@@ -18,37 +19,37 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             service = userService;
         }
 
-        [HttpGet]
-        public IEnumerable<UserModel> GetAll()
+        [HttpGet("getAll")]
+        public async Task<IEnumerable<UserModel>> GetAllAsync()
         {
-            return service.GetAll();
+            return await service.GetAllAsync();
         }
 
-        [HttpGet("{id}")]
-        public UserModel Get(int id)
+        [HttpGet("get/{id}")]
+        public async Task<UserModel> GetAsync(int id)
         {
-            return service.Get(id);
+            return await service.GetAsync(id);
         }
 
-        [HttpPost]
-        public IActionResult Add(UserModel user)
+        [HttpPost("add")]
+        public async Task<IActionResult> AddAsync(UserModel user)
         {
-            service.Add(user);
+            await service.AddAsync(user);
             return Ok();
         }
 
-        [HttpPut]
-        public IActionResult Update(UserModel user)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateAsync(UserModel user)
         {
-            service.Update(user);
+            await service.UpdateAsync(user);
             return Ok();
         }
 
         [Authorize]
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            service.Delete(id);
+            await service.DeleteAsync(id);
             return Ok();
         }
     }

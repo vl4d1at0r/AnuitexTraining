@@ -1,19 +1,52 @@
 ﻿using AnuitexTraining.DataAccessLayer.AppContext;
+using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories.Base
 {
-    public class BaseRepository
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        protected ApplicationContext db;
+        private ApplicationContext _context;
+        protected DbSet<T> _dbSet;
 
         public BaseRepository(ApplicationContext context)
         {
-            db = context;
+            _context = context;
+            _dbSet = context.Set<T>();
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            db.SaveChanges();
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
+
+        public async Task<T> GetAsync(long id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
+
+        public async Task AddAsync(T item)
+        {
+            await _dbSet.AddAsync(item);
+        }
+
+        public async Task UpdateAsync(T item)
+        {
+            _dbSet.Update(item);
+            SaveAsync();
+        }
+
+        public async Task DeleteAsync(long id)
+        {
+            T item = await _dbSet.FindAsync(id);
+            _dbSet.Remove(item);
         }
     }
 }

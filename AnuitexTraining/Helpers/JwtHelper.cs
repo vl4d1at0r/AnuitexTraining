@@ -24,6 +24,7 @@ namespace AnuitexTraining.PresentationLayer.Helpers
                 issuer: AuthOptions.Issuer,
                 audience: AuthOptions.Audience,
                 notBefore: DateTime.Now,
+                expires: DateTime.Now.AddMinutes(1),
                 claims: claims,
                 signingCredentials: new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256)
                 );

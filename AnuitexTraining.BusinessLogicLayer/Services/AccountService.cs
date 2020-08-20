@@ -3,49 +3,52 @@ using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services
 {
     public class AccountService : IAccountService
     {
-        private IUserRepository<ApplicationUser> repository;
+        private IUserRepository<ApplicationUser> _userRepository;
+        private UserManager<ApplicationUser> _userManager;
 
-        public AccountService(IUserRepository<ApplicationUser> userRepository)
+        public AccountService(IUserRepository<ApplicationUser> userRepository, UserManager<ApplicationUser> userManager)
         {
-            repository = userRepository;
+            _userRepository = userRepository;
+            _userManager = userManager;
         }
 
-        public void ConfirmEmail(long id, string code)
+        public async Task ConfirmEmailAsync(long id, string code)
         {
-            ApplicationUser user = repository.Get(id);
-            repository.ConfirmEmail(user, code);
+            await _userRepository.ConfirmEmailAsync(await _userManager.FindByIdAsync(id.ToString()), code);
         }
 
-        public void ForgotPassword(UserModel user)
+        public async Task ForgotPasswordAsync(UserModel user)
         {
-            string code = repository.ForgotPassword(user.ToDataAccessLayerEntity());
-            EmailHelper.SendPasswordResetMessage(repository.GetIdByUsername(user.UserName), code, user.Email);
+            string code = await _userRepository.ForgotPasswordAsync(user.ToDataAccessLayerEntity());
+            EmailHelper.SendPasswordResetMessage(await _userRepository.GetIdByUsernameAsync(user.UserName), code, user.Email);
         }
 
-        public void ResetPassword(UserModel user, string code, string newPassword)
+        public async Task ResetPasswordAsync(UserModel user, string code, string newPassword)
         {
-            repository.ResetPassword(user.ToDataAccessLayerEntity(), code, newPassword);
+            await _userRepository.ResetPasswordAsync(user.ToDataAccessLayerEntity(), code, newPassword);
         }
 
-        public bool SignIn(UserModel user, string password)
+        public async Task<bool> SignInAsync(UserModel user, string password)
         {
-            return repository.Authentication(user.ToDataAccessLayerEntity(), password);
+            return await _userManager.CheckPasswordAsync(await _userManager.FindByEmailAsync(user.Email), password);
         }
 
-        public void SignOut(UserModel user)
+        public async Task SignOutAsync(UserModel user)
         {
-            repository.SignOut(user.ToDataAccessLayerEntity());
+            await _userRepository.SignOutAsync(user.ToDataAccessLayerEntity());
         }
 
-        public void SignUp(UserModel user, string password)
+        public async Task SignUpAsync(UserModel user, string password)
         {
-            string code = repository.SignUp(user.ToDataAccessLayerEntity(), password);
-            EmailHelper.SendEmailConfirmationMessage(repository.GetIdByUsername(user.UserName), code, user.Email);
+            string code = await _userRepository.SignUpAsync(user.ToDataAccessLayerEntity(), password);
+            EmailHelper.SendEmailConfirmationMessage(await _userRepository.GetIdByUsernameAsync(user.UserName), code, user.Email);
         }
     }
 }

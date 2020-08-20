@@ -3,6 +3,7 @@ using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services
 {
@@ -15,30 +16,30 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             repository = userRepository;
         }
 
-        public void Add(UserModel user)
+        public async Task AddAsync(UserModel user)
         {
-            repository.Add(user.ToDataAccessLayerEntity());
+            await repository.AddAsync(user.ToDataAccessLayerEntity());
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            repository.Delete(id);
+            await repository.DeleteAsync(id);
         }
 
-        public void Update(UserModel user)
+        public async Task UpdateAsync(UserModel user)
         {
-            repository.Update(user.ToDataAccessLayerEntity());
+            await repository.UpdateAsync(user.ToDataAccessLayerEntity());
         }
 
-        public UserModel Get(int id)
+        public async Task<UserModel> GetAsync(int id)
         {
-            return UserModel.ToBusinessLogicLayerModel(repository.Get(id));
+            return UserModel.ToBusinessLogicLayerModel(await repository.GetAsync(id));
         }
 
-        public IEnumerable<UserModel> GetAll()
+        public async Task<IEnumerable<UserModel>> GetAllAsync()
         {
             List<UserModel> userModels = new List<UserModel>();
-            foreach(ApplicationUser user in repository.GetAll())
+            foreach(ApplicationUser user in await repository.GetAllAsync())
             {
                 userModels.Add(UserModel.ToBusinessLogicLayerModel(user));
             }

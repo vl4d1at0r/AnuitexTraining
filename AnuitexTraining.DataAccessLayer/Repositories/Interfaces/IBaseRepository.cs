@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        public IEnumerable<T> GetAll();
-        public T Get(long id);
-        public void Add(T item);
-        public void Update(T item);
-        public void Delete(long id);
+        public Task<IEnumerable<T>> GetAllAsync();
+        public Task<T> GetAsync(long id);
+        public Task AddAsync(T item);
+        public Task UpdateAsync(T item);
+        public Task DeleteAsync(long id);
     }
 }

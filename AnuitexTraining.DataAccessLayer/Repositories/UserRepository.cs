@@ -6,94 +6,62 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories
 {
-    public class UserRepository : BaseRepository, IUserRepository<ApplicationUser>
+    public class UserRepository : BaseRepository<ApplicationUser>, IUserRepository<ApplicationUser>
     {
         private UserManager<ApplicationUser> _userManager;
-        private SignInManager<ApplicationUser> _signInManager;
-        public UserRepository(ApplicationContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : base(context)
+        public UserRepository(ApplicationContext context, UserManager<ApplicationUser> userManager) : base(context)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
-        public void AddToRole(ApplicationUser user, string roleName)
+        public async Task AddToRoleAsync(ApplicationUser user, string roleName)
         {
-            _userManager.AddToRoleAsync(user, roleName);
+            await _userManager.AddToRoleAsync(user, roleName);
         }
 
-        public void SignOut(ApplicationUser user)
+        public async Task SignOutAsync(ApplicationUser user)
         {
-            _userManager.UpdateSecurityStampAsync(user);
+            await _userManager.UpdateSecurityStampAsync(user);
         }
 
-        public bool CheckPermissions(ApplicationUser user, string roleName)
+        public async Task<bool> CheckPermissionsAsync(ApplicationUser user, string roleName)
         {
-            return _userManager.IsInRoleAsync(user, roleName).Result;
+            return await _userManager.IsInRoleAsync(user, roleName);
         }
 
-        public void Add(ApplicationUser user)
+        public async Task ConfirmEmailAsync(ApplicationUser user, string code)
         {
-            db.Users.Add(user);
+            await _userManager.ConfirmEmailAsync(user, code);
         }
 
-        public void Delete(long id)
+        public async Task<string> ForgotPasswordAsync(ApplicationUser user)
         {
-            ApplicationUser user = _userManager.FindByIdAsync(id.ToString()).Result;
-            if (user != null)
-            {
-                db.Users.Remove(user);
-            }
-            Save();
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
 
-        public ApplicationUser Get(long id)
+        public async Task ResetPasswordAsync(ApplicationUser user, string code, string newPassword)
         {
-            return _userManager.FindByIdAsync(id.ToString()).Result;
+            await _userManager.ResetPasswordAsync(user, code, newPassword);
         }
 
-        public IEnumerable<ApplicationUser> GetAll()
+        public async Task<string> SignUpAsync(ApplicationUser user, string password)
         {
-            return db.Users;
-        }
-
-        public void Update(ApplicationUser user)
-        {
-            db.Update(user);
-            Save();
-        }
-
-        public void ConfirmEmail(ApplicationUser user, string code)
-        {
-            _userManager.ConfirmEmailAsync(user, code).Wait();
-        }
-
-        public string ForgotPassword(ApplicationUser user)
-        {
-            return _userManager.GeneratePasswordResetTokenAsync(user).Result;
-        }
-
-        public void ResetPassword(ApplicationUser user, string code, string newPassword)
-        {
-            _userManager.ResetPasswordAsync(user, code, newPassword);
-        }
-
-        public string SignUp(ApplicationUser user, string password)
-        {
-            _userManager.CreateAsync(user, password).Wait();
+            await _userManager.CreateAsync(user, password);
             return _userManager.GenerateEmailConfirmationTokenAsync(user).Result;
         }
 
-        public long GetIdByUsername(string username)
+        public async Task<long> GetIdByUsernameAsync(string username)
         {
-            return db.Users.FirstOrDefault(user => user.UserName == username).Id;
+            return (await _dbSet.FirstOrDefaultAsync(user => user.UserName == username)).Id;
         }
 
-        public bool Authentication(ApplicationUser user, string password)
+        public async Task<bool> AuthenticationAsync(ApplicationUser user, string password)
         {
-            return _userManager.CheckPasswordAsync(user, password).Result;
+            return await _userManager.CheckPasswordAsync(user, password);
         }
     }
 }

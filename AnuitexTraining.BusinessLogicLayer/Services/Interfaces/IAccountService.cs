@@ -1,14 +1,15 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
+using System.Threading.Tasks;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
 {
     public interface IAccountService
     {
-        public bool SignIn(UserModel email, string password);
-        public void SignOut(UserModel user);
-        public void SignUp(UserModel user, string password);
-        public void ConfirmEmail(long id, string code);
-        public void ForgotPassword(UserModel user);
-        public void ResetPassword(UserModel user, string code, string newPassword);
+        public Task<bool> SignInAsync(UserModel email, string password);
+        public Task SignOutAsync(UserModel user);
+        public Task SignUpAsync(UserModel user, string password);
+        public Task ConfirmEmailAsync(long id, string code);
+        public Task ForgotPasswordAsync(UserModel user);
+        public Task ResetPasswordAsync(UserModel user, string code, string newPassword);
     }
 }

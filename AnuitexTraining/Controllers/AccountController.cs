@@ -21,29 +21,27 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             service = accountService;
         }
 
-        [HttpGet]
-        [Route("login")]
-        public string Login([FromQuery] UserModel user, [FromQuery] string password)
+        [HttpGet("signIn")]
+        public async Task<string> LoginAsync([FromQuery] UserModel user, [FromQuery] string password)
         {
-            if (service.SignIn(user, password))
+            if (await service.SignInAsync(user, password))
             {
                 return JwtHelper.GenerateAccessToken(user.Email);
             }
             return null;
         }
 
-        [HttpPost]
+        [HttpPost("signUp")]
         public IActionResult SignUp(UserModel user, string password)
         {
-            service.SignUp(user, password);
+            service.SignUpAsync(user, password);
             return Ok();
         }
 
-        [HttpGet]
-        [Route("confirmEmail")]
+        [HttpGet("confirmEmail")]
         public IActionResult ConfirmEmail([FromQuery] long id, [FromQuery] string code)
         {
-            service.ConfirmEmail(id, code);
+            service.ConfirmEmailAsync(id, code);
             return Ok();
         }
     }
