@@ -14,11 +14,11 @@ namespace AnuitexTraining.PresentationLayer.Helpers
     {
         public static SymmetricSecurityKey SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthOptions.Key));
 
-        public static string GenerateAccessToken(UserModel user)
+        public static string GenerateAccessToken(string email)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName)
+                new Claim(JwtRegisteredClaimNames.Sub, email)
             };
             var jwt = new JwtSecurityToken(
                 issuer: AuthOptions.Issuer,

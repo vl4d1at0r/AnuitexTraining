@@ -15,9 +15,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             repository = userRepository;
         }
 
-        public void ConfirmEmail(UserModel user, string code)
+        public void ConfirmEmail(long id, string code)
         {
-            repository.ConfirmEmail(user.ToDataAccessLayerEntity(), code);
+            ApplicationUser user = repository.Get(id);
+            repository.ConfirmEmail(user, code);
         }
 
         public void ForgotPassword(UserModel user)
@@ -31,9 +32,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             repository.ResetPassword(user.ToDataAccessLayerEntity(), code, newPassword);
         }
 
-        public void SignIn(UserModel user)
+        public bool SignIn(UserModel user, string password)
         {
-            repository.SignIn(user.ToDataAccessLayerEntity());
+            return repository.Authentication(user.ToDataAccessLayerEntity(), password);
         }
 
         public void SignOut(UserModel user)
@@ -44,7 +45,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         public void SignUp(UserModel user, string password)
         {
             string code = repository.SignUp(user.ToDataAccessLayerEntity(), password);
-            EmailHelper.SendEmailConfirmationMessage(repository.GetIdByUsername(user.UserName), code, password);
+            EmailHelper.SendEmailConfirmationMessage(repository.GetIdByUsername(user.UserName), code, user.Email);
         }
     }
 }

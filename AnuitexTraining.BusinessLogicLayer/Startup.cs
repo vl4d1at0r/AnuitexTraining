@@ -9,6 +9,7 @@ namespace AnuitexTraining.BusinessLogicLayer
         public static void InitBusinessLogicLayerServices(IServiceCollection services)
         {
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IAccountService, AccountService>();
 
             DataAccessLayer.Startup.InitDataAccessLayerServices(services);
         }

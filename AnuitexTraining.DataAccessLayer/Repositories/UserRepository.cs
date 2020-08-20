@@ -3,6 +3,7 @@ using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,11 +29,6 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             _userManager.UpdateSecurityStampAsync(user);
         }
 
-        public void SignIn(ApplicationUser user)
-        {
-            _signInManager.SignInAsync(user, false);
-        }
-
         public bool CheckPermissions(ApplicationUser user, string roleName)
         {
             return _userManager.IsInRoleAsync(user, roleName).Result;
@@ -43,7 +39,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             db.Users.Add(user);
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             ApplicationUser user = _userManager.FindByIdAsync(id.ToString()).Result;
             if (user != null)
@@ -53,9 +49,9 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             Save();
         }
 
-        public ApplicationUser Get(int id)
+        public ApplicationUser Get(long id)
         {
-            return db.Users.FirstOrDefault(item => item.Id == id);
+            return db.Users.AsNoTracking().FirstOrDefault(item => item.Id == id);
         }
 
         public IEnumerable<ApplicationUser> GetAll()
@@ -71,7 +67,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         public void ConfirmEmail(ApplicationUser user, string code)
         {
-            _userManager.ConfirmEmailAsync(user, code);
+            _userManager.ConfirmEmailAsync(user, code).Wait();
         }
 
         public string ForgotPassword(ApplicationUser user)
@@ -86,13 +82,18 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         public string SignUp(ApplicationUser user, string password)
         {
-            _userManager.CreateAsync(user, password);
+            _userManager.CreateAsync(user, password).Wait();
             return _userManager.GenerateEmailConfirmationTokenAsync(user).Result;
         }
 
         public long GetIdByUsername(string username)
         {
             return db.Users.FirstOrDefault(user => user.UserName == username).Id;
+        }
+
+        public bool Authentication(ApplicationUser user, string password)
+        {
+            return _userManager.CheckPasswordAsync(user, password).Result;
         }
     }
 }

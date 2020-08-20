@@ -6,7 +6,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
     {
         public bool CheckPermissions(ApplicationUser user, string roleName);
         public void AddToRole(ApplicationUser user, string roleName);
-        public void SignIn(ApplicationUser user);
+        public bool Authentication(ApplicationUser user, string password);
         public void SignOut(ApplicationUser user);
         public string SignUp(ApplicationUser user, string password);
         public void ConfirmEmail(ApplicationUser user, string code);
