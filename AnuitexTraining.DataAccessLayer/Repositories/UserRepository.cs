@@ -51,7 +51,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         public ApplicationUser Get(long id)
         {
-            return db.Users.AsNoTracking().FirstOrDefault(item => item.Id == id);
+            return _userManager.FindByIdAsync(id.ToString()).Result;
         }
 
         public IEnumerable<ApplicationUser> GetAll()
