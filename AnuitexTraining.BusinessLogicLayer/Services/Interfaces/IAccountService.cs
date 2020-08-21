@@ -5,11 +5,11 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
 {
     public interface IAccountService
     {
-        public Task<bool> SignInAsync(UserModel email, string password);
+        public Task<bool> SignInAsync(string email, string password);
         public Task SignOutAsync(UserModel user);
         public Task SignUpAsync(UserModel user, string password);
         public Task ConfirmEmailAsync(long id, string code);
-        public Task ForgotPasswordAsync(UserModel user);
-        public Task ResetPasswordAsync(UserModel user, string code, string newPassword);
+        public Task ForgotPasswordAsync(string email);
+        public Task ResetPasswordAsync(long id, string code, string newPassword);
     }
 }

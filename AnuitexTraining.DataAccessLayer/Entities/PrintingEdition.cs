@@ -10,5 +10,10 @@ namespace AnuitexTraining.DataAccessLayer.Entities
         public double Price { get; set; }
         public Currency Currency { get; set; }
         public PrintingEditionType Type { get; set; }
+
+        public PrintingEdition() : base()
+        {
+
+        }
     }
 }

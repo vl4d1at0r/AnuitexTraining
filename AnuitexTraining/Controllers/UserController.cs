@@ -1,6 +1,5 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
-using AnuitexTraining.PresentationLayer.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -32,9 +31,9 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddAsync(UserModel user)
+        public async Task<IActionResult> AddAsync(UserModel user, string password)
         {
-            await service.AddAsync(user);
+            await service.AddAsync(user, password);
             return Ok();
         }
 

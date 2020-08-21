@@ -1,9 +1,10 @@
+using AnuitexTraining.BusinessLogicLayer;
 using AnuitexTraining.BusinessLogicLayer.Common;
 using AnuitexTraining.BusinessLogicLayer.Common.Interfaces;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.PresentationLayer.Extensions;
-using AnuitexTraining.PresentationLayer.Helpers;
+using AnuitexTraining.PresentationLayer.Providers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,43 +35,42 @@ namespace AnuitexTraining
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")), ServiceLifetime.Transient);
-
             services.AddSingleton<ILogger, Logger>();
+            services.AddSingleton<JwtProvider>();
+
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+
+            JwtProvider jwtProvider = serviceProvider.GetRequiredService<JwtProvider>();
+
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")), ServiceLifetime.Transient);
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Test API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Test API", Version = "v1" });
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "Enter 'Bearer' [space] and then your token in the text input below.\nExample: 'Bearer 12345abcdef'",
-                    Name = "accessToken",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
                 });
-
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
                 {
+                    new OpenApiSecurityScheme
                     {
-                        new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                },
-                                Scheme = "oauth2",
-                                Name = "Bearer",
-                                In = ParameterLocation.Header,
-                            },
-                        new List<string>()
-                    }
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                new string[] { }
+                }
                 });
             });
 
             //Connecting BLL and DAL
-            BusinessLogicLayer.Startup.InitBusinessLogicLayerServices(services);
+            services.InitBusinessLogicLayerServices();
 
 
             services.AddIdentity<ApplicationUser, IdentityRole<long>>()
@@ -95,7 +95,7 @@ namespace AnuitexTraining
                     ValidateAudience = true,
                     ValidAudience = AuthOptions.Audience,
                     ValidateLifetime = true,
-                    IssuerSigningKey = JwtHelper.SymmetricSecurityKey,
+                    IssuerSigningKey = jwtProvider.SymmetricSecurityKey,
                     ValidateIssuerSigningKey = true,
                     ClockSkew = TimeSpan.Zero
                 };

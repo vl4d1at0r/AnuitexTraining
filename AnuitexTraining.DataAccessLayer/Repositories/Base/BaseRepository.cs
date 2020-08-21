@@ -39,8 +39,8 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Base
 
         public async Task UpdateAsync(T item)
         {
-            _dbSet.Update(item);
-            SaveAsync();
+            _context.Entry(item).State = EntityState.Modified;
+            await SaveAsync();
         }
 
         public async Task DeleteAsync(long id)

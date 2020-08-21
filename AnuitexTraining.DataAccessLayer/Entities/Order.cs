@@ -13,5 +13,10 @@ namespace AnuitexTraining.DataAccessLayer.Entities
         public OrderStatus Status { get; set; }
         public long PaymentId { get; set; }
         public Payment Payment { get; set; }
+
+        public Order() : base()
+        {
+
+        }
     }
 }

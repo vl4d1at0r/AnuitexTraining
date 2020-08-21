@@ -12,5 +12,10 @@ namespace AnuitexTraining.DataAccessLayer.Entities
         public long OrderId { get; set; }
         public Order Order { get; set; }
         public double Count { get; set; }
+
+        public OrderItem() : base()
+        {
+
+        }
     }
 }

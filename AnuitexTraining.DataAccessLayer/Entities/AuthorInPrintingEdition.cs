@@ -9,5 +9,10 @@ namespace AnuitexTraining.DataAccessLayer.Entities
         public long PrintingEditionId { get; set; }
         public PrintingEdition PrintingEdition { get; set; }
         public DateTime Date { get; set; }
+
+        public AuthorInPrintingEdition() : base()
+        {
+
+        }
     }
 }

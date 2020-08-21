@@ -1,54 +1,62 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Helpers;
-using AnuitexTraining.BusinessLogicLayer.Models.Users;
+﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
+using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Threading.Tasks;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services
 {
     public class AccountService : IAccountService
     {
-        private IUserRepository<ApplicationUser> _userRepository;
         private UserManager<ApplicationUser> _userManager;
+        private EmailProvider _emailProvider;
 
-        public AccountService(IUserRepository<ApplicationUser> userRepository, UserManager<ApplicationUser> userManager)
+        public AccountService(UserManager<ApplicationUser> userManager, EmailProvider emailProvider)
         {
-            _userRepository = userRepository;
             _userManager = userManager;
+            _emailProvider = emailProvider;
         }
 
         public async Task ConfirmEmailAsync(long id, string code)
         {
-            await _userRepository.ConfirmEmailAsync(await _userManager.FindByIdAsync(id.ToString()), code);
+            await _userManager.ConfirmEmailAsync(await _userManager.FindByIdAsync(id.ToString()), code);
         }
 
-        public async Task ForgotPasswordAsync(UserModel user)
+        public async Task ForgotPasswordAsync(string email)
         {
-            string code = await _userRepository.ForgotPasswordAsync(user.ToDataAccessLayerEntity());
-            EmailHelper.SendPasswordResetMessage(await _userRepository.GetIdByUsernameAsync(user.UserName), code, user.Email);
+            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(email);
+            await _emailProvider.SendPasswordResetMessageAsync(
+                long.Parse(await _userManager.GetUserIdAsync(applicationUser)), 
+                await _userManager.GeneratePasswordResetTokenAsync(applicationUser), 
+                applicationUser.Email);
         }
 
-        public async Task ResetPasswordAsync(UserModel user, string code, string newPassword)
+        public async Task ResetPasswordAsync(long id, string code, string newPassword)
         {
-            await _userRepository.ResetPasswordAsync(user.ToDataAccessLayerEntity(), code, newPassword);
+            await _userManager.ResetPasswordAsync(await _userManager.FindByIdAsync(id.ToString()), code, newPassword);
         }
 
-        public async Task<bool> SignInAsync(UserModel user, string password)
+        public async Task<bool> SignInAsync(string email, string password)
         {
-            return await _userManager.CheckPasswordAsync(await _userManager.FindByEmailAsync(user.Email), password);
+            return await _userManager.CheckPasswordAsync(await _userManager.FindByEmailAsync(email), password);
         }
 
         public async Task SignOutAsync(UserModel user)
         {
-            await _userRepository.SignOutAsync(user.ToDataAccessLayerEntity());
+            await _userManager.UpdateSecurityStampAsync(user.ToDataAccessLayerEntity());
         }
 
         public async Task SignUpAsync(UserModel user, string password)
         {
-            string code = await _userRepository.SignUpAsync(user.ToDataAccessLayerEntity(), password);
-            EmailHelper.SendEmailConfirmationMessage(await _userRepository.GetIdByUsernameAsync(user.UserName), code, user.Email);
+            ApplicationUser applicationUser = user.ToDataAccessLayerEntity();
+            await _userManager.CreateAsync(applicationUser, password);
+            await _emailProvider.SendEmailConfirmationMessageAsync(
+                long.Parse(await _userManager.GetUserIdAsync(user.ToDataAccessLayerEntity())), 
+                await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser), 
+                user.Email);
         }
     }
 }

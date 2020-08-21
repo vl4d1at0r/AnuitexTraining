@@ -1,6 +1,5 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.DataAccessLayer.Entities;
-using System;
 
 namespace AnuitexTraining.BusinessLogicLayer.Models.Users
 {
@@ -10,7 +9,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.Users
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
-        public string PasswordHash { get; set; }
         public string PhoneNumber { get; set; }
 
         public ApplicationUser ToDataAccessLayerEntity()
@@ -21,7 +19,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.Users
                 LastName = LastName,
                 UserName = UserName,
                 Email = Email,
-                PasswordHash = PasswordHash,
                 PhoneNumber = PhoneNumber
             };
         }
@@ -34,7 +31,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.Users
                 LastName = user.LastName,
                 UserName = user.UserName,
                 Email = user.Email,
-                PasswordHash = user.PasswordHash,
                 PhoneNumber = user.PhoneNumber
             };
         }

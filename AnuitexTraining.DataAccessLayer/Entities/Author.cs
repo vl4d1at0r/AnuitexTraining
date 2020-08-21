@@ -5,5 +5,10 @@ namespace AnuitexTraining.DataAccessLayer.Entities
     public class Author : BaseEntity
     {
         public string Name { get; set; }
+
+        public Author() : base()
+        {
+
+        }
     }
 }

@@ -6,5 +6,10 @@ namespace AnuitexTraining.DataAccessLayer.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public ApplicationUser() : base()
+        {
+
+        }
     }
 }

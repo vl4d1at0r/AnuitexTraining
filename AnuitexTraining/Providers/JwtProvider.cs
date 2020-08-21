@@ -1,5 +1,4 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,13 +7,13 @@ using System.Security.Cryptography;
 using System.Text;
 using static AnuitexTraining.Shared.Constants.Constants;
 
-namespace AnuitexTraining.PresentationLayer.Helpers
+namespace AnuitexTraining.PresentationLayer.Providers
 {
-    public static class JwtHelper
+    public class JwtProvider
     {
-        public static SymmetricSecurityKey SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthOptions.Key));
+        public SymmetricSecurityKey SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthOptions.Key));
 
-        public static string GenerateAccessToken(string email)
+        public string GenerateAccessToken(string email)
         {
             var claims = new List<Claim>
             {
@@ -32,7 +31,7 @@ namespace AnuitexTraining.PresentationLayer.Helpers
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        public static string GenerateRefreshToken()
+        public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
             using (var randomNumberGenerator = RandomNumberGenerator.Create())
