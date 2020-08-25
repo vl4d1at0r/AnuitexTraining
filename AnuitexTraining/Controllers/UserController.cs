@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/users")]
     public class UserController : Controller
@@ -44,7 +45,6 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             return Ok();
         }
 
-        [Authorize]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

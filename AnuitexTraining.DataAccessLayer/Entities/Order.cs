@@ -1,6 +1,6 @@
 ﻿using AnuitexTraining.DataAccessLayer.Entities.Base;
-using AnuitexTraining.DataAccessLayer.Enums;
 using System;
+using static AnuitexTraining.Shared.Enums.Enums;
 
 namespace AnuitexTraining.DataAccessLayer.Entities
 {
@@ -13,10 +13,5 @@ namespace AnuitexTraining.DataAccessLayer.Entities
         public OrderStatus Status { get; set; }
         public long PaymentId { get; set; }
         public Payment Payment { get; set; }
-
-        public Order() : base()
-        {
-
-        }
     }
 }

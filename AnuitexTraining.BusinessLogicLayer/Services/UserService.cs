@@ -1,35 +1,58 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
+﻿using AnuitexTraining.BusinessLogicLayer.Exceptions;
+using AnuitexTraining.BusinessLogicLayer.Mappers;
+using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
-using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services
 {
     public class UserService : IUserService
     {
-        private IUserRepository<ApplicationUser> repository;
         private UserManager<ApplicationUser> _userManager;
+        private UserMapper _userMapper;
 
-        public UserService(IUserRepository<ApplicationUser> userRepository, UserManager<ApplicationUser> userManager)
+        public UserService(UserManager<ApplicationUser> userManager, UserMapper userMapper)
         {
-            repository = userRepository;
             _userManager = userManager;
+            _userMapper = userMapper;
         }
 
         public async Task AddAsync(UserModel user, string password)
         {
-            ApplicationUser applicationUser = user.ToDataAccessLayerEntity();
-            await _userManager.CreateAsync(applicationUser, password);
+            ApplicationUser applicationUser = _userMapper.Map(user);
+            IdentityResult result = await _userManager.CreateAsync(applicationUser, password);
+            List<IdentityError> identityErrors = result.Errors.ToList();
+            foreach (IdentityError error in identityErrors)
+            {
+                user.Errors.Add(error.Description);
+            }
+            if (user.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, user.Errors);
+            }
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _userManager.DeleteAsync(await _userManager.FindByIdAsync(id.ToString()));
+            List<string> errors = new List<string>();
+            ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
+            IdentityResult result = await _userManager.DeleteAsync(user);
+            List<IdentityError> identityErrors = result.Errors.ToList();
+            foreach (IdentityError error in identityErrors)
+            {
+                errors.Add(error.Description);
+            }
+            if (errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, errors);
+            }
         }
 
         public async Task UpdateAsync(UserModel user)
@@ -44,17 +67,12 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
         public async Task<UserModel> GetAsync(int id)
         {
-            return UserModel.ToBusinessLogicLayerModel(await _userManager.FindByIdAsync(id.ToString()));
+            return _userMapper.Map(await _userManager.FindByIdAsync(id.ToString()));
         }
 
         public async Task<IEnumerable<UserModel>> GetAllAsync()
         {
-            List<UserModel> userModels = new List<UserModel>();
-            foreach(ApplicationUser user in await _userManager.Users.ToListAsync())
-            {
-                userModels.Add(UserModel.ToBusinessLogicLayerModel(user));
-            }
-            return userModels;
+            return _userMapper.Map(await _userManager.Users.ToListAsync());
         }
     }
 }

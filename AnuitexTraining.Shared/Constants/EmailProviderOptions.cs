@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AnuitexTraining.Shared.Constants
+﻿namespace AnuitexTraining.Shared.Constants
 {
     public partial class Constants
     {
@@ -13,6 +9,10 @@ namespace AnuitexTraining.Shared.Constants
             public const string Email = "testcsharpsmtp0@gmail.com";
             public const string Password = "P!W`k~'NHd^y{4Zu";
             public const string SmtpUrl = "smtp.gmail.com";
+            public const string EmailConfirmationSubject = "Email Confirmation Link";
+            public const string EmailConfirmationMessage = "Your email confirmation link: {0}?id={1}&code={2}";
+            public const string PasswordResetSubject = "Pasword Reset Link";
+            public const string PasswordResetMessage = "Your password reset link: {0}?id={1}&code={2}";
         }
     }
 }

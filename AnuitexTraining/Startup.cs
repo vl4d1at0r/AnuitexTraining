@@ -17,7 +17,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using static AnuitexTraining.Shared.Constants.Constants;
 
@@ -54,18 +53,19 @@ namespace AnuitexTraining
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement 
                 {
-                    new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference
+                        new OpenApiSecurityScheme
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                new string[] { }
-                }
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
                 });
             });
 
@@ -100,6 +100,8 @@ namespace AnuitexTraining
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            services.AddAuthorization();
 
             services.Configure<SecurityStampValidatorOptions>(options =>
             {

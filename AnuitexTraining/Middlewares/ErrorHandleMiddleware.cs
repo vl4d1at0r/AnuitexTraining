@@ -1,5 +1,8 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Common.Interfaces;
+using AnuitexTraining.BusinessLogicLayer.Exceptions;
+using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -21,6 +24,16 @@ namespace AnuitexTraining.PresentationLayer.Middlewares
             try
             {
                 await _next.Invoke(context);
+            }
+            catch (UserException exception)
+            {
+                BaseModel model = new BaseModel
+                {
+                    Errors = exception.Errors
+                };
+                string response = JsonConvert.SerializeObject(model);
+                context.Response.StatusCode = (int)exception.Code;
+                await context.Response.WriteAsync(response);
             }
             catch (Exception exception)
             {

@@ -1,4 +1,5 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Providers;
+﻿using AnuitexTraining.BusinessLogicLayer.Mappers;
+using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer;
@@ -13,6 +14,7 @@ namespace AnuitexTraining.BusinessLogicLayer
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddSingleton<EmailProvider>();
+            services.AddSingleton<UserMapper>();
 
             services.InitDataAccessLayerServices();
         }

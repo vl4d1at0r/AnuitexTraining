@@ -25,16 +25,16 @@ namespace AnuitexTraining.BusinessLogicLayer.Providers
         public async Task SendEmailConfirmationMessageAsync(long id, string code, string email)
         {
             MailMessage message = new MailMessage(_mailAddress, new MailAddress(email));
-            message.Subject = "Email Confirmation Link";
-            message.Body = $"Your email confirmation link: {EmailProviderOptions.EmailConfirmationUrl}?id={id}&code={HttpUtility.UrlEncode(code)}";
+            message.Subject = EmailProviderOptions.EmailConfirmationSubject;
+            message.Body = string.Format(EmailProviderOptions.EmailConfirmationMessage, EmailProviderOptions.EmailConfirmationUrl, id, HttpUtility.UrlEncode(code));
             await _smtpClient.SendMailAsync(message);
         }
 
         public async Task SendPasswordResetMessageAsync(long id, string code, string email)
         {
             MailMessage message = new MailMessage(_mailAddress, new MailAddress(email));
-            message.Subject = "Pasword Reset Link";
-            message.Body = $"Your password reset link: {EmailProviderOptions.PasswordResetUrl}?id={id}&code={HttpUtility.UrlEncode(code)}";
+            message.Subject = EmailProviderOptions.PasswordResetSubject;
+            message.Body = string.Format(EmailProviderOptions.PasswordResetMessage, EmailProviderOptions.PasswordResetUrl, id, HttpUtility.UrlEncode(code));
             await _smtpClient.SendMailAsync(message);
         }
     }

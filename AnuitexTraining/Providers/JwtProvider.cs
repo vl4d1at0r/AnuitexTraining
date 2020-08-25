@@ -11,14 +11,37 @@ namespace AnuitexTraining.PresentationLayer.Providers
 {
     public class JwtProvider
     {
-        public SymmetricSecurityKey SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthOptions.Key));
+        private TokenValidationParameters _expiredTokenValidationParameters;
+        public SymmetricSecurityKey SymmetricSecurityKey;
 
-        public string GenerateAccessToken(string email)
+        public JwtProvider()
+        {
+            SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthOptions.Key));
+            _expiredTokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = AuthOptions.Issuer,
+                ValidateAudience = true,
+                ValidAudience = AuthOptions.Audience,
+                ValidateLifetime = false,
+                IssuerSigningKey = SymmetricSecurityKey,
+                ValidateIssuerSigningKey = true,
+                ClockSkew = TimeSpan.Zero
+            };
+        }
+
+        public string GenerateAccessToken(string email, IEnumerable<string> roles)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email)
+                new Claim(JwtRegisteredClaimNames.Sub, email),
             };
+
+            foreach (string role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             var jwt = new JwtSecurityToken(
                 issuer: AuthOptions.Issuer,
                 audience: AuthOptions.Audience,
@@ -39,6 +62,21 @@ namespace AnuitexTraining.PresentationLayer.Providers
                 randomNumberGenerator.GetBytes(randomNumber);
                 return Convert.ToBase64String(randomNumber);
             }
+        }
+
+        public JwtSecurityToken GetValidatedExpiredAccessToken(string accessToken)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(accessToken, _expiredTokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return null;
+            }
+
+            return jwtSecurityToken;
         }
     }
 }

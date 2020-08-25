@@ -2,6 +2,7 @@
 using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.PresentationLayer.Providers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
@@ -20,11 +21,14 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [HttpGet("signIn")]
-        public async Task<string> LoginAsync([FromQuery] string email, [FromQuery] string password)
+        public async Task<object> SignInAsync(string email, string password)
         {
             if (await _accountService.SignInAsync(email, password))
             {
-                return _jwtProvider.GenerateAccessToken(email);
+                string accessToken = _jwtProvider.GenerateAccessToken(email, await _accountService.GetRolesAsync(email));
+                string refreshToken = _jwtProvider.GenerateRefreshToken();
+                await _accountService.UpdateRefreshTokenAsync(email, refreshToken);
+                return new { accessToken, refreshToken };
             }
             return null;
         }
@@ -36,8 +40,16 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             return Ok();
         }
 
+        [Authorize]
+        [HttpGet("signOut")]
+        public async Task<IActionResult> SignOutAsync()
+        {
+            await _accountService.SignOutAsync(User.FindFirst("Sub").Value);
+            return Ok();
+        }
+
         [HttpGet("confirmEmail")]
-        public async Task<IActionResult> ConfirmEmailAsync([FromQuery] long id, [FromQuery] string code)
+        public async Task<IActionResult> ConfirmEmailAsync(long id, string code)
         {
             await _accountService.ConfirmEmailAsync(id, code);
             return Ok("Confirmed successfully!");
@@ -51,10 +63,25 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [HttpGet("resetPassword")]
-        public async Task<IActionResult> ResetPasswordAsync([FromQuery] long id, [FromQuery] string code, [FromQuery] string password)
+        public async Task<IActionResult> ResetPasswordAsync(long id, string code, string password)
         {
             await _accountService.ResetPasswordAsync(id, code, password);
             return Ok("Password successfully reset!");
+        }
+
+        [HttpGet("refreshToken")]
+        public async Task<object> RefreshTokenAsync(string accessToken, string refreshToken)
+        {
+            string email = _jwtProvider.GetValidatedExpiredAccessToken(accessToken).Payload.Sub;
+
+            if(refreshToken == await _accountService.GetRefreshTokenAsync(email))
+            {
+                string newRefreshToken = _jwtProvider.GenerateRefreshToken();
+                await _accountService.UpdateRefreshTokenAsync(email, newRefreshToken);
+                return new { accessToken = _jwtProvider.GenerateAccessToken(email, await _accountService.GetRolesAsync(email)), refreshToken = newRefreshToken };
+            }
+
+            return null;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AnuitexTraining.DataAccessLayer.Entities.Base;
-using AnuitexTraining.DataAccessLayer.Enums;
+using static AnuitexTraining.Shared.Enums.Enums;
 
 namespace AnuitexTraining.DataAccessLayer.Entities
 {
@@ -8,12 +8,7 @@ namespace AnuitexTraining.DataAccessLayer.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
-        public Currency Currency { get; set; }
+        public CurrencyType Currency { get; set; }
         public PrintingEditionType Type { get; set; }
-
-        public PrintingEdition() : base()
-        {
-
-        }
     }
 }

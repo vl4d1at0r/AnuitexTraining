@@ -10,7 +10,7 @@ namespace AnuitexTraining.DataAccessLayer.Entities.Base
 
         public BaseEntity()
         {
-            CreationDate = DateTime.Now;
+            CreationDate = DateTime.UtcNow;
         }
     }
 }

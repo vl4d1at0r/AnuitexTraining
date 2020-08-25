@@ -4,6 +4,11 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.Base
 {
     public class BaseModel
     {
-        public ICollection<string> Errors = new List<string>();
+        public List<string> Errors { get; set; }
+
+        public BaseModel()
+        {
+            Errors = new List<string>();
+        }
     }
 }
