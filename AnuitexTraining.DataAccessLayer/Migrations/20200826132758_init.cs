@@ -298,8 +298,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1L, "82d9e75d-8bb7-4a34-a5bc-a63d76910d5f", "Admin", null },
-                    { 2L, "64d7a927-3f33-4746-8bbc-86d3d315a4c1", "Client", null }
+                    { 1L, "03d7deda-4d7a-43ff-8fae-e2a817334e31", "Admin", null },
+                    { 2L, "25e5cdaf-817f-4193-a0b9-f562400ac786", "Client", null }
                 });
 
             migrationBuilder.InsertData(
@@ -307,8 +307,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreationDate", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1L, 0, "ecd479e9-9177-45da-a79d-eedce77e207d", new DateTime(2020, 8, 25, 14, 54, 23, 702, DateTimeKind.Utc).AddTicks(9051), "vladiator@xitroo.com", true, "Vladislav", "Goncharuk", false, null, "VLADIATOR@XITROO.COM", "VLADIATOR", "AQAAAAEAACcQAAAAEKHk3sTABbsMTgCaH81KcsHXbNSfveaBeQYBbLM8tOS5EKut5YWZcDbh7uCXUARPmQ==", null, false, "UD6OIMX72OWACSZNP6QXRDB6AK5UAQWK", false, "vladiator" },
-                    { 2L, 0, "1131d3d0-5cd8-477a-b859-391a1951093a", new DateTime(2020, 8, 25, 14, 54, 23, 702, DateTimeKind.Utc).AddTicks(9104), "valera@xitroo.com", true, "Valerij", "Jmishenko", false, null, "VALERA@XITROO.COM", "VALERAJMIH", "AQAAAAEAACcQAAAAELXM6ETOnIrNLqiksYqOZZ1tKbsO/TLM1hKXn9FCvapFZEcWYLcYxvK9rxxxDSQCSA==", null, false, "P5IWCILRLNALOGOW77G2WLTUREFC7BZG", false, "valerajmih" }
+                    { 1L, 0, "efb14f4f-8532-4e1c-ae46-7b9c57843a67", new DateTime(2020, 8, 26, 13, 27, 57, 940, DateTimeKind.Utc).AddTicks(2882), "vladiator@xitroo.com", true, "Vladislav", "Goncharuk", false, null, "VLADIATOR@XITROO.COM", "VLADIATOR", "AQAAAAEAACcQAAAAEKHk3sTABbsMTgCaH81KcsHXbNSfveaBeQYBbLM8tOS5EKut5YWZcDbh7uCXUARPmQ==", null, false, "UD6OIMX72OWACSZNP6QXRDB6AK5UAQWK", false, "vladiator" },
+                    { 2L, 0, "8ae50750-23ae-4465-baef-eb7bd6935113", new DateTime(2020, 8, 26, 13, 27, 57, 940, DateTimeKind.Utc).AddTicks(2931), "valera@xitroo.com", true, "Valerij", "Jmishenko", false, null, "VALERA@XITROO.COM", "VALERAJMIH", "AQAAAAEAACcQAAAAELXM6ETOnIrNLqiksYqOZZ1tKbsO/TLM1hKXn9FCvapFZEcWYLcYxvK9rxxxDSQCSA==", null, false, "P5IWCILRLNALOGOW77G2WLTUREFC7BZG", false, "valerajmih" }
                 });
 
             migrationBuilder.InsertData(
@@ -316,11 +316,11 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 columns: new[] { "Id", "CreationDate", "IsRemoved", "Name" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2020, 8, 25, 14, 54, 23, 701, DateTimeKind.Utc).AddTicks(8300), false, "Jmih V.A." },
-                    { 2L, new DateTime(2020, 8, 25, 14, 54, 23, 701, DateTimeKind.Utc).AddTicks(8797), false, "Drozdov G.L." },
-                    { 3L, new DateTime(2020, 8, 25, 14, 54, 23, 701, DateTimeKind.Utc).AddTicks(8806), false, "Teodorov V.V." },
-                    { 4L, new DateTime(2020, 8, 25, 14, 54, 23, 701, DateTimeKind.Utc).AddTicks(8808), false, "Kovalenko S.A." },
-                    { 5L, new DateTime(2020, 8, 25, 14, 54, 23, 701, DateTimeKind.Utc).AddTicks(8810), false, "Gorin O.V." }
+                    { 1L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(2226), false, "Jmih V.A." },
+                    { 2L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(2754), false, "Drozdov G.L." },
+                    { 3L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(2763), false, "Teodorov V.V." },
+                    { 4L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(2765), false, "Kovalenko S.A." },
+                    { 5L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(2768), false, "Gorin O.V." }
                 });
 
             migrationBuilder.InsertData(
@@ -328,8 +328,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 columns: new[] { "Id", "CreationDate", "IsRemoved", "TransactionId" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2020, 8, 25, 14, 54, 23, 702, DateTimeKind.Utc).AddTicks(2649), false, 21847238958L },
-                    { 2L, new DateTime(2020, 8, 25, 14, 54, 23, 702, DateTimeKind.Utc).AddTicks(3047), false, 57976548678L }
+                    { 1L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(6550), false, 21847238958L },
+                    { 2L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(6942), false, 57976548678L }
                 });
 
             migrationBuilder.InsertData(
@@ -337,11 +337,11 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 columns: new[] { "Id", "CreationDate", "Currency", "Description", "IsRemoved", "Price", "Title", "Type" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2020, 8, 25, 14, 54, 23, 701, DateTimeKind.Utc).AddTicks(9222), 6, "Neurotechnologies", false, 1000.0, null, 0 },
-                    { 2L, new DateTime(2020, 8, 25, 14, 54, 23, 702, DateTimeKind.Utc).AddTicks(518), 2, "C# Starter", false, 20.0, null, 0 },
-                    { 3L, new DateTime(2020, 8, 25, 14, 54, 23, 702, DateTimeKind.Utc).AddTicks(548), 1, "ASP.NET MVC 5", false, 100.0, null, 0 },
-                    { 4L, new DateTime(2020, 8, 25, 14, 54, 23, 702, DateTimeKind.Utc).AddTicks(550), 2, "How it works", false, 50.0, null, 0 },
-                    { 5L, new DateTime(2020, 8, 25, 14, 54, 23, 702, DateTimeKind.Utc).AddTicks(552), 1, "Angular 9", false, 70.0, null, 0 }
+                    { 1L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(3188), 6, "Neurotechnologies", false, 1000.0, null, 0 },
+                    { 2L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(4486), 2, "C# Starter", false, 20.0, null, 0 },
+                    { 3L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(4516), 1, "ASP.NET MVC 5", false, 100.0, null, 0 },
+                    { 4L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(4519), 2, "How it works", false, 50.0, null, 0 },
+                    { 5L, new DateTime(2020, 8, 26, 13, 27, 57, 939, DateTimeKind.Utc).AddTicks(4522), 1, "Angular 9", false, 70.0, null, 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -350,6 +350,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 values: new object[,]
                 {
                     { 1L, 1L },
+                    { 1L, 2L },
                     { 2L, 2L }
                 });
 
@@ -370,8 +371,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 columns: new[] { "Id", "CreationDate", "Date", "Description", "IsRemoved", "PaymentId", "Status", "UserId" },
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2020, 8, 25, 14, 54, 23, 703, DateTimeKind.Utc).AddTicks(2395), new DateTime(2020, 8, 25, 14, 54, 23, 703, DateTimeKind.Utc).AddTicks(2399), "Nothing special", false, 1L, 1, 2L },
-                    { 2L, new DateTime(2020, 8, 25, 14, 54, 23, 703, DateTimeKind.Utc).AddTicks(4046), new DateTime(2020, 8, 25, 14, 54, 23, 703, DateTimeKind.Utc).AddTicks(4047), "And here is nothing special", false, 2L, 2, 2L }
+                    { 1L, new DateTime(2020, 8, 26, 13, 27, 57, 940, DateTimeKind.Utc).AddTicks(6103), new DateTime(2020, 8, 26, 13, 27, 57, 940, DateTimeKind.Utc).AddTicks(6107), "Nothing special", false, 1L, 1, 2L },
+                    { 2L, new DateTime(2020, 8, 26, 13, 27, 57, 940, DateTimeKind.Utc).AddTicks(7736), new DateTime(2020, 8, 26, 13, 27, 57, 940, DateTimeKind.Utc).AddTicks(7738), "And here is nothing special", false, 2L, 2, 2L }
                 });
 
             migrationBuilder.InsertData(
@@ -379,11 +380,11 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 columns: new[] { "Id", "Amount", "Count", "CreationDate", "Currency", "IsRemoved", "OrderId", "PrintingEditionId" },
                 values: new object[,]
                 {
-                    { 1L, 2, 2000.0, new DateTime(2020, 8, 25, 14, 54, 23, 703, DateTimeKind.Utc).AddTicks(4525), 6, false, 1L, 1L },
-                    { 3L, 4, 80.0, new DateTime(2020, 8, 25, 14, 54, 23, 703, DateTimeKind.Utc).AddTicks(7385), 2, false, 1L, 2L },
-                    { 4L, 10, 500.0, new DateTime(2020, 8, 25, 14, 54, 23, 703, DateTimeKind.Utc).AddTicks(7388), 2, false, 1L, 4L },
-                    { 5L, 6, 420.0, new DateTime(2020, 8, 25, 14, 54, 23, 703, DateTimeKind.Utc).AddTicks(7390), 1, false, 1L, 5L },
-                    { 2L, 7, 7000.0, new DateTime(2020, 8, 25, 14, 54, 23, 703, DateTimeKind.Utc).AddTicks(7266), 6, false, 2L, 1L }
+                    { 1L, 2, 2000.0, new DateTime(2020, 8, 26, 13, 27, 57, 940, DateTimeKind.Utc).AddTicks(8176), 6, false, 1L, 1L },
+                    { 3L, 4, 80.0, new DateTime(2020, 8, 26, 13, 27, 57, 941, DateTimeKind.Utc).AddTicks(1130), 2, false, 1L, 2L },
+                    { 4L, 10, 500.0, new DateTime(2020, 8, 26, 13, 27, 57, 941, DateTimeKind.Utc).AddTicks(1133), 2, false, 1L, 4L },
+                    { 5L, 6, 420.0, new DateTime(2020, 8, 26, 13, 27, 57, 941, DateTimeKind.Utc).AddTicks(1136), 1, false, 1L, 5L },
+                    { 2L, 7, 7000.0, new DateTime(2020, 8, 26, 13, 27, 57, 941, DateTimeKind.Utc).AddTicks(1081), 6, false, 2L, 1L }
                 });
 
             migrationBuilder.CreateIndex(

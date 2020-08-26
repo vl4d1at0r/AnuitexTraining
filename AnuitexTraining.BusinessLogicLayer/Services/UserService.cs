@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using static AnuitexTraining.Shared.Constants.Constants;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services
 {
@@ -26,48 +27,51 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
         public async Task AddAsync(UserModel user, string password)
         {
-            ApplicationUser applicationUser = _userMapper.Map(user);
-            IdentityResult result = await _userManager.CreateAsync(applicationUser, password);
-            List<IdentityError> identityErrors = result.Errors.ToList();
-            foreach (IdentityError error in identityErrors)
+            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(user.Email);
+            if (applicationUser != null)
             {
-                user.Errors.Add(error.Description);
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.EmailAlreadyTaken });
             }
-            if (user.Errors.Any())
+            user.Id = 0; // Id is setting to 0 cause of user ability to select custom id
+            applicationUser = _userMapper.Map(user);
+            IdentityResult result = await _userManager.CreateAsync(applicationUser, password);
+            if (!result.Succeeded)
             {
-                throw new UserException(HttpStatusCode.BadRequest, user.Errors);
+                throw new UserException(HttpStatusCode.BadRequest, result.Errors.Select(error=>error.Description).ToList()); 
             }
         }
 
         public async Task DeleteAsync(int id)
         {
-            List<string> errors = new List<string>();
             ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
-            IdentityResult result = await _userManager.DeleteAsync(user);
-            List<IdentityError> identityErrors = result.Errors.ToList();
-            foreach (IdentityError error in identityErrors)
+            if (user is null)
             {
-                errors.Add(error.Description);
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
             }
-            if (errors.Any())
-            {
-                throw new UserException(HttpStatusCode.BadRequest, errors);
-            }
+            await _userManager.DeleteAsync(user);
         }
 
         public async Task UpdateAsync(UserModel user)
         {
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync(user.Email);
+            if (applicationUser is null)
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+            }
             applicationUser.FirstName = user.FirstName;
             applicationUser.LastName = user.LastName;
-            applicationUser.UserName = user.UserName;
             applicationUser.PhoneNumber = user.PhoneNumber;
             await _userManager.UpdateAsync(applicationUser);
         }
 
         public async Task<UserModel> GetAsync(int id)
         {
-            return _userMapper.Map(await _userManager.FindByIdAsync(id.ToString()));
+            ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
+            if (user is null)
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+            }
+            return _userMapper.Map(user);
         }
 
         public async Task<IEnumerable<UserModel>> GetAllAsync()

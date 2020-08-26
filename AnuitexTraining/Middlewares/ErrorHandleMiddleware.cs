@@ -32,6 +32,7 @@ namespace AnuitexTraining.PresentationLayer.Middlewares
                     Errors = exception.Errors
                 };
                 string response = JsonConvert.SerializeObject(model);
+                context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)exception.Code;
                 await context.Response.WriteAsync(response);
             }

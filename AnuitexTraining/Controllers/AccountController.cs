@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Exceptions;
 using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.PresentationLayer.Providers;
@@ -23,65 +26,54 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         [HttpGet("signIn")]
         public async Task<object> SignInAsync(string email, string password)
         {
-            if (await _accountService.SignInAsync(email, password))
-            {
-                string accessToken = _jwtProvider.GenerateAccessToken(email, await _accountService.GetRolesAsync(email));
-                string refreshToken = _jwtProvider.GenerateRefreshToken();
-                await _accountService.UpdateRefreshTokenAsync(email, refreshToken);
-                return new { accessToken, refreshToken };
-            }
-            return null;
+            await _accountService.SignInAsync(email, password);
+            string accessToken = _jwtProvider.GenerateAccessToken(email, await _accountService.GetRolesAsync(email));
+            string refreshToken = _jwtProvider.GenerateRefreshToken();
+            await _accountService.UpdateRefreshTokenAsync(email, refreshToken);
+            return new { accessToken, refreshToken };
         }
 
         [HttpPost("signUp")]
-        public async Task<IActionResult> SignUpAsync(UserModel user, string password)
+        public async Task SignUpAsync(UserModel user, string password)
         {
             await _accountService.SignUpAsync(user, password);
-            return Ok();
         }
 
         [Authorize]
         [HttpGet("signOut")]
-        public async Task<IActionResult> SignOutAsync()
+        public async Task SignOutAsync()
         {
             await _accountService.SignOutAsync(User.FindFirst("Sub").Value);
-            return Ok();
         }
 
         [HttpGet("confirmEmail")]
-        public async Task<IActionResult> ConfirmEmailAsync(long id, string code)
+        public async Task ConfirmEmailAsync(long id, string code)
         {
             await _accountService.ConfirmEmailAsync(id, code);
-            return Ok("Confirmed successfully!");
         }
 
         [HttpPost("forgotPassword")]
-        public async Task<IActionResult> ForgotPasswordAsync(string email)
+        public async Task ForgotPasswordAsync(string email)
         {
             await _accountService.ForgotPasswordAsync(email);
-            return Ok("Password reset link sent!");
         }
 
         [HttpGet("resetPassword")]
-        public async Task<IActionResult> ResetPasswordAsync(long id, string code, string password)
+        public async Task ResetPasswordAsync(long id, string code, string password)
         {
             await _accountService.ResetPasswordAsync(id, code, password);
-            return Ok("Password successfully reset!");
         }
 
         [HttpGet("refreshToken")]
         public async Task<object> RefreshTokenAsync(string accessToken, string refreshToken)
         {
             string email = _jwtProvider.GetValidatedExpiredAccessToken(accessToken).Payload.Sub;
-
-            if(refreshToken == await _accountService.GetRefreshTokenAsync(email))
-            {
-                string newRefreshToken = _jwtProvider.GenerateRefreshToken();
-                await _accountService.UpdateRefreshTokenAsync(email, newRefreshToken);
-                return new { accessToken = _jwtProvider.GenerateAccessToken(email, await _accountService.GetRolesAsync(email)), refreshToken = newRefreshToken };
-            }
-
-            return null;
+            await _accountService.VerifyRefreshTokenAsync(email, refreshToken);
+            IEnumerable<string> roles = await _accountService.GetRolesAsync(email);
+            accessToken = _jwtProvider.GenerateAccessToken(email, roles);
+            refreshToken = _jwtProvider.GenerateRefreshToken();
+            await _accountService.UpdateRefreshTokenAsync(email, refreshToken);
+            return new { accessToken, refreshToken };
         }
     }
 }

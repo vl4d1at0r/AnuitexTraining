@@ -23,4 +23,8 @@
     <ProjectReference Include="..\AnuitexTraining.Shared\AnuitexTraining.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

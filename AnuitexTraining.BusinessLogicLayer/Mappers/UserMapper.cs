@@ -10,6 +10,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
         {
             return new UserModel()
             {
+                Id = item.Id,
                 FirstName = item.FirstName,
                 LastName = item.LastName,
                 UserName = item.UserName,
@@ -22,6 +23,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
         {
             return new ApplicationUser()
             {
+                Id = item.Id,
                 FirstName = item.FirstName,
                 LastName = item.LastName,
                 UserName = item.UserName,

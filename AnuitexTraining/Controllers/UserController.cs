@@ -32,24 +32,21 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddAsync(UserModel user, string password)
+        public async Task AddAsync(UserModel user, string password)
         {
             await service.AddAsync(user, password);
-            return Ok();
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> UpdateAsync(UserModel user)
+        public async Task UpdateAsync(UserModel user)
         {
             await service.UpdateAsync(user);
-            return Ok();
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             await service.DeleteAsync(id);
-            return Ok();
         }
     }
 }
