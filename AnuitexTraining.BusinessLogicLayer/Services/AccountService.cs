@@ -5,7 +5,6 @@ using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -33,7 +32,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
             }
             IdentityResult result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
@@ -52,7 +51,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync(email);
             if (applicationUser is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
             }
             string userId = await _userManager.GetUserIdAsync(applicationUser);
             long id = long.Parse(userId);
@@ -65,7 +64,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
             }
             return await _userManager.GetRolesAsync(user);
         }
@@ -75,7 +74,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
             }
             IdentityResult result = await _userManager.ResetPasswordAsync(user, code, newPassword);
             if (!result.Succeeded)
@@ -90,15 +89,19 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.WrongCredentials });
             }
             if(!await _userManager.CheckPasswordAsync(user, password))
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string>() { ExceptionsInfo.WrongPassword });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.WrongCredentials });
             }
             if(!user.EmailConfirmed)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string>() { ExceptionsInfo.EmailNotConfirmed });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.EmailNotConfirmed });
+            }
+            if(user.IsBlocked)
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserBlocked });
             }
         }
 
@@ -107,7 +110,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
             }
             IdentityResult result = await _userManager.RemoveAuthenticationTokenAsync(user, AuthOptions.Issuer, AuthOptions.RefreshTokenKey);
         }
@@ -135,7 +138,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
             }
             await _userManager.SetAuthenticationTokenAsync(user, AuthOptions.Issuer, AuthOptions.RefreshTokenKey, refreshToken);
         }
@@ -145,7 +148,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
             }
             if (refreshToken != await _userManager.GetAuthenticationTokenAsync(user, AuthOptions.Issuer, AuthOptions.RefreshTokenKey))
             {

@@ -108,7 +108,7 @@ namespace AnuitexTraining
                 options.ValidationInterval = TimeSpan.Zero;
             });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(item => item.AllowEmptyInputInBodyModelBinding = true);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

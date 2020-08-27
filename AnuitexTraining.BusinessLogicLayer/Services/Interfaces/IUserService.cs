@@ -7,9 +7,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
     public interface IUserService
     {
         public Task AddAsync(UserModel user, string password);
-        public Task DeleteAsync(int id);
-        public Task<UserModel> GetAsync(int id);
-        public Task<IEnumerable<UserModel>> GetAllAsync();
+        public Task DeleteAsync(long id);
+        public Task<UserModel> GetAsync(long id);
+        public Task<IEnumerable<UserModel>> GetAllAsync(UserModel filter);
         public Task UpdateAsync(UserModel user);
+        public Task BlockAsync(long id);
     }
 }

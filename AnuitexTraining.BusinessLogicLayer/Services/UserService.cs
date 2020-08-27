@@ -5,7 +5,6 @@ using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -37,16 +36,16 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             IdentityResult result = await _userManager.CreateAsync(applicationUser, password);
             if (!result.Succeeded)
             {
-                throw new UserException(HttpStatusCode.BadRequest, result.Errors.Select(error=>error.Description).ToList()); 
+                throw new UserException(HttpStatusCode.BadRequest, result.Errors.Select(error => error.Description).ToList());
             }
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(long id)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
             }
             await _userManager.DeleteAsync(user);
         }
@@ -56,7 +55,19 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync(user.Email);
             if (applicationUser is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
+            }
+            if (string.IsNullOrEmpty(applicationUser.FirstName))
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidFirstName });
+            }
+            if (string.IsNullOrEmpty(applicationUser.LastName))
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidLastName });
+            }
+            if (string.IsNullOrEmpty(applicationUser.PhoneNumber))
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidPhone });
             }
             applicationUser.FirstName = user.FirstName;
             applicationUser.LastName = user.LastName;
@@ -64,19 +75,43 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             await _userManager.UpdateAsync(applicationUser);
         }
 
-        public async Task<UserModel> GetAsync(int id)
+        public async Task<UserModel> GetAsync(long id)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserNotFound });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
             }
             return _userMapper.Map(user);
         }
 
-        public async Task<IEnumerable<UserModel>> GetAllAsync()
+        public async Task<IEnumerable<UserModel>> GetAllAsync(UserModel filter)
         {
-            return _userMapper.Map(await _userManager.Users.ToListAsync());
+            List<ApplicationUser> users = await _userManager.Users.ToListAsync();
+            users = users.Where(user =>
+            {
+                if (user.UserName.ToLower().Contains(filter.UserName.ToLower()) &&
+                    user.Email.ToLower().Contains(filter.UserName.ToLower()) &&
+                    user.FirstName.ToLower().Contains(filter.FirstName.ToLower()) &&
+                    user.LastName.ToLower().Contains(filter.LastName.ToLower())) 
+                {
+                    return true;
+                }
+
+                return false;
+            }).ToList();
+            return _userMapper.Map(users);
+        }
+
+        public async Task BlockAsync(long id)
+        {
+            ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
+            if (user is null)
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
+            }
+            user.IsBlocked = true;
+            await _userManager.UpdateAsync(user);
         }
     }
 }

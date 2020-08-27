@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/users")]
     public class UserController : Controller
@@ -19,34 +18,46 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             service = userService;
         }
 
-        [HttpGet("getAll")]
-        public async Task<IEnumerable<UserModel>> GetAllAsync()
+        [Authorize(Roles = "Admin")]
+        [HttpPost("getAll")]
+        public async Task<IEnumerable<UserModel>> GetAllAsync(UserModel filter)
         {
-            return await service.GetAllAsync();
+            return await service.GetAllAsync(filter);
         }
 
+        [Authorize]
         [HttpGet("get/{id}")]
-        public async Task<UserModel> GetAsync(int id)
+        public async Task<UserModel> GetAsync(long id)
         {
             return await service.GetAsync(id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("add")]
         public async Task AddAsync(UserModel user, string password)
         {
             await service.AddAsync(user, password);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("update")]
         public async Task UpdateAsync(UserModel user)
         {
             await service.UpdateAsync(user);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("delete/{id}")]
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(long id)
         {
             await service.DeleteAsync(id);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("block/{id}")]
+        public async Task BlockAsync(long id)
+        {
+            await service.BlockAsync(id);
         }
     }
 }
