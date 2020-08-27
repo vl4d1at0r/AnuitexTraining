@@ -1,5 +1,4 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Models.Base;
-using System.ComponentModel.DataAnnotations;
 
 namespace AnuitexTraining.BusinessLogicLayer.Models.Users
 {

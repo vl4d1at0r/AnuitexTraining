@@ -91,7 +91,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             users = users.Where(user =>
             {
                 if (user.UserName.ToLower().Contains(filter.UserName.ToLower()) &&
-                    user.Email.ToLower().Contains(filter.UserName.ToLower()) &&
+                    user.Email.ToLower().Contains(filter.Email.ToLower()) &&
                     user.FirstName.ToLower().Contains(filter.FirstName.ToLower()) &&
                     user.LastName.ToLower().Contains(filter.LastName.ToLower())) 
                 {
