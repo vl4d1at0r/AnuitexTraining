@@ -33,13 +33,6 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("add")]
-        public async Task AddAsync(UserModel user, string password)
-        {
-            await service.AddAsync(user, password);
-        }
-
-        [Authorize(Roles = "Admin")]
         [HttpPut("update")]
         public async Task UpdateAsync(UserModel user)
         {

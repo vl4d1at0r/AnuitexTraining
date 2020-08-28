@@ -68,7 +68,7 @@ namespace AnuitexTraining.PresentationLayer.Providers
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             SecurityToken securityToken;
-            var principal = tokenHandler.ValidateToken(accessToken, _expiredTokenValidationParameters, out securityToken);
+            tokenHandler.ValidateToken(accessToken, _expiredTokenValidationParameters, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
 
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))

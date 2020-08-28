@@ -53,7 +53,7 @@ namespace AnuitexTraining
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement 
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -73,7 +73,7 @@ namespace AnuitexTraining
             services.InitBusinessLogicLayerServices();
 
 
-            services.AddIdentity<ApplicationUser, IdentityRole<long>>()
+            services.AddIdentity<ApplicationUser, IdentityRole<long>>(options => options.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 

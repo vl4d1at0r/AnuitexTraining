@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Exceptions;
 using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.PresentationLayer.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static AnuitexTraining.Shared.Constants.Constants;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
 {
@@ -65,7 +69,16 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         [HttpGet("refreshToken")]
         public async Task<object> RefreshTokenAsync(string accessToken, string refreshToken)
         {
-            string email = _jwtProvider.GetValidatedExpiredAccessToken(accessToken).Payload.Sub;
+            JwtSecurityToken token;
+            try
+            {
+                token = _jwtProvider.GetValidatedExpiredAccessToken(accessToken);
+            }
+            catch
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidAccessToken });
+            }
+            string email = token.Payload.Sub;
             await _accountService.VerifyRefreshTokenAsync(email, refreshToken);
             IEnumerable<string> roles = await _accountService.GetRolesAsync(email);
             accessToken = _jwtProvider.GenerateAccessToken(email, roles);

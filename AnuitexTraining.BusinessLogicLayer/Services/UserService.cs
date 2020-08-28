@@ -24,22 +24,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             _userMapper = userMapper;
         }
 
-        public async Task AddAsync(UserModel user, string password)
-        {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(user.Email);
-            if (applicationUser != null)
-            {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.EmailAlreadyTaken });
-            }
-            user.Id = 0; // Id is setting to 0 cause of user ability to select custom id
-            applicationUser = _userMapper.Map(user);
-            IdentityResult result = await _userManager.CreateAsync(applicationUser, password);
-            if (!result.Succeeded)
-            {
-                throw new UserException(HttpStatusCode.BadRequest, result.Errors.Select(error => error.Description).ToList());
-            }
-        }
-
         public async Task DeleteAsync(long id)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
@@ -57,22 +41,26 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
             }
-            if (string.IsNullOrEmpty(applicationUser.FirstName))
+            if (string.IsNullOrEmpty(user.FirstName))
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidFirstName });
             }
-            if (string.IsNullOrEmpty(applicationUser.LastName))
+            if (string.IsNullOrEmpty(user.LastName))
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidLastName });
             }
-            if (string.IsNullOrEmpty(applicationUser.PhoneNumber))
+            if (user.PhoneNumber is null)
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidPhone });
             }
             applicationUser.FirstName = user.FirstName;
             applicationUser.LastName = user.LastName;
             applicationUser.PhoneNumber = user.PhoneNumber;
-            await _userManager.UpdateAsync(applicationUser);
+            IdentityResult result = await _userManager.UpdateAsync(applicationUser);
+            if (!result.Succeeded)
+            {
+                throw new UserException(HttpStatusCode.BadRequest, result.Errors.Select(error => error.Description).ToList());
+            }
         }
 
         public async Task<UserModel> GetAsync(long id)

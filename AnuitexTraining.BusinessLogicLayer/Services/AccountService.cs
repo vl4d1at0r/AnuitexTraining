@@ -91,15 +91,15 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.WrongCredentials });
             }
-            if(!await _userManager.CheckPasswordAsync(user, password))
+            if (!await _userManager.CheckPasswordAsync(user, password))
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.WrongCredentials });
             }
-            if(!user.EmailConfirmed)
+            if (!user.EmailConfirmed)
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.EmailNotConfirmed });
             }
-            if(user.IsBlocked)
+            if (user.IsBlocked)
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserBlocked });
             }
@@ -117,13 +117,21 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
         public async Task SignUpAsync(UserModel user, string password)
         {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(user.Email);
-            if (applicationUser != null)
+            if (string.IsNullOrEmpty(password))
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.EmailAlreadyTaken });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidPassword });
             }
+            if (string.IsNullOrEmpty(user.FirstName))
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidFirstName });
+            }
+            if (string.IsNullOrEmpty(user.LastName))
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidLastName });
+            }
+            user.PhoneNumber = "";
             user.Id = 0; // Id is setting to 0 cause of user ability to select custom id
-            applicationUser = _userMapper.Map(user);
+            ApplicationUser applicationUser = _userMapper.Map(user);
             IdentityResult result = await _userManager.CreateAsync(applicationUser, password);
             if (!result.Succeeded)
             {

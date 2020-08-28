@@ -6,7 +6,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
 {
     public interface IUserService
     {
-        public Task AddAsync(UserModel user, string password);
         public Task DeleteAsync(long id);
         public Task<UserModel> GetAsync(long id);
         public Task<IEnumerable<UserModel>> GetAllAsync(UserModel filter);
