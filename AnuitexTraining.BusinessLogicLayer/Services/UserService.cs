@@ -39,23 +39,27 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync(user.Email);
             if (applicationUser is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
+                user.Errors.Add(ExceptionsInfo.InvalidEmail);
             }
             if (string.IsNullOrEmpty(user.FirstName))
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidFirstName });
+                user.Errors.Add(ExceptionsInfo.InvalidFirstName);
             }
             if (string.IsNullOrEmpty(user.LastName))
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidLastName });
+                user.Errors.Add(ExceptionsInfo.InvalidLastName);
             }
             if (user.PhoneNumber is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidPhone });
+                user.Errors.Add(ExceptionsInfo.InvalidPhone);
             }
             applicationUser.FirstName = user.FirstName;
             applicationUser.LastName = user.LastName;
             applicationUser.PhoneNumber = user.PhoneNumber;
+            if(user.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, user.Errors);
+            }
             IdentityResult result = await _userManager.UpdateAsync(applicationUser);
             if (!result.Succeeded)
             {
@@ -81,7 +85,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 if (user.UserName.ToLower().Contains(filter.UserName.ToLower()) &&
                     user.Email.ToLower().Contains(filter.Email.ToLower()) &&
                     user.FirstName.ToLower().Contains(filter.FirstName.ToLower()) &&
-                    user.LastName.ToLower().Contains(filter.LastName.ToLower())) 
+                    user.LastName.ToLower().Contains(filter.LastName.ToLower()) &&
+                    (user.CreationDate.CompareTo(filter.CreationDate) == 0 || filter.CreationDate == default)) 
                 {
                     return true;
                 }

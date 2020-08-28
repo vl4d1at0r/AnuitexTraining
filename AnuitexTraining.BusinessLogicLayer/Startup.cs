@@ -13,8 +13,10 @@ namespace AnuitexTraining.BusinessLogicLayer
         {
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IPrintingEditionService, PrintingEditionService>();
             services.AddSingleton<EmailProvider>();
             services.AddSingleton<UserMapper>();
+            services.AddSingleton<PrintingEditionMapper>();
 
             services.InitDataAccessLayerServices();
         }

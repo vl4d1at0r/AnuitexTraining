@@ -15,7 +15,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 LastName = item.LastName,
                 UserName = item.UserName,
                 Email = item.Email,
-                PhoneNumber = item.PhoneNumber
+                PhoneNumber = item.PhoneNumber,
+                CreationDate = item.CreationDate
             };
         }
 
@@ -28,7 +29,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 LastName = item.LastName,
                 UserName = item.UserName,
                 Email = item.Email,
-                PhoneNumber = item.PhoneNumber
+                PhoneNumber = item.PhoneNumber,
+                CreationDate = item.CreationDate
             };
         }
     }

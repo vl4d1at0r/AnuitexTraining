@@ -18,6 +18,12 @@
             public const string InvalidLastName = "Invalid last name";
             public const string InvalidPhone = "Invalid phone";
             public const string InvalidPassword = "Invalid password";
+            public const string InvalidTitle = "Invalid title";
+            public const string InvalidDescription = "Invalid description";
+            public const string InvalidPrintingEditionType = "Invalid printing edition type";
+            public const string InvalidCurrencyType = "Invalid currency type";
+            public const string InvalidPrice = "Invalid price";
+
         }
     }
 }

@@ -11,46 +11,46 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     [Route("api/users")]
     public class UserController : Controller
     {
-        private IUserService service;
+        private IUserService _userService;
 
         public UserController(IUserService userService)
         {
-            service = userService;
+            _userService = userService;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost("getAll")]
         public async Task<IEnumerable<UserModel>> GetAllAsync(UserModel filter)
         {
-            return await service.GetAllAsync(filter);
+            return await _userService.GetAllAsync(filter);
         }
 
         [Authorize]
         [HttpGet("get/{id}")]
         public async Task<UserModel> GetAsync(long id)
         {
-            return await service.GetAsync(id);
+            return await _userService.GetAsync(id);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPut("update")]
         public async Task UpdateAsync(UserModel user)
         {
-            await service.UpdateAsync(user);
+            await _userService.UpdateAsync(user);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("delete/{id}")]
         public async Task DeleteAsync(long id)
         {
-            await service.DeleteAsync(id);
+            await _userService.DeleteAsync(id);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet("block/{id}")]
         public async Task BlockAsync(long id)
         {
-            await service.BlockAsync(id);
+            await _userService.BlockAsync(id);
         }
     }
 }

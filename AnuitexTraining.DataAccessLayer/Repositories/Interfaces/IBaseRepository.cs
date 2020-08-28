@@ -5,7 +5,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        public Task<IEnumerable<T>> GetAllAsync();
+        public Task<List<T>> GetAllAsync();
         public Task<T> GetAsync(long id);
         public Task AddAsync(T item);
         public Task UpdateAsync(T item);

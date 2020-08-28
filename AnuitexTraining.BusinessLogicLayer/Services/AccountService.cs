@@ -86,22 +86,27 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
         public async Task SignInAsync(string email, string password)
         {
+            List<string> errors = new List<string>();
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
-            if (user is null)
+            if (user is null || string.IsNullOrEmpty(password))
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.WrongCredentials });
             }
             if (!await _userManager.CheckPasswordAsync(user, password))
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.WrongCredentials });
+                errors.Add(ExceptionsInfo.WrongCredentials);
             }
             if (!user.EmailConfirmed)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.EmailNotConfirmed });
+                errors.Add(ExceptionsInfo.EmailNotConfirmed);
             }
             if (user.IsBlocked)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.UserBlocked });
+                errors.Add(ExceptionsInfo.UserBlocked);
+            }
+            if (errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, errors);
             }
         }
 
@@ -119,15 +124,19 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         {
             if (string.IsNullOrEmpty(password))
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidPassword });
+                user.Errors.Add(ExceptionsInfo.InvalidPassword);
             }
             if (string.IsNullOrEmpty(user.FirstName))
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidFirstName });
+                user.Errors.Add(ExceptionsInfo.InvalidFirstName);
             }
             if (string.IsNullOrEmpty(user.LastName))
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidLastName });
+                user.Errors.Add(ExceptionsInfo.InvalidLastName);
+            }
+            if(user.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, user.Errors);
             }
             user.PhoneNumber = "";
             user.Id = 0; // Id is setting to 0 cause of user ability to select custom id
