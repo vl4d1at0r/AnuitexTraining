@@ -1,8 +1,11 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
+﻿using AnuitexTraining.BusinessLogicLayer.Exceptions;
+using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
@@ -29,7 +32,14 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         [HttpGet("get/{id}")]
         public async Task<UserModel> GetAsync(long id)
         {
-            return await _userService.GetAsync(id);
+            if(User.FindFirst("Id").Value == id.ToString() || User.FindFirst(ClaimTypes.Role).Value == "Admin")
+            {
+                return await _userService.GetAsync(id);
+            }
+            else
+            {
+                throw new UserException(HttpStatusCode.Unauthorized, new List<string>());
+            }
         }
 
         [Authorize(Roles = "Admin")]

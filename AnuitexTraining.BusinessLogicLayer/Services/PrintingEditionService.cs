@@ -4,15 +4,15 @@ using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using PagedList;
-using System;
 using System.Collections.Generic;
 using System.Linq.Dynamic.Core;
-using System.Text;
 using System.Threading.Tasks;
 using static AnuitexTraining.Shared.Enums.Enums;
 using Microsoft.Data.SqlClient;
 using System.Linq;
 using static AnuitexTraining.Shared.Constants.Constants;
+using AnuitexTraining.BusinessLogicLayer.Exceptions;
+using System.Net;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services
 {
@@ -43,13 +43,16 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 }
                 return false;
             }).ToList();
-            if (descending)
+            if(!string.IsNullOrEmpty(orderField))
             {
-                printingEditions = printingEditions.AsQueryable().OrderBy(orderField, SortOrder.Descending.ToString()).ToList();
-            }
-            else
-            {
-                printingEditions = printingEditions.AsQueryable().OrderBy(orderField, SortOrder.Ascending.ToString()).ToList();
+                if (descending)
+                {
+                    printingEditions = printingEditions.AsQueryable().OrderBy(orderField, SortOrder.Descending.ToString()).ToList();
+                }
+                else
+                {
+                    printingEditions = printingEditions.AsQueryable().OrderBy(orderField, SortOrder.Ascending.ToString()).ToList();
+                }
             }
             return _printingEditionMapper.Map(printingEditions).ToPagedList(page, pageSize);
         }
@@ -76,17 +79,62 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 item.Errors.Add(ExceptionsInfo.InvalidPrice);
             }
+            if (item.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, item.Errors);
+            }
             await _printingEditionRepository.AddAsync(_printingEditionMapper.Map(item));
         }
 
         public async Task DeleteAsync(long id)
         {
+            if (id == default)
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
+            }
             await _printingEditionRepository.DeleteAsync(id);
         }
 
         public async Task UpdateAsync(PrintingEditionModel item)
         {
+            if (item.Id == default)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidId);
+            }
+            if (string.IsNullOrEmpty(item.Title))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidTitle);
+            }
+            if (string.IsNullOrEmpty(item.Description))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidDescription);
+            }
+            if (item.Type == PrintingEditionType.None)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidPrintingEditionType);
+            }
+            if (item.Currency == CurrencyType.None)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidCurrencyType);
+            }
+            if (item.Price == default)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidPrice);
+            }
+            if(item.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, item.Errors);
+            }
             await _printingEditionRepository.UpdateAsync(_printingEditionMapper.Map(item));
+        }
+
+        public async Task<PrintingEditionModel> GetAsync(long id)
+        {
+            if (id == default)
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
+            }
+            return _printingEditionMapper.Map(await _printingEditionRepository.GetAsync(id));
         }
     }
 }

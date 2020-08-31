@@ -58,7 +58,6 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
             IdentityUserRole<long>[] identityUserRoles = new IdentityUserRole<long>[]
             {
                 new IdentityUserRole<long>() { RoleId = 1, UserId = 1},
-                new IdentityUserRole<long>() { RoleId = 2, UserId = 1},
                 new IdentityUserRole<long>() { RoleId = 2, UserId = 2}
             };
 

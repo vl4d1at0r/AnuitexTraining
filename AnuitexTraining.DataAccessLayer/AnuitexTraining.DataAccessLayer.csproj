@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20200826132758_init.Designer.cs" />
     <Compile Remove="Migrations\20200827101238_init.cs" />
     <Compile Remove="Migrations\20200827101238_init.Designer.cs" />
+    <Compile Remove="Migrations\20200828095330_Init.cs" />
+    <Compile Remove="Migrations\20200828095330_Init.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +30,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AnuitexTraining.Shared\AnuitexTraining.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

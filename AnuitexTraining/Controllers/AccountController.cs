@@ -17,11 +17,13 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     public class AccountController : Controller
     {
         private IAccountService _accountService;
+        private IUserService _userService;
         private JwtProvider _jwtProvider;
 
-        public AccountController(IAccountService accountService, JwtProvider jwtProvider)
+        public AccountController(IAccountService accountService, IUserService userService, JwtProvider jwtProvider)
         {
             _accountService = accountService;
+            _userService = userService;
             _jwtProvider = jwtProvider;
         }
 
@@ -29,7 +31,8 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         public async Task<object> SignInAsync(string email, string password)
         {
             await _accountService.SignInAsync(email, password);
-            string accessToken = _jwtProvider.GenerateAccessToken(email, await _accountService.GetRolesAsync(email));
+            long id = await _accountService.GetIdAsync(email);
+            string accessToken = _jwtProvider.GenerateAccessToken(await _userService.GetAsync(id), await _accountService.GetRoleAsync(email));
             string refreshToken = _jwtProvider.GenerateRefreshToken();
             await _accountService.UpdateRefreshTokenAsync(email, refreshToken);
             return new { accessToken, refreshToken };
@@ -80,8 +83,9 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             }
             string email = token.Payload.Sub;
             await _accountService.VerifyRefreshTokenAsync(email, refreshToken);
-            IEnumerable<string> roles = await _accountService.GetRolesAsync(email);
-            accessToken = _jwtProvider.GenerateAccessToken(email, roles);
+            string role = await _accountService.GetRoleAsync(email);
+            long id = await _accountService.GetIdAsync(email);
+            accessToken = _jwtProvider.GenerateAccessToken(await _userService.GetAsync(id), role);
             refreshToken = _jwtProvider.GenerateRefreshToken();
             await _accountService.UpdateRefreshTokenAsync(email, refreshToken);
             return new { accessToken, refreshToken };

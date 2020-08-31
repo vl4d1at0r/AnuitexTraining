@@ -1,5 +1,4 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
@@ -13,7 +12,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
         public Task ForgotPasswordAsync(string email);
         public Task ResetPasswordAsync(long id, string code, string newPassword);
         public Task UpdateRefreshTokenAsync(string email, string refreshToken);
-        public Task<IEnumerable<string>> GetRolesAsync(string email);
+        public Task<string> GetRoleAsync(string email);
         public Task VerifyRefreshTokenAsync(string email, string refreshToken);
+        public Task<long> GetIdAsync(string email);
     }
 }

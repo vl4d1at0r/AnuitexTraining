@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -30,17 +31,14 @@ namespace AnuitexTraining.PresentationLayer.Providers
             };
         }
 
-        public string GenerateAccessToken(string email, IEnumerable<string> roles)
+        public string GenerateAccessToken(UserModel userModel, string role)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim("Id" , userModel.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, userModel.Email),
+                new Claim(ClaimTypes.Role, role)
             };
-
-            foreach (string role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
 
             var jwt = new JwtSecurityToken(
                 issuer: AuthOptions.Issuer,

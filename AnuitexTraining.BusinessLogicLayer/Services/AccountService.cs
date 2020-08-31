@@ -59,14 +59,20 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             await _emailProvider.SendPasswordResetMessageAsync(id, passwordResetToken, email);
         }
 
-        public async Task<IEnumerable<string>> GetRolesAsync(string email)
+        public async Task<long> GetIdAsync(string email)
+        {
+            ApplicationUser user = await _userManager.FindByEmailAsync(email);
+            return user.Id;
+        }
+
+        public async Task<string> GetRoleAsync(string email)
         {
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             if (user is null)
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
             }
-            return await _userManager.GetRolesAsync(user);
+            return (await _userManager.GetRolesAsync(user))[0];
         }
 
         public async Task ResetPasswordAsync(long id, string code, string newPassword)

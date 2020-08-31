@@ -35,6 +35,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Base
         public async Task AddAsync(T item)
         {
             await _dbSet.AddAsync(item);
+            await SaveAsync();
         }
 
         public async Task UpdateAsync(T item)
@@ -47,6 +48,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Base
         {
             T item = await _dbSet.FindAsync(id);
             _dbSet.Remove(item);
+            await SaveAsync();
         }
     }
 }
