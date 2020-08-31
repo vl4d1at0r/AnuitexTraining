@@ -20,11 +20,15 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
     {
         private IPrintingEditionRepository _printingEditionRepository;
         private PrintingEditionMapper _printingEditionMapper;
+        private IAuthorInPrintingEditionRepository _authorInPrintingEditionRepository;
+        private IAuthorRepository _authorRepository;
 
-        public PrintingEditionService(IPrintingEditionRepository printingEditionRepository, PrintingEditionMapper printingEditionMapper)
+        public PrintingEditionService(IPrintingEditionRepository printingEditionRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, PrintingEditionMapper printingEditionMapper, IAuthorRepository authorRepository)
         {
             _printingEditionMapper = printingEditionMapper;
             _printingEditionRepository = printingEditionRepository;
+            _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
+            _authorRepository = authorRepository;
         }
 
         public async Task<IPagedList<PrintingEditionModel>> GetPageAsync(PrintingEditionModel filter, string orderField, bool descending, int page, int pageSize)
@@ -37,7 +41,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                     (item.CreationDate.CompareTo(filter.CreationDate) == 0 || filter.CreationDate == default ) &&
                     (item.Currency == filter.Currency || filter.Currency == CurrencyType.None) &&
                     (item.Price.ToString().Contains(filter.Price.ToString()) || filter.Price == default) &&
-                    (item.Type == filter.Type || filter.Type == PrintingEditionType.None))
+                    (item.Type == filter.Type || filter.Type == PrintingEditionType.None) &&
+                    _authorInPrintingEditionRepository.GetByPrintingEditionIdAsync(item.Id).Result.Author.Name.ToLower().Contains(filter.AuthorName.ToLower()))
                 {
                     return true;
                 }
@@ -54,7 +59,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                     printingEditions = printingEditions.AsQueryable().OrderBy(orderField, SortOrder.Ascending.ToString()).ToList();
                 }
             }
-            return _printingEditionMapper.Map(printingEditions).ToPagedList(page, pageSize);
+            List<PrintingEditionModel> models = _printingEditionMapper.Map(printingEditions);
+            models.ForEach(item => item.AuthorName = _authorInPrintingEditionRepository.GetByPrintingEditionIdAsync(item.Id).Result.Author.Name);
+            return models.ToPagedList(page, pageSize);
         }
 
         public async Task AddAsync(PrintingEditionModel item)
@@ -66,6 +73,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             if(string.IsNullOrEmpty(item.Description))
             {
                 item.Errors.Add(ExceptionsInfo.InvalidDescription);
+            }
+            if (string.IsNullOrEmpty(item.AuthorName))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidAuthor);
             }
             if(item.Type == PrintingEditionType.None)
             {
@@ -83,12 +94,21 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 throw new UserException(HttpStatusCode.BadRequest, item.Errors);
             }
-            await _printingEditionRepository.AddAsync(_printingEditionMapper.Map(item));
+            Author author = await _authorRepository.GetByNameAsync(item.AuthorName);
+            if (author is null)
+            {
+                author = new Author { Name = item.AuthorName };
+                await _authorRepository.AddAsync(author);
+            }
+            PrintingEdition printingEdition = _printingEditionMapper.Map(item);
+            await _printingEditionRepository.AddAsync(printingEdition);
+            await _authorInPrintingEditionRepository.AddAsync(new AuthorInPrintingEdition { PrintingEditionId = printingEdition.Id, AuthorId = author.Id });
+
         }
 
         public async Task DeleteAsync(long id)
         {
-            if (id == default)
+            if ((await _printingEditionRepository.GetAsync(id)) is null)
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
             }
@@ -97,7 +117,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
         public async Task UpdateAsync(PrintingEditionModel item)
         {
-            if (item.Id == default)
+            PrintingEdition printingEdition = await _printingEditionRepository.GetAsync(item.Id);
+            if (printingEdition is null)
             {
                 item.Errors.Add(ExceptionsInfo.InvalidId);
             }
@@ -108,6 +129,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             if (string.IsNullOrEmpty(item.Description))
             {
                 item.Errors.Add(ExceptionsInfo.InvalidDescription);
+            }
+            if (string.IsNullOrEmpty(item.AuthorName))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidAuthor);
             }
             if (item.Type == PrintingEditionType.None)
             {
@@ -125,16 +150,33 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 throw new UserException(HttpStatusCode.BadRequest, item.Errors);
             }
-            await _printingEditionRepository.UpdateAsync(_printingEditionMapper.Map(item));
+            printingEdition.Price = item.Price;
+            printingEdition.Title = item.Title;
+            printingEdition.Type = item.Type;
+            printingEdition.Description = item.Description;
+            printingEdition.Currency = item.Currency;
+            Author author = await _authorRepository.GetByNameAsync(item.AuthorName);
+            if (author is null)
+            {
+                author = new Author { Name = item.AuthorName };
+                await _authorRepository.AddAsync(author);
+            }
+            await _printingEditionRepository.UpdateAsync(printingEdition);
+            await _authorInPrintingEditionRepository.DeleteAllForPrintingEditionId(item.Id);
+            await _authorInPrintingEditionRepository.AddAsync(new AuthorInPrintingEdition { PrintingEditionId = item.Id, AuthorId = author.Id });
         }
 
         public async Task<PrintingEditionModel> GetAsync(long id)
         {
-            if (id == default)
+            PrintingEdition printingEdition = await _printingEditionRepository.GetAsync(id);
+            if (printingEdition is null)
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
             }
-            return _printingEditionMapper.Map(await _printingEditionRepository.GetAsync(id));
+            AuthorInPrintingEdition authorInPrintingEdition = await _authorInPrintingEditionRepository.GetByPrintingEditionIdAsync(id);
+            PrintingEditionModel model = _printingEditionMapper.Map(printingEdition);
+            model.AuthorName = authorInPrintingEdition.Author.Name;
+            return model;
         }
     }
 }

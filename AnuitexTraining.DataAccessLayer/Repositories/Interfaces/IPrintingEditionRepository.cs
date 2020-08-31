@@ -4,5 +4,6 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
 {
     public interface IPrintingEditionRepository : IBaseRepository<PrintingEdition>
     {
+
     }
 }

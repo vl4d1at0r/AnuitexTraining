@@ -1,5 +1,4 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Models.Base;
-using System;
 using static AnuitexTraining.Shared.Enums.Enums;
 
 namespace AnuitexTraining.BusinessLogicLayer.Models.PrintingEditions
@@ -11,6 +10,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.PrintingEditions
         public double Price { get; set; }
         public CurrencyType Currency { get; set; }
         public PrintingEditionType Type { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string AuthorName { get; set; }
     }
 }

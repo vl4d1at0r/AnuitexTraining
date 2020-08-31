@@ -55,26 +55,20 @@ namespace AnuitexTraining.PresentationLayer.Providers
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
-            using (var randomNumberGenerator = RandomNumberGenerator.Create())
-            {
-                randomNumberGenerator.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
+            using var randomNumberGenerator = RandomNumberGenerator.Create();
+            randomNumberGenerator.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
 
         public JwtSecurityToken GetValidatedExpiredAccessToken(string accessToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken securityToken;
-            tokenHandler.ValidateToken(accessToken, _expiredTokenValidationParameters, out securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            tokenHandler.ValidateToken(accessToken, _expiredTokenValidationParameters, out SecurityToken securityToken);
+            if (securityToken is JwtSecurityToken jwtSecurityToken && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             {
-                return null;
+                return jwtSecurityToken;
             }
-
-            return jwtSecurityToken;
+            return null;
         }
     }
 }

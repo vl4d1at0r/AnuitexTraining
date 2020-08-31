@@ -8,10 +8,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Common
     {
         public void LogFile(string error)
         {
-            using (StreamWriter stream = new StreamWriter($"log {DateTime.Now:dd.MM.yyyy HH-mm-ss}.txt", true))
-            {
-                stream.Write(error);
-            }
+            using StreamWriter stream = new StreamWriter($"log {DateTime.Now:dd.MM.yyyy HH-mm-ss}.txt", true);
+            stream.Write(error);
         }
     }
 }

@@ -13,6 +13,8 @@ namespace AnuitexTraining.DataAccessLayer
             services.AddTransient<UserManager<ApplicationUser>>();
             services.AddTransient<SignInManager<ApplicationUser>>();
             services.AddTransient<IPrintingEditionRepository, PrintingEditionRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionRepository>();
         }
     }
 }

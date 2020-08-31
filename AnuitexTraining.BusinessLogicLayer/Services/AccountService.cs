@@ -123,7 +123,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidEmail });
             }
-            IdentityResult result = await _userManager.RemoveAuthenticationTokenAsync(user, AuthOptions.Issuer, AuthOptions.RefreshTokenKey);
+            await _userManager.RemoveAuthenticationTokenAsync(user, AuthOptions.Issuer, AuthOptions.RefreshTokenKey);
         }
 
         public async Task SignUpAsync(UserModel user, string password)

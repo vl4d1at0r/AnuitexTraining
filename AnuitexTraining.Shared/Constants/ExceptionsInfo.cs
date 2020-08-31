@@ -23,7 +23,8 @@
             public const string InvalidPrintingEditionType = "Invalid printing edition type";
             public const string InvalidCurrencyType = "Invalid currency type";
             public const string InvalidPrice = "Invalid price";
-
+            public const string InvalidName = "Invalid name";
+            public const string InvalidAuthor = "Invalid author";
         }
     }
 }

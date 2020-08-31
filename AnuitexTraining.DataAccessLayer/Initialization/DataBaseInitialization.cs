@@ -21,11 +21,11 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
 
             PrintingEdition[] printingEditions = new PrintingEdition[]
             {
-                new PrintingEdition() { Id = 1, CreationDate = DateTime.UtcNow, Currency = CurrencyType.UAH, Title = "Neurotechnologies", Description = "Neurotechnologies", Price = 1000 },
-                new PrintingEdition() { Id = 2, CreationDate = DateTime.UtcNow, Currency = CurrencyType.EUR, Title = "C# Starter", Description = "C# Starter", Price = 20 },
-                new PrintingEdition() { Id = 3, CreationDate = DateTime.UtcNow, Currency = CurrencyType.USD, Title = "ASP.NET MVC 5", Description = "ASP.NET MVC 5", Price = 100 },
-                new PrintingEdition() { Id = 4, CreationDate = DateTime.UtcNow, Currency = CurrencyType.EUR, Title = "How it works", Description = "How it works", Price = 50 },
-                new PrintingEdition() { Id = 5, CreationDate = DateTime.UtcNow, Currency = CurrencyType.USD, Title = "Angular 9", Description = "Angular 9", Price = 70 }
+                new PrintingEdition() { Id = 1, CreationDate = DateTime.UtcNow, Currency = CurrencyType.UAH, Title = "Neurotechnologies", Description = "Neurotechnologies", Price = 1000, Type = PrintingEditionType.Newspaper },
+                new PrintingEdition() { Id = 2, CreationDate = DateTime.UtcNow, Currency = CurrencyType.EUR, Title = "C# Starter", Description = "C# Starter", Price = 20, Type = PrintingEditionType.Book },
+                new PrintingEdition() { Id = 3, CreationDate = DateTime.UtcNow, Currency = CurrencyType.USD, Title = "ASP.NET MVC 5", Description = "ASP.NET MVC 5", Price = 100, Type = PrintingEditionType.Book },
+                new PrintingEdition() { Id = 4, CreationDate = DateTime.UtcNow, Currency = CurrencyType.EUR, Title = "How it works", Description = "How it works", Price = 50, Type = PrintingEditionType.Journal },
+                new PrintingEdition() { Id = 5, CreationDate = DateTime.UtcNow, Currency = CurrencyType.USD, Title = "Angular 9", Description = "Angular 9", Price = 70, Type = PrintingEditionType.Book }
             };
 
             AuthorInPrintingEdition[] authorInPrintingEditions = new AuthorInPrintingEdition[]
