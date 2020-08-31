@@ -1,5 +1,4 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Models.Authors;
-using AnuitexTraining.DataAccessLayer.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
