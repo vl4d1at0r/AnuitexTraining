@@ -38,6 +38,12 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Base
             await SaveAsync();
         }
 
+        public async Task AddRangeAsync(List<T> items)
+        {
+            await _dbSet.AddRangeAsync(items);
+            await SaveAsync();
+        }
+
         public async Task UpdateAsync(T item)
         {
             _context.Entry(item).State = EntityState.Modified;

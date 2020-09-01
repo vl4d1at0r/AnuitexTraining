@@ -11,10 +11,12 @@ namespace AnuitexTraining.DataAccessLayer
         public static void InitDataAccessLayerServices(this IServiceCollection services)
         {
             services.AddTransient<UserManager<ApplicationUser>>();
-            services.AddTransient<SignInManager<ApplicationUser>>();
             services.AddTransient<IPrintingEditionRepository, PrintingEditionRepository>();
             services.AddTransient<IAuthorRepository, AuthorRepository>();
             services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionRepository>();
+            services.AddTransient<IOrderItemRepository, OrderItemRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
         }
     }
 }

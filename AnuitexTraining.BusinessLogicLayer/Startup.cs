@@ -19,6 +19,8 @@ namespace AnuitexTraining.BusinessLogicLayer
             services.AddSingleton<UserMapper>();
             services.AddSingleton<PrintingEditionMapper>();
             services.AddSingleton<AuthorMapper>();
+            services.AddSingleton<OrderItemMapper>();
+            services.AddSingleton<OrderMapper>();
 
             services.InitDataAccessLayerServices();
         }
