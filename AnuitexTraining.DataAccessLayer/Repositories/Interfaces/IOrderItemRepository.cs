@@ -1,7 +1,5 @@
 ﻿using AnuitexTraining.DataAccessLayer.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces

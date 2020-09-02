@@ -19,6 +19,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using static AnuitexTraining.Shared.Constants.Constants;
+using Stripe;
 
 namespace AnuitexTraining
 {
@@ -134,6 +135,8 @@ namespace AnuitexTraining
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            StripeConfiguration.ApiKey = StripeOptions.SecretKey;
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

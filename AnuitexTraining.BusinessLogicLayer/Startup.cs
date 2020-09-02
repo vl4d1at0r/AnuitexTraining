@@ -11,16 +11,19 @@ namespace AnuitexTraining.BusinessLogicLayer
     {
         public static void InitBusinessLogicLayerServices(this IServiceCollection services)
         {
+            // UNDONE: Optimize services lifetime in BLL
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IPrintingEditionService, PrintingEditionService>();
             services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddSingleton<EmailProvider>();
             services.AddSingleton<UserMapper>();
             services.AddSingleton<PrintingEditionMapper>();
             services.AddSingleton<AuthorMapper>();
             services.AddSingleton<OrderItemMapper>();
             services.AddSingleton<OrderMapper>();
+            services.AddSingleton<ExchangeRateProvider>();
 
             services.InitDataAccessLayerServices();
         }

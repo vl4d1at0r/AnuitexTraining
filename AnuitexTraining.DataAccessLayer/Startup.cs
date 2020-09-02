@@ -10,6 +10,7 @@ namespace AnuitexTraining.DataAccessLayer
     {
         public static void InitDataAccessLayerServices(this IServiceCollection services)
         {
+            // UNDONE: Optimize services lifetime in DAL
             services.AddTransient<UserManager<ApplicationUser>>();
             services.AddTransient<IPrintingEditionRepository, PrintingEditionRepository>();
             services.AddTransient<IAuthorRepository, AuthorRepository>();

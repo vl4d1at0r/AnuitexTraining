@@ -5,10 +5,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.Orders
 {
     public class OrderItemModel : BaseModel
     {
-        public int Amount { get; set; }
+        public double Amount { get; set; }
         public CurrencyType Currency { get; set; }
         public long PrintingEditionId { get; set; }
         public long OrderId { get; set; }
-        public double Count { get; set; }
+        public int Count { get; set; }
     }
 }

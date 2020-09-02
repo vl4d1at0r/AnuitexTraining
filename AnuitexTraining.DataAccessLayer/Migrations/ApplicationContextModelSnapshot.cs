@@ -102,8 +102,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         {
                             Id = 1L,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd073ae5-f287-4c44-937f-690211d26d4e",
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 60, DateTimeKind.Utc).AddTicks(2561),
+                            ConcurrencyStamp = "beae8a3d-6016-4c46-b746-8a301bbba2fa",
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(1610),
                             Email = "vladiator@xitroo.com",
                             EmailConfirmed = true,
                             FirstName = "Vladislav",
@@ -122,8 +122,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         {
                             Id = 2L,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "268af5ac-5dd4-4a97-87d3-ac58327c4583",
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 60, DateTimeKind.Utc).AddTicks(2628),
+                            ConcurrencyStamp = "4734878e-90f7-4970-88c1-baf58e73f94f",
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(1704),
                             Email = "valera@xitroo.com",
                             EmailConfirmed = true,
                             FirstName = "Valerij",
@@ -164,35 +164,35 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(442),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(6816),
                             IsRemoved = false,
                             Name = "Jmih V.A."
                         },
                         new
                         {
                             Id = 2L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(958),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7309),
                             IsRemoved = false,
                             Name = "Drozdov G.L."
                         },
                         new
                         {
                             Id = 3L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(968),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7317),
                             IsRemoved = false,
                             Name = "Teodorov V.V."
                         },
                         new
                         {
                             Id = 4L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(970),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7319),
                             IsRemoved = false,
                             Name = "Kovalenko S.A."
                         },
                         new
                         {
                             Id = 5L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(971),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7321),
                             IsRemoved = false,
                             Name = "Gorin O.V."
                         });
@@ -288,8 +288,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 60, DateTimeKind.Utc).AddTicks(5971),
-                            Date = new DateTime(2020, 8, 31, 14, 4, 57, 60, DateTimeKind.Utc).AddTicks(5975),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(6603),
+                            Date = new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(6607),
                             Description = "Nothing special",
                             IsRemoved = false,
                             PaymentId = 1L,
@@ -299,8 +299,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 2L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 60, DateTimeKind.Utc).AddTicks(7750),
-                            Date = new DateTime(2020, 8, 31, 14, 4, 57, 60, DateTimeKind.Utc).AddTicks(7751),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9263),
+                            Date = new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9264),
                             Description = "And here is nothing special",
                             IsRemoved = false,
                             PaymentId = 2L,
@@ -316,11 +316,11 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Count")
+                    b.Property<double>("Amount")
                         .HasColumnType("float");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -349,9 +349,9 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            Amount = 2,
-                            Count = 2000.0,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 60, DateTimeKind.Utc).AddTicks(8178),
+                            Amount = 2000.0,
+                            Count = 2,
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9783),
                             Currency = 6,
                             IsRemoved = false,
                             OrderId = 1L,
@@ -360,9 +360,9 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 2L,
-                            Amount = 7,
-                            Count = 7000.0,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 61, DateTimeKind.Utc).AddTicks(903),
+                            Amount = 7000.0,
+                            Count = 7,
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2879),
                             Currency = 6,
                             IsRemoved = false,
                             OrderId = 2L,
@@ -371,9 +371,9 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 3L,
-                            Amount = 4,
-                            Count = 80.0,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 61, DateTimeKind.Utc).AddTicks(972),
+                            Amount = 80.0,
+                            Count = 4,
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2962),
                             Currency = 2,
                             IsRemoved = false,
                             OrderId = 1L,
@@ -382,9 +382,9 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 4L,
-                            Amount = 10,
-                            Count = 500.0,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 61, DateTimeKind.Utc).AddTicks(975),
+                            Amount = 500.0,
+                            Count = 10,
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2965),
                             Currency = 2,
                             IsRemoved = false,
                             OrderId = 1L,
@@ -393,9 +393,9 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 5L,
-                            Amount = 6,
-                            Count = 420.0,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 61, DateTimeKind.Utc).AddTicks(977),
+                            Amount = 420.0,
+                            Count = 6,
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2967),
                             Currency = 1,
                             IsRemoved = false,
                             OrderId = 1L,
@@ -416,8 +416,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("bit");
 
-                    b.Property<long>("TransactionId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -427,16 +427,16 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(5762),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(4094),
                             IsRemoved = false,
-                            TransactionId = 21847238958L
+                            TransactionId = "21847238958"
                         },
                         new
                         {
                             Id = 2L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(6184),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(4543),
                             IsRemoved = false,
-                            TransactionId = 57976548678L
+                            TransactionId = ""
                         });
                 });
 
@@ -476,7 +476,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(1382),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7734),
                             Currency = 6,
                             Description = "Neurotechnologies",
                             IsRemoved = false,
@@ -487,7 +487,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 2L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(3508),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1672),
                             Currency = 2,
                             Description = "C# Starter",
                             IsRemoved = false,
@@ -498,7 +498,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 3L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(3561),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1741),
                             Currency = 1,
                             Description = "ASP.NET MVC 5",
                             IsRemoved = false,
@@ -509,7 +509,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 4L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(3563),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1744),
                             Currency = 2,
                             Description = "How it works",
                             IsRemoved = false,
@@ -520,7 +520,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 5L,
-                            CreationDate = new DateTime(2020, 8, 31, 14, 4, 57, 59, DateTimeKind.Utc).AddTicks(3573),
+                            CreationDate = new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1749),
                             Currency = 1,
                             Description = "Angular 9",
                             IsRemoved = false,
@@ -562,13 +562,13 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "0ba94bcb-44e1-4e67-818c-7c39902f2b4f",
+                            ConcurrencyStamp = "f91f0bcb-0397-47c2-8fe5-0f30591adae8",
                             Name = "Admin"
                         },
                         new
                         {
                             Id = 2L,
-                            ConcurrencyStamp = "ce4ce46e-e990-4557-8774-851480adca9d",
+                            ConcurrencyStamp = "8b2c86df-17b1-4dee-a9fa-019d51d4246d",
                             Name = "Client"
                         });
                 });

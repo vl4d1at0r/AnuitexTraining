@@ -39,8 +39,8 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
 
             Payment[] payments = new Payment[]
             {
-                new Payment() { Id = 1, CreationDate = DateTime.UtcNow, TransactionId = 21847238958},
-                new Payment() { Id = 2, CreationDate = DateTime.UtcNow, TransactionId = 57976548678}
+                new Payment() { Id = 1, CreationDate = DateTime.UtcNow, TransactionId = "21847238958"},
+                new Payment() { Id = 2, CreationDate = DateTime.UtcNow, TransactionId = ""}
             };
 
             ApplicationUser[] applicationUsers = new ApplicationUser[]
@@ -69,11 +69,11 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
 
             OrderItem[] orderItems = new OrderItem[]
             {
-                new OrderItem() { Id = 1, CreationDate = DateTime.UtcNow, Amount = 2, OrderId = 1, PrintingEditionId = 1, Count = printingEditions[0].Price * 2, Currency = printingEditions[0].Currency},
-                new OrderItem() { Id = 2, CreationDate = DateTime.UtcNow, Amount = 7, OrderId = 2, PrintingEditionId = 1, Count = printingEditions[0].Price * 7, Currency = printingEditions[0].Currency },
-                new OrderItem() { Id = 3, CreationDate = DateTime.UtcNow, Amount = 4, OrderId = 1, PrintingEditionId = 2, Count = printingEditions[1].Price * 4, Currency = printingEditions[1].Currency },
-                new OrderItem() { Id = 4, CreationDate = DateTime.UtcNow, Amount = 10, OrderId = 1, PrintingEditionId = 4, Count = printingEditions[3].Price * 10, Currency = printingEditions[3].Currency },
-                new OrderItem() { Id = 5, CreationDate = DateTime.UtcNow, Amount = 6, OrderId = 1, PrintingEditionId = 5, Count = printingEditions[4].Price * 6, Currency = printingEditions[4].Currency }
+                new OrderItem() { Id = 1, CreationDate = DateTime.UtcNow, Amount = printingEditions[0].Price * 2, OrderId = 1, PrintingEditionId = 1, Count = 2, Currency = printingEditions[0].Currency},
+                new OrderItem() { Id = 2, CreationDate = DateTime.UtcNow, Amount = printingEditions[0].Price * 7, OrderId = 2, PrintingEditionId = 1, Count = 7, Currency = printingEditions[0].Currency },
+                new OrderItem() { Id = 3, CreationDate = DateTime.UtcNow, Amount = printingEditions[1].Price * 4, OrderId = 1, PrintingEditionId = 2, Count = 4, Currency = printingEditions[1].Currency },
+                new OrderItem() { Id = 4, CreationDate = DateTime.UtcNow, Amount = printingEditions[3].Price * 10, OrderId = 1, PrintingEditionId = 4, Count = 10, Currency = printingEditions[3].Currency },
+                new OrderItem() { Id = 5, CreationDate = DateTime.UtcNow, Amount = printingEditions[4].Price * 6, OrderId = 1, PrintingEditionId = 5, Count = 6, Currency = printingEditions[4].Currency }
             };
 
             modelBuilder.Entity<Author>().HasData(authors);

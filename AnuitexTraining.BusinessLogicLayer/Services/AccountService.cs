@@ -145,7 +145,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 throw new UserException(HttpStatusCode.BadRequest, user.Errors);
             }
             user.PhoneNumber = "";
-            user.Id = 0; // Id is setting to 0 cause of user ability to select custom id
+            user.Id = 0; // NOTE: Id is setting to 0 cause of user ability to select custom id
             ApplicationUser applicationUser = _userMapper.Map(user);
             IdentityResult result = await _userManager.CreateAsync(applicationUser, password);
             if (!result.Succeeded)

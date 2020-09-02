@@ -1,9 +1,6 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Mappers.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.Orders;
 using AnuitexTraining.DataAccessLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AnuitexTraining.BusinessLogicLayer.Mappers
 {

@@ -1,4 +1,6 @@
-﻿namespace AnuitexTraining.Shared.Constants
+﻿using System;
+
+namespace AnuitexTraining.Shared.Constants
 {
     public partial class Constants
     {
@@ -25,6 +27,16 @@
             public const string InvalidPrice = "Invalid price";
             public const string InvalidName = "Invalid name";
             public const string InvalidAuthor = "Invalid author";
+            public const string InvalidDate = "Invalid date";
+            public const string EmptyOrder = "Empty order";
+            public const string InvalidUserId = "Invalid user id";
+            public const string InvalidPaymentId = "Invalid payment id";
+            public const string InvalidStatus = "Invalid status";
+            public const string InvalidAmount = "Invalid amount for index: {0}";
+            public const string InvalidPrintingEditionId = "Invalid printing edition id for index: {0}";
+            public const string InvalidItemId = "Invalid item id for index: {0}";
+            public const string InvalidOrderId = "Invalid order id for index: {0}";
+            public const string InvalidCount = "Invalid count id for index: {0}";
         }
     }
 }
