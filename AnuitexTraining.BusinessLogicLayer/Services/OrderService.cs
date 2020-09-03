@@ -41,10 +41,17 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             _exchangeRateProvider = exchangeRateProvider;
         }
 
-        public async Task<IPagedList<OrderModel>> GetPageAsync(OrderModel filter, int page, int pageSize)
+        public async Task<IPagedList<OrderModel>> GetPageAsync(OrderModel filter, int page, int pageSize, bool admin, long userId)
         {
-            // UNDONE: Show user's orders if not admin
-            List<DataAccessLayer.Entities.Order> orders = await _orderRepository.GetAllAsync();
+            var orders = new List<DataAccessLayer.Entities.Order>();
+            if (admin)
+            {
+                 orders = await _orderRepository.GetAllAsync();
+            }
+            else
+            {
+                orders = await _orderRepository.GetByUserIdAsync(userId);
+            }
             orders = orders.Where(item =>
             {
                 if (item.Description.ToLower().Contains(filter.Description.ToLower()) &&
@@ -67,15 +74,11 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             return models.ToPagedList(page, pageSize);
         }
 
-        public async Task AddAsync(OrderModel orderModel)
+        public async Task AddAsync(OrderModel orderModel, long userId)
         {
             if (orderModel.Date == default)
             {
                 orderModel.Errors.Add(ExceptionsInfo.InvalidDate);
-            }
-            if (orderModel.UserId == default)
-            {
-                orderModel.Errors.Add(ExceptionsInfo.InvalidUserId);
             }
             if (orderModel.Items == null || !orderModel.Items.Any())
             {
@@ -124,16 +127,26 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 {
                     orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidCount, index));
                 }
-                if (item.Currency != CurrencyType.USD)
+                if (item.Currency == default)
                 {
-                    item.Amount = _exchangeRateProvider.ExchangeToUSD(item.Amount, item.Currency);
-                    item.Currency = CurrencyType.USD;
+                    orderModel.Errors.Add(ExceptionsInfo.InvalidCurrencyType);
                 }
             }
             if (orderModel.Errors.Any())
             {
                 throw new UserException(HttpStatusCode.BadRequest, orderModel.Errors);
             }
+            orderModel.Items.ForEach(async item => 
+            {
+                if (item.Currency != CurrencyType.USD)
+                {
+                    item.Amount = _exchangeRateProvider.ExchangeToUSD(item.Amount, item.Currency);
+                    item.Currency = CurrencyType.USD;
+                    await _orderItemRepository.UpdateAsync(_orderItemMapper.Map(item));
+                }
+            });
+            orderModel.UserId = userId;
+            orderModel.Status = OrderStatus.Unpaid;
             Payment payment = new Payment();
             await _paymentRepository.AddAsync(payment);
             orderModel.PaymentId = payment.Id;
@@ -145,11 +158,12 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
         public async Task DeleteAsync(long id)
         {
-            if ((await _orderRepository.GetAsync(id)) is null)
+            var order = await _orderRepository.GetAsync(id);
+            if (order is null)
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
             }
-            await _orderItemRepository.DeleteAsync(id);
+            await _orderRepository.DeleteAsync(id);
         }
 
         public async Task BuyAsync(long id, string transactionToken)
