@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AnuitexTraining.Shared.Constants
+﻿namespace AnuitexTraining.Shared.Constants
 {
     public partial class Constants
     {

@@ -6,6 +6,6 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
 {
     public interface IOrderRepository : IBaseRepository<Order>
     {
-        public Task<List<Order>> GetByUserIdAsync(long userId);
+        public Task<IEnumerable<Order>> GetPageAsync(int page, int pageSize, long userId, bool admin, Order filter = null);
     }
 }

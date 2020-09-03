@@ -1,9 +1,6 @@
 ﻿using AnuitexTraining.BusinessLogicLayer.Models.ExchangeRate;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using static AnuitexTraining.Shared.Enums.Enums;
 
 namespace AnuitexTraining.BusinessLogicLayer.Providers

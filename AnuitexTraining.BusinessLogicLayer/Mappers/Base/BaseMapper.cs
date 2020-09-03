@@ -8,7 +8,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers.Base
         public abstract TFirst Map(TSecond item);
         public abstract TSecond Map(TFirst item);
 
-        public List<TFirst> Map(List<TSecond> elements, Action<TFirst> callback = null)
+        public List<TFirst> Map(IEnumerable<TSecond> elements, Action<TFirst> callback = null)
         {
             var objectCollection = new List<TFirst>();
             if (elements != null)
@@ -26,7 +26,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers.Base
             return objectCollection;
         }
 
-        public List<TSecond> Map(List<TFirst> elements, Action<TSecond> callback = null)
+        public List<TSecond> Map(IEnumerable<TFirst> elements, Action<TSecond> callback = null)
         {
             var objectCollection = new List<TSecond>();
 

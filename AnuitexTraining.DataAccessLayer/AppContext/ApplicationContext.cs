@@ -29,6 +29,7 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
 
             modelBuilder.Entity<AuthorInPrintingEdition>()
                 .HasKey(item => new { item.AuthorId, item.PrintingEditionId });
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

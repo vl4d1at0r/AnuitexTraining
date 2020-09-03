@@ -4,7 +4,6 @@ using AnuitexTraining.BusinessLogicLayer.Models.Orders;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
-using PagedList;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -26,10 +25,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         private OrderItemMapper _orderItemMapper;
         private ExchangeRateProvider _exchangeRateProvider;
 
-        public OrderService(IOrderRepository orderRepository, 
-                            IOrderItemRepository orderItemRepository, 
-                            IPaymentRepository paymentRepository, 
-                            OrderMapper orderMapper, 
+        public OrderService(IOrderRepository orderRepository,
+                            IOrderItemRepository orderItemRepository,
+                            IPaymentRepository paymentRepository,
+                            OrderMapper orderMapper,
                             OrderItemMapper orderItemMapper,
                             ExchangeRateProvider exchangeRateProvider)
         {
@@ -41,37 +40,16 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             _exchangeRateProvider = exchangeRateProvider;
         }
 
-        public async Task<IPagedList<OrderModel>> GetPageAsync(OrderModel filter, int page, int pageSize, bool admin, long userId)
+        public async Task<IEnumerable<OrderModel>> GetPageAsync(OrderModel filter, int page, int pageSize, bool admin, long userId)
         {
-            var orders = new List<DataAccessLayer.Entities.Order>();
-            if (admin)
-            {
-                 orders = await _orderRepository.GetAllAsync();
-            }
-            else
-            {
-                orders = await _orderRepository.GetByUserIdAsync(userId);
-            }
-            orders = orders.Where(item =>
-            {
-                if (item.Description.ToLower().Contains(filter.Description.ToLower()) &&
-                    (item.CreationDate.CompareTo(filter.CreationDate) == 0 || filter.CreationDate == default) &&
-                    (item.Date.CompareTo(filter.Date) == 0 || filter.Date == default) &&
-                    (item.PaymentId.ToString().Contains(filter.PaymentId.ToString()) || filter.PaymentId == default) &&
-                    (item.UserId == filter.UserId || filter.UserId == default) &&
-                    (item.Status == filter.Status || filter.Status == OrderStatus.None))
-                {
-                    return true;
-                }
-                return false;
-            }).ToList();
+            var orders = await _orderRepository.GetPageAsync(page, pageSize, userId, admin, _orderMapper.Map(filter));
             List<OrderModel> models = _orderMapper.Map(orders);
-            models.ForEach(item => 
+            models.ForEach(item =>
             {
                 List<DataAccessLayer.Entities.OrderItem> orderItems = _orderItemRepository.GetByOrderIdAsync(item.Id).Result;
                 item.Items = _orderItemMapper.Map(orderItems);
             });
-            return models.ToPagedList(page, pageSize);
+            return models;
         }
 
         public async Task AddAsync(OrderModel orderModel, long userId)
@@ -136,7 +114,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 throw new UserException(HttpStatusCode.BadRequest, orderModel.Errors);
             }
-            orderModel.Items.ForEach(async item => 
+            orderModel.Items.ForEach(async item =>
             {
                 if (item.Currency != CurrencyType.USD)
                 {
