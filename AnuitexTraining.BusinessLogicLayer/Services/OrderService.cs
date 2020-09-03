@@ -62,7 +62,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 orderModel.Errors.Add(ExceptionsInfo.EmptyOrder);
             }
-            if (orderModel.Description == default)
+            if (string.IsNullOrEmpty(orderModel.Description))
             {
                 orderModel.Errors.Add(ExceptionsInfo.InvalidDescription);
             }
