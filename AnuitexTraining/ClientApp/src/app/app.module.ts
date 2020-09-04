@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,6 +12,14 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './app.effects';
+import { SignInComponent } from './modules/account/components/sign-in/sign-in.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { AccountEffects } from './modules/account/store/account.effects';
+
+const appRoutes: Routes =[
+  { path: 'account/signIn', component: SignInComponent}
+];
 
 @NgModule({
   declarations: [
@@ -21,7 +29,7 @@ import { AppEffects } from './app.effects';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([]),
+    RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     NgbModule,
     AccountModule,
@@ -32,7 +40,8 @@ import { AppEffects } from './app.effects';
         strictActionImmutability: true
       }
     }),
-    EffectsModule.forRoot([AppEffects])
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
