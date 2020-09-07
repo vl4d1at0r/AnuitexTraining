@@ -6,6 +6,6 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
     public interface IAuthorInPrintingEditionRepository : IBaseRepository<AuthorInPrintingEdition>
     {
         public Task<AuthorInPrintingEdition> GetByPrintingEditionIdAsync(long id);
-        public Task DeleteAllForPrintingEditionId(long id);
+        public Task DeleteAllForPrintingEditionIdAsync(long id);
     }
 }

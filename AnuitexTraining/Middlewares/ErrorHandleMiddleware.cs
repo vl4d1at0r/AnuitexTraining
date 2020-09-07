@@ -33,7 +33,7 @@ namespace AnuitexTraining.PresentationLayer.Middlewares
                 };
                 string response = JsonConvert.SerializeObject(model);
                 context.Response.ContentType = "application/json";
-                context.Response.StatusCode = (int)exception.Code;
+                context.Response.StatusCode = (int) exception.Code;
                 await context.Response.WriteAsync(response);
             }
             catch (Exception exception)

@@ -13,6 +13,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     public class OrderController : Controller
     {
         private IOrderService _orderService;
+
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
@@ -22,7 +23,8 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         [Authorize]
         public async Task<IEnumerable<OrderModel>> GetPageAsync(OrderModel filter, int page, int pageSize)
         {
-            return await _orderService.GetPageAsync(filter, page, pageSize, User.FindFirst(ClaimTypes.Role).Value == "Admin", long.Parse(User.FindFirst("Id").Value));
+            return await _orderService.GetPageAsync(filter, page, pageSize,
+                User.FindFirst(ClaimTypes.Role).Value == "Admin", long.Parse(User.FindFirst("Id").Value));
         }
 
         [HttpPost("add")]

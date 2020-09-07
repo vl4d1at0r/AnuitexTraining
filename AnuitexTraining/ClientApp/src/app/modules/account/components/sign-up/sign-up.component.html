@@ -1,0 +1,99 @@
+﻿<mat-card>
+  <p>
+    <img [src]="userImage" alt="">
+  </p>
+  <mat-card-title>Create account</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="signUp()">
+      <p>
+        <mat-form-field>
+          <label class="full-width">
+            <input formControlName="firstName" matInput placeholder="First name">
+          </label>
+          <mat-error *ngIf="firstNameControl.invalid">
+            First name is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <label class="full-width">
+            <input formControlName="lastName" matInput placeholder="Last name">
+          </label>
+          <mat-error *ngIf="lastNameControl.invalid">
+            Last name is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <label class="full-width">
+            <input formControlName="userName" matInput placeholder="Username">
+          </label>
+          <mat-error *ngIf="userNameControl.invalid">
+            User name is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <label class="full-width">
+            <input formControlName="email" matInput placeholder="Email" type="email">
+          </label>
+          <mat-error *ngIf="emailControl.hasError('email') && !emailControl.hasError('required')">
+            Please enter a valid email!
+          </mat-error>
+          <mat-error *ngIf="emailControl.hasError('required')">
+            First name is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <label class="full-width">
+            <input formControlName="password" matInput placeholder="Password" type="password">
+          </label>
+          <mat-error *ngIf="passwordControl.hasError('required')">
+            Password is <strong>required</strong>!
+          </mat-error>
+          <mat-error *ngIf="!checkContainsLength()">
+            Password minimal length is 6!
+          </mat-error>
+          <mat-error *ngIf="!checkContainsAlphaNumeric()">
+            Password must contain at least 1 alphanumeric!
+          </mat-error>
+          <mat-error *ngIf="passwordControl.errors.notHaveUpper">
+            Password must contain at least 1 upper character!
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <label class="full-width">
+            <input formControlName="confirmPassword" matInput placeholder="Confirm password" type="password">
+          </label>
+          <mat-error *ngIf="confirmPasswordControl.invalid">
+            Confirm password is <strong>required</strong>!
+          </mat-error>
+          <mat-error *ngIf="!checkPasswordsEqual()">
+            Passwords are not equal!
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <button type="submit" color="primary" mat-raised-button>Sign Up your account</button>
+      </p>
+
+      <p>
+        <label>Already have an account?</label>
+        <a routerLink="/account/signIn">Sign-In</a>
+      </p>
+    </form>
+  </mat-card-content>
+</mat-card>

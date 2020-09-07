@@ -35,7 +35,7 @@ namespace AnuitexTraining.PresentationLayer.Providers
         {
             var claims = new List<Claim>
             {
-                new Claim("Id" , userModel.Id.ToString()),
+                new Claim("Id", userModel.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, userModel.Email),
                 new Claim(ClaimTypes.Role, role)
             };
@@ -47,7 +47,7 @@ namespace AnuitexTraining.PresentationLayer.Providers
                 expires: DateTime.Now.AddMinutes(1),
                 claims: claims,
                 signingCredentials: new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256)
-                );
+            );
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
@@ -64,10 +64,13 @@ namespace AnuitexTraining.PresentationLayer.Providers
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             tokenHandler.ValidateToken(accessToken, _expiredTokenValidationParameters, out SecurityToken securityToken);
-            if (securityToken is JwtSecurityToken jwtSecurityToken && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            if (securityToken is JwtSecurityToken jwtSecurityToken &&
+                jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 return jwtSecurityToken;
             }
+
             return null;
         }
     }

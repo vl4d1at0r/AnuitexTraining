@@ -32,10 +32,11 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         {
             await _accountService.SignInAsync(email, password);
             long id = await _accountService.GetIdAsync(email);
-            string accessToken = _jwtProvider.GenerateAccessToken(await _userService.GetAsync(id), await _accountService.GetRoleAsync(email));
+            string accessToken = _jwtProvider.GenerateAccessToken(await _userService.GetAsync(id),
+                await _accountService.GetRoleAsync(email));
             string refreshToken = _jwtProvider.GenerateRefreshToken();
             await _accountService.UpdateRefreshTokenAsync(email, refreshToken);
-            return new { accessToken, refreshToken };
+            return new {accessToken, refreshToken};
         }
 
         [HttpPost("signUp")]
@@ -79,8 +80,10 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             }
             catch
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidAccessToken });
+                throw new UserException(HttpStatusCode.BadRequest,
+                    new List<string> {ExceptionsInfo.InvalidAccessToken});
             }
+
             string email = token.Payload.Sub;
             await _accountService.VerifyRefreshTokenAsync(email, refreshToken);
             string role = await _accountService.GetRoleAsync(email);
@@ -88,7 +91,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             accessToken = _jwtProvider.GenerateAccessToken(await _userService.GetAsync(id), role);
             refreshToken = _jwtProvider.GenerateRefreshToken();
             await _accountService.UpdateRefreshTokenAsync(email, refreshToken);
-            return new { accessToken, refreshToken };
+            return new {accessToken, refreshToken};
         }
     }
 }

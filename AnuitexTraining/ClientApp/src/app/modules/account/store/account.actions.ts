@@ -7,6 +7,8 @@ import { SignInFailModel } from "../models/sign-in-fail.model";
 export const SignIn = '[Sign-In Component] Sign-In';
 export const SignInSuccess = '[Sign-In Component] Sign-In Success';
 export const SignInFail = '[Sign-In Component] Sign-In Fail';
+export const SignInCookieUpdate = '[Sign-In Component] Cookie Update';
+export const SignInShowErrors = '[Sign-In Component] Show Errors';
 
 export class SignInAction implements Action {
     readonly type = SignIn;
@@ -23,4 +25,12 @@ export class SignInFailAction implements Action {
     constructor(public payload: SignInFailModel) { }
 }
 
-export type AccountActions = SignInAction | SignInSuccessAction | SignInFailAction
+export class SignInCookieUpdateAction implements Action {
+  readonly type = SignInCookieUpdate;
+}
+
+export class SignInShowErrorsAction implements Action {
+  readonly type = SignInShowErrors;
+}
+
+export type AccountActions = SignInAction | SignInSuccessAction | SignInFailAction | SignInCookieUpdateAction | SignInShowErrorsAction

@@ -29,8 +29,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
             }
+
             await _userManager.DeleteAsync(user);
         }
 
@@ -41,29 +42,35 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 user.Errors.Add(ExceptionsInfo.InvalidEmail);
             }
+
             if (string.IsNullOrEmpty(user.FirstName))
             {
                 user.Errors.Add(ExceptionsInfo.InvalidFirstName);
             }
+
             if (string.IsNullOrEmpty(user.LastName))
             {
                 user.Errors.Add(ExceptionsInfo.InvalidLastName);
             }
+
             if (user.PhoneNumber is null)
             {
                 user.Errors.Add(ExceptionsInfo.InvalidPhone);
             }
+
             applicationUser.FirstName = user.FirstName;
             applicationUser.LastName = user.LastName;
             applicationUser.PhoneNumber = user.PhoneNumber;
-            if(user.Errors.Any())
+            if (user.Errors.Any())
             {
                 throw new UserException(HttpStatusCode.BadRequest, user.Errors);
             }
+
             IdentityResult result = await _userManager.UpdateAsync(applicationUser);
             if (!result.Succeeded)
             {
-                throw new UserException(HttpStatusCode.BadRequest, result.Errors.Select(error => error.Description).ToList());
+                throw new UserException(HttpStatusCode.BadRequest,
+                    result.Errors.Select(error => error.Description).ToList());
             }
         }
 
@@ -72,8 +79,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
             }
+
             return _userMapper.Map(user);
         }
 
@@ -86,7 +94,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                     user.Email.ToLower().Contains(filter.Email.ToLower()) &&
                     user.FirstName.ToLower().Contains(filter.FirstName.ToLower()) &&
                     user.LastName.ToLower().Contains(filter.LastName.ToLower()) &&
-                    (user.CreationDate.CompareTo(filter.CreationDate) == 0 || filter.CreationDate == default)) 
+                    (user.CreationDate.CompareTo(filter.CreationDate) == 0 || filter.CreationDate == default))
                 {
                     return true;
                 }
@@ -101,8 +109,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
             if (user is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
             }
+
             user.IsBlocked = true;
             await _userManager.UpdateAsync(user);
         }

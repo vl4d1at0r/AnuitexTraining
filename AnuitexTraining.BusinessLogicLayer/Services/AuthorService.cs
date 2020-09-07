@@ -21,15 +21,15 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         {
             _authorMapper = authorMapper;
             _authorRepository = authorRepository;
-
         }
 
         public async Task AddAsync(AuthorModel item)
         {
-            if(string.IsNullOrEmpty(item.Name))
+            if (string.IsNullOrEmpty(item.Name))
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidName });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidName});
             }
+
             await _authorRepository.AddAsync(_authorMapper.Map(item));
         }
 
@@ -37,8 +37,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         {
             if ((await _authorRepository.GetAsync(id)) is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
             }
+
             await _authorRepository.DeleteAsync(id);
         }
 
@@ -52,8 +53,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             Author author = await _authorRepository.GetAsync(id);
             if (author is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> { ExceptionsInfo.InvalidId });
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
             }
+
             return _authorMapper.Map(author);
         }
 
@@ -63,14 +65,17 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 item.Errors.Add(ExceptionsInfo.InvalidId);
             }
+
             if (string.IsNullOrEmpty(item.Name))
             {
                 item.Errors.Add(ExceptionsInfo.InvalidName);
             }
+
             if (item.Errors.Any())
             {
                 throw new UserException(HttpStatusCode.BadRequest, item.Errors);
             }
+
             await _authorRepository.UpdateAsync(_authorMapper.Map(item));
         }
     }

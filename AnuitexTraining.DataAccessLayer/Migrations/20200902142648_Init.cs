@@ -17,10 +17,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_AspNetRoles", x => x.Id); });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
@@ -47,10 +44,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                     LastName = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_AspNetUsers", x => x.Id); });
 
             migrationBuilder.CreateTable(
                 name: "Authors",
@@ -62,10 +56,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                     IsRemoved = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Authors", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Authors", x => x.Id); });
 
             migrationBuilder.CreateTable(
                 name: "Payments",
@@ -77,10 +68,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                     IsRemoved = table.Column<bool>(nullable: false),
                     TransactionId = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Payments", x => x.Id); });
 
             migrationBuilder.CreateTable(
                 name: "PrintingEditions",
@@ -96,10 +84,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                     Currency = table.Column<int>(nullable: false),
                     Type = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PrintingEditions", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_PrintingEditions", x => x.Id); });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -154,7 +139,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new {x.LoginProvider, x.ProviderKey});
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -172,7 +157,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new {x.UserId, x.RoleId});
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
@@ -198,7 +183,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new {x.UserId, x.LoginProvider, x.Name});
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -248,7 +233,7 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuthorInPrintingEditions", x => new { x.AuthorId, x.PrintingEditionId });
+                    table.PrimaryKey("PK_AuthorInPrintingEditions", x => new {x.AuthorId, x.PrintingEditionId});
                     table.ForeignKey(
                         name: "FK_AuthorInPrintingEditions_Authors_AuthorId",
                         column: x => x.AuthorId,
@@ -296,95 +281,172 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                columns: new[] {"Id", "ConcurrencyStamp", "Name", "NormalizedName"},
                 values: new object[,]
                 {
-                    { 1L, "f91f0bcb-0397-47c2-8fe5-0f30591adae8", "Admin", null },
-                    { 2L, "8b2c86df-17b1-4dee-a9fa-019d51d4246d", "Client", null }
+                    {1L, "f91f0bcb-0397-47c2-8fe5-0f30591adae8", "Admin", null},
+                    {2L, "8b2c86df-17b1-4dee-a9fa-019d51d4246d", "Client", null}
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreationDate", "Email", "EmailConfirmed", "FirstName", "IsBlocked", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[]
+                {
+                    "Id", "AccessFailedCount", "ConcurrencyStamp", "CreationDate", "Email", "EmailConfirmed",
+                    "FirstName", "IsBlocked", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail",
+                    "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp",
+                    "TwoFactorEnabled", "UserName"
+                },
                 values: new object[,]
                 {
-                    { 1L, 0, "beae8a3d-6016-4c46-b746-8a301bbba2fa", new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(1610), "vladiator@xitroo.com", true, "Vladislav", false, "Goncharuk", false, null, "VLADIATOR@XITROO.COM", "VLADIATOR", "AQAAAAEAACcQAAAAEKHk3sTABbsMTgCaH81KcsHXbNSfveaBeQYBbLM8tOS5EKut5YWZcDbh7uCXUARPmQ==", null, false, "UD6OIMX72OWACSZNP6QXRDB6AK5UAQWK", false, "vladiator" },
-                    { 2L, 0, "4734878e-90f7-4970-88c1-baf58e73f94f", new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(1704), "valera@xitroo.com", true, "Valerij", false, "Jmishenko", false, null, "VALERA@XITROO.COM", "VALERAJMIH", "AQAAAAEAACcQAAAAELXM6ETOnIrNLqiksYqOZZ1tKbsO/TLM1hKXn9FCvapFZEcWYLcYxvK9rxxxDSQCSA==", null, false, "P5IWCILRLNALOGOW77G2WLTUREFC7BZG", false, "valerajmih" }
+                    {
+                        1L, 0, "beae8a3d-6016-4c46-b746-8a301bbba2fa",
+                        new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(1610),
+                        "vladiator@xitroo.com", true, "Vladislav", false, "Goncharuk", false, null,
+                        "VLADIATOR@XITROO.COM", "VLADIATOR",
+                        "AQAAAAEAACcQAAAAEKHk3sTABbsMTgCaH81KcsHXbNSfveaBeQYBbLM8tOS5EKut5YWZcDbh7uCXUARPmQ==", null,
+                        false, "UD6OIMX72OWACSZNP6QXRDB6AK5UAQWK", false, "vladiator"
+                    },
+                    {
+                        2L, 0, "4734878e-90f7-4970-88c1-baf58e73f94f",
+                        new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(1704), "valera@xitroo.com",
+                        true, "Valerij", false, "Jmishenko", false, null, "VALERA@XITROO.COM", "VALERAJMIH",
+                        "AQAAAAEAACcQAAAAELXM6ETOnIrNLqiksYqOZZ1tKbsO/TLM1hKXn9FCvapFZEcWYLcYxvK9rxxxDSQCSA==", null,
+                        false, "P5IWCILRLNALOGOW77G2WLTUREFC7BZG", false, "valerajmih"
+                    }
                 });
 
             migrationBuilder.InsertData(
                 table: "Authors",
-                columns: new[] { "Id", "CreationDate", "IsRemoved", "Name" },
+                columns: new[] {"Id", "CreationDate", "IsRemoved", "Name"},
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(6816), false, "Jmih V.A." },
-                    { 2L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7309), false, "Drozdov G.L." },
-                    { 3L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7317), false, "Teodorov V.V." },
-                    { 4L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7319), false, "Kovalenko S.A." },
-                    { 5L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7321), false, "Gorin O.V." }
+                    {
+                        1L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(6816), false,
+                        "Jmih V.A."
+                    },
+                    {
+                        2L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7309), false,
+                        "Drozdov G.L."
+                    },
+                    {
+                        3L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7317), false,
+                        "Teodorov V.V."
+                    },
+                    {
+                        4L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7319), false,
+                        "Kovalenko S.A."
+                    },
+                    {
+                        5L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7321), false,
+                        "Gorin O.V."
+                    }
                 });
 
             migrationBuilder.InsertData(
                 table: "Payments",
-                columns: new[] { "Id", "CreationDate", "IsRemoved", "TransactionId" },
+                columns: new[] {"Id", "CreationDate", "IsRemoved", "TransactionId"},
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(4094), false, "21847238958" },
-                    { 2L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(4543), false, "" }
+                    {
+                        1L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(4094), false,
+                        "21847238958"
+                    },
+                    {2L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(4543), false, ""}
                 });
 
             migrationBuilder.InsertData(
                 table: "PrintingEditions",
-                columns: new[] { "Id", "CreationDate", "Currency", "Description", "IsRemoved", "Price", "Title", "Type" },
+                columns: new[] {"Id", "CreationDate", "Currency", "Description", "IsRemoved", "Price", "Title", "Type"},
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7734), 6, "Neurotechnologies", false, 1000.0, "Neurotechnologies", 3 },
-                    { 2L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1672), 2, "C# Starter", false, 20.0, "C# Starter", 1 },
-                    { 3L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1741), 1, "ASP.NET MVC 5", false, 100.0, "ASP.NET MVC 5", 1 },
-                    { 4L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1744), 2, "How it works", false, 50.0, "How it works", 2 },
-                    { 5L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1749), 1, "Angular 9", false, 70.0, "Angular 9", 1 }
+                    {
+                        1L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7734), 6,
+                        "Neurotechnologies", false, 1000.0, "Neurotechnologies", 3
+                    },
+                    {
+                        2L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1672), 2, "C# Starter",
+                        false, 20.0, "C# Starter", 1
+                    },
+                    {
+                        3L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1741), 1,
+                        "ASP.NET MVC 5", false, 100.0, "ASP.NET MVC 5", 1
+                    },
+                    {
+                        4L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1744), 2,
+                        "How it works", false, 50.0, "How it works", 2
+                    },
+                    {
+                        5L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(1749), 1, "Angular 9",
+                        false, 70.0, "Angular 9", 1
+                    }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
-                columns: new[] { "UserId", "RoleId" },
+                columns: new[] {"UserId", "RoleId"},
                 values: new object[,]
                 {
-                    { 1L, 1L },
-                    { 2L, 2L }
+                    {1L, 1L},
+                    {2L, 2L}
                 });
 
             migrationBuilder.InsertData(
                 table: "AuthorInPrintingEditions",
-                columns: new[] { "AuthorId", "PrintingEditionId", "Date" },
+                columns: new[] {"AuthorId", "PrintingEditionId", "Date"},
                 values: new object[,]
                 {
-                    { 1L, 1L, new DateTime(2008, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2L, 2L, new DateTime(2010, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3L, 3L, new DateTime(2016, 7, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4L, 4L, new DateTime(2002, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5L, 5L, new DateTime(2020, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    {1L, 1L, new DateTime(2008, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)},
+                    {2L, 2L, new DateTime(2010, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)},
+                    {3L, 3L, new DateTime(2016, 7, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)},
+                    {4L, 4L, new DateTime(2002, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)},
+                    {5L, 5L, new DateTime(2020, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)}
                 });
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "CreationDate", "Date", "Description", "IsRemoved", "PaymentId", "Status", "UserId" },
+                columns: new[]
+                    {"Id", "CreationDate", "Date", "Description", "IsRemoved", "PaymentId", "Status", "UserId"},
                 values: new object[,]
                 {
-                    { 1L, new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(6603), new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(6607), "Nothing special", false, 1L, 1, 2L },
-                    { 2L, new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9263), new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9264), "And here is nothing special", false, 2L, 2, 2L }
+                    {
+                        1L, new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(6603),
+                        new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(6607), "Nothing special",
+                        false, 1L, 1, 2L
+                    },
+                    {
+                        2L, new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9263),
+                        new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9264),
+                        "And here is nothing special", false, 2L, 2, 2L
+                    }
                 });
 
             migrationBuilder.InsertData(
                 table: "OrderItems",
-                columns: new[] { "Id", "Amount", "Count", "CreationDate", "Currency", "IsRemoved", "OrderId", "PrintingEditionId" },
+                columns: new[]
+                    {"Id", "Amount", "Count", "CreationDate", "Currency", "IsRemoved", "OrderId", "PrintingEditionId"},
                 values: new object[,]
                 {
-                    { 1L, 2000.0, 2, new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9783), 6, false, 1L, 1L },
-                    { 3L, 80.0, 4, new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2962), 2, false, 1L, 2L },
-                    { 4L, 500.0, 10, new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2965), 2, false, 1L, 4L },
-                    { 5L, 420.0, 6, new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2967), 1, false, 1L, 5L },
-                    { 2L, 7000.0, 7, new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2879), 6, false, 2L, 1L }
+                    {
+                        1L, 2000.0, 2, new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9783), 6,
+                        false, 1L, 1L
+                    },
+                    {
+                        3L, 80.0, 4, new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2962), 2,
+                        false, 1L, 2L
+                    },
+                    {
+                        4L, 500.0, 10, new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2965), 2,
+                        false, 1L, 4L
+                    },
+                    {
+                        5L, 420.0, 6, new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2967), 1,
+                        false, 1L, 5L
+                    },
+                    {
+                        2L, 7000.0, 7, new DateTime(2020, 9, 2, 14, 26, 47, 313, DateTimeKind.Utc).AddTicks(2879), 6,
+                        false, 2L, 1L
+                    }
                 });
 
             migrationBuilder.CreateIndex(

@@ -23,6 +23,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers.Base
                     }
                 }
             }
+
             return objectCollection;
         }
 
@@ -42,6 +43,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers.Base
                     }
                 }
             }
+
             return objectCollection;
         }
     }

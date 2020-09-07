@@ -1,9 +1,5 @@
-mat-form-field {
-  width: 100%;
-}
-
-button.sign-in {
-  float: right;
+﻿a {
+  margin-left: 10px;
 }
 
 img {
@@ -13,12 +9,14 @@ img {
   margin-right: auto;
 }
 
-a.sign-up {
-  width: 220px;
+mat-form-field {
+  width: 100%;
 }
 
-p.sign-up {
-  text-align: center;
+button {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 label.full-width {

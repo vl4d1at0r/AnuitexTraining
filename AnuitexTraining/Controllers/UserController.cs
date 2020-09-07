@@ -32,7 +32,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         [HttpGet("get/{id}")]
         public async Task<UserModel> GetAsync(long id)
         {
-            if(User.FindFirst("Id").Value == id.ToString() || User.FindFirst(ClaimTypes.Role).Value == "Admin")
+            if (User.FindFirst("Id").Value == id.ToString() || User.FindFirst(ClaimTypes.Role).Value == "Admin")
             {
                 return await _userService.GetAsync(id);
             }

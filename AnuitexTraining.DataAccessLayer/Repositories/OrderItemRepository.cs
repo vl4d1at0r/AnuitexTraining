@@ -11,7 +11,9 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 {
     public class OrderItemRepository : BaseRepository<OrderItem>, IOrderItemRepository
     {
-        public OrderItemRepository(ApplicationContext context) : base(context) { }
+        public OrderItemRepository(ApplicationContext context) : base(context)
+        {
+        }
 
         public async Task<List<OrderItem>> GetByOrderIdAsync(long orderId)
         {

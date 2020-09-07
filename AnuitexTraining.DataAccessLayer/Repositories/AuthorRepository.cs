@@ -9,7 +9,9 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 {
     public class AuthorRepository : BaseRepository<Author>, IAuthorRepository
     {
-        public AuthorRepository(ApplicationContext context) : base(context) { }
+        public AuthorRepository(ApplicationContext context) : base(context)
+        {
+        }
 
         public async Task<Author> GetByNameAsync(string authorName)
         {

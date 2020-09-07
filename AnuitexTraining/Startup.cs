@@ -42,11 +42,13 @@ namespace AnuitexTraining
 
             JwtProvider jwtProvider = serviceProvider.GetRequiredService<JwtProvider>();
 
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")), ServiceLifetime.Transient);
+            services.AddDbContext<ApplicationContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")),
+                ServiceLifetime.Transient);
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Test API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo {Title = "Test API", Version = "v1"});
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -80,27 +82,27 @@ namespace AnuitexTraining
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer = true,
-                    ValidIssuer = AuthOptions.Issuer,
-                    ValidateAudience = true,
-                    ValidAudience = AuthOptions.Audience,
-                    ValidateLifetime = true,
-                    IssuerSigningKey = jwtProvider.SymmetricSecurityKey,
-                    ValidateIssuerSigningKey = true,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthOptions.Issuer,
+                        ValidateAudience = true,
+                        ValidAudience = AuthOptions.Audience,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = jwtProvider.SymmetricSecurityKey,
+                        ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
             services.AddAuthorization();
 
@@ -111,10 +113,7 @@ namespace AnuitexTraining
 
             services.AddControllersWithViews(item => item.AllowEmptyInputInBodyModelBinding = true);
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -124,10 +123,7 @@ namespace AnuitexTraining
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Test API v1");
-                });
+                app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "Test API v1"); });
             }
             else
             {

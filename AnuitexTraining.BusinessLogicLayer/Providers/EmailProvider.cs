@@ -27,7 +27,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Providers
             MailMessage message = new MailMessage(_mailAddress, new MailAddress(email))
             {
                 Subject = EmailProviderOptions.EmailConfirmationSubject,
-                Body = string.Format(EmailProviderOptions.EmailConfirmationMessage, EmailProviderOptions.EmailConfirmationUrl, id, HttpUtility.UrlEncode(code))
+                Body = string.Format(EmailProviderOptions.EmailConfirmationMessage,
+                    EmailProviderOptions.EmailConfirmationUrl, id, HttpUtility.UrlEncode(code))
             };
             await _smtpClient.SendMailAsync(message);
         }
@@ -37,7 +38,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Providers
             MailMessage message = new MailMessage(_mailAddress, new MailAddress(email))
             {
                 Subject = EmailProviderOptions.PasswordResetSubject,
-                Body = string.Format(EmailProviderOptions.PasswordResetMessage, EmailProviderOptions.PasswordResetUrl, id, HttpUtility.UrlEncode(code))
+                Body = string.Format(EmailProviderOptions.PasswordResetMessage, EmailProviderOptions.PasswordResetUrl,
+                    id, HttpUtility.UrlEncode(code))
             };
             await _smtpClient.SendMailAsync(message);
         }

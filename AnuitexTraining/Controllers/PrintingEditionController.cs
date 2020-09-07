@@ -12,13 +12,15 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     public class PrintingEditionController : Controller
     {
         private IPrintingEditionService _printingEditionService;
+
         public PrintingEditionController(IPrintingEditionService printingEditionService)
         {
             _printingEditionService = printingEditionService;
         }
 
         [HttpPost("getPage")]
-        public async Task<IEnumerable<PrintingEditionModel>> GetPageAsync(PrintingEditionModel filter, string orderField, bool descending, int page, int pageSize)
+        public async Task<IEnumerable<PrintingEditionModel>> GetPageAsync(PrintingEditionModel filter,
+            string orderField, bool descending, int page, int pageSize)
         {
             return await _printingEditionService.GetPageAsync(filter, orderField, descending, page, pageSize);
         }

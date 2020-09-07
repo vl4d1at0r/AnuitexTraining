@@ -28,8 +28,7 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
             DataBaseInitialization.SeedData(modelBuilder);
 
             modelBuilder.Entity<AuthorInPrintingEdition>()
-                .HasKey(item => new { item.AuthorId, item.PrintingEditionId });
-
+                .HasKey(item => new {item.AuthorId, item.PrintingEditionId});
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
