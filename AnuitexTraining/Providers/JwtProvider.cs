@@ -1,18 +1,18 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using AnuitexTraining.BusinessLogicLayer.Models.Users;
+using Microsoft.IdentityModel.Tokens;
 using static AnuitexTraining.Shared.Constants.Constants;
 
 namespace AnuitexTraining.PresentationLayer.Providers
 {
     public class JwtProvider
     {
-        private TokenValidationParameters _expiredTokenValidationParameters;
+        private readonly TokenValidationParameters _expiredTokenValidationParameters;
         public SymmetricSecurityKey SymmetricSecurityKey;
 
         public JwtProvider()
@@ -41,8 +41,8 @@ namespace AnuitexTraining.PresentationLayer.Providers
             };
 
             var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.Issuer,
-                audience: AuthOptions.Audience,
+                AuthOptions.Issuer,
+                AuthOptions.Audience,
                 notBefore: DateTime.Now,
                 expires: DateTime.Now.AddMinutes(1),
                 claims: claims,
@@ -63,13 +63,11 @@ namespace AnuitexTraining.PresentationLayer.Providers
         public JwtSecurityToken GetValidatedExpiredAccessToken(string accessToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            tokenHandler.ValidateToken(accessToken, _expiredTokenValidationParameters, out SecurityToken securityToken);
+            tokenHandler.ValidateToken(accessToken, _expiredTokenValidationParameters, out var securityToken);
             if (securityToken is JwtSecurityToken jwtSecurityToken &&
                 jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
                     StringComparison.InvariantCultureIgnoreCase))
-            {
                 return jwtSecurityToken;
-            }
 
             return null;
         }

@@ -2,7 +2,7 @@
 {
     public partial class Constants
     {
-        public partial class StripeOptions
+        public class StripeOptions
         {
             public const string SecretKey =
                 "sk_test_51HMqTeKbwoGhmQ0BdrNfwx3iyD33phamkd1Bih27ayvzYxeKuBctOmMZrKAVVmpHbwtL1eM9f0oifBwpQW71ug9700nGraHgDo";

@@ -4,7 +4,7 @@
   </p>
   <mat-card-title>Create account</mat-card-title>
   <mat-card-content>
-    <form [formGroup]="form" (ngSubmit)="signUp()">
+    <form (ngSubmit)="signUp()" [formGroup]="form">
       <p>
         <mat-form-field>
           <label class="full-width">
@@ -47,7 +47,7 @@
             Please enter a valid email!
           </mat-error>
           <mat-error *ngIf="emailControl.hasError('required')">
-            First name is <strong>required</strong>!
+            Email is <strong>required</strong>!
           </mat-error>
         </mat-form-field>
       </p>
@@ -57,16 +57,13 @@
           <label class="full-width">
             <input formControlName="password" matInput placeholder="Password" type="password">
           </label>
-          <mat-error *ngIf="passwordControl.hasError('required')">
-            Password is <strong>required</strong>!
-          </mat-error>
-          <mat-error *ngIf="!checkContainsLength()">
+          <mat-error *ngIf="passwordControl.hasError('notHaveLength')">
             Password minimal length is 6!
           </mat-error>
-          <mat-error *ngIf="!checkContainsAlphaNumeric()">
-            Password must contain at least 1 alphanumeric!
+          <mat-error *ngIf="passwordControl.hasError('notHaveSpecialCharacter')">
+            Password must contain at least 1 special character!
           </mat-error>
-          <mat-error *ngIf="passwordControl.errors.notHaveUpper">
+          <mat-error *ngIf="passwordControl.hasError('notHaveUpper')">
             Password must contain at least 1 upper character!
           </mat-error>
         </mat-form-field>
@@ -80,14 +77,14 @@
           <mat-error *ngIf="confirmPasswordControl.invalid">
             Confirm password is <strong>required</strong>!
           </mat-error>
-          <mat-error *ngIf="!checkPasswordsEqual()">
+          <mat-error *ngIf="form.hasError('notSame')">
             Passwords are not equal!
           </mat-error>
         </mat-form-field>
       </p>
 
       <p>
-        <button type="submit" color="primary" mat-raised-button>Sign Up your account</button>
+        <button color="primary" mat-raised-button type="submit">Sign Up your account</button>
       </p>
 
       <p>

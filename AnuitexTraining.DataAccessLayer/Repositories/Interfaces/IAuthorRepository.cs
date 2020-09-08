@@ -1,5 +1,5 @@
-﻿using AnuitexTraining.DataAccessLayer.Entities;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AnuitexTraining.DataAccessLayer.Entities;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
 {

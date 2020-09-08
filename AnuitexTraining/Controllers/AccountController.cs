@@ -16,9 +16,9 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     [ApiController]
     public class AccountController : Controller
     {
-        private IAccountService _accountService;
-        private IUserService _userService;
-        private JwtProvider _jwtProvider;
+        private readonly IAccountService _accountService;
+        private readonly JwtProvider _jwtProvider;
+        private readonly IUserService _userService;
 
         public AccountController(IAccountService accountService, IUserService userService, JwtProvider jwtProvider)
         {
@@ -31,18 +31,18 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         public async Task<object> SignInAsync(string email, string password)
         {
             await _accountService.SignInAsync(email, password);
-            long id = await _accountService.GetIdAsync(email);
-            string accessToken = _jwtProvider.GenerateAccessToken(await _userService.GetAsync(id),
+            var id = await _accountService.GetIdAsync(email);
+            var accessToken = _jwtProvider.GenerateAccessToken(await _userService.GetAsync(id),
                 await _accountService.GetRoleAsync(email));
-            string refreshToken = _jwtProvider.GenerateRefreshToken();
+            var refreshToken = _jwtProvider.GenerateRefreshToken();
             await _accountService.UpdateRefreshTokenAsync(email, refreshToken);
             return new {accessToken, refreshToken};
         }
 
         [HttpPost("signUp")]
-        public async Task SignUpAsync(UserModel user, string password)
+        public async Task SignUpAsync(UserModel user)
         {
-            await _accountService.SignUpAsync(user, password);
+            await _accountService.SignUpAsync(user);
         }
 
         [Authorize]
@@ -84,10 +84,10 @@ namespace AnuitexTraining.PresentationLayer.Controllers
                     new List<string> {ExceptionsInfo.InvalidAccessToken});
             }
 
-            string email = token.Payload.Sub;
+            var email = token.Payload.Sub;
             await _accountService.VerifyRefreshTokenAsync(email, refreshToken);
-            string role = await _accountService.GetRoleAsync(email);
-            long id = await _accountService.GetIdAsync(email);
+            var role = await _accountService.GetRoleAsync(email);
+            var id = await _accountService.GetIdAsync(email);
             accessToken = _jwtProvider.GenerateAccessToken(await _userService.GetAsync(id), role);
             refreshToken = _jwtProvider.GenerateRefreshToken();
             await _accountService.UpdateRefreshTokenAsync(email, refreshToken);

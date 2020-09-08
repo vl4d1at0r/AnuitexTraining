@@ -12,17 +12,15 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers.Base
         {
             var objectCollection = new List<TFirst>();
             if (elements != null)
-            {
-                foreach (TSecond element in elements)
+                foreach (var element in elements)
                 {
-                    TFirst newObject = Map(element);
+                    var newObject = Map(element);
                     if (newObject != null)
                     {
                         callback?.Invoke(newObject);
                         objectCollection.Add(newObject);
                     }
                 }
-            }
 
             return objectCollection;
         }
@@ -32,17 +30,15 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers.Base
             var objectCollection = new List<TSecond>();
 
             if (elements != null)
-            {
-                foreach (TFirst element in elements)
+                foreach (var element in elements)
                 {
-                    TSecond newObject = Map(element);
+                    var newObject = Map(element);
                     if (newObject != null)
                     {
                         callback?.Invoke(newObject);
                         objectCollection.Add(newObject);
                     }
                 }
-            }
 
             return objectCollection;
         }

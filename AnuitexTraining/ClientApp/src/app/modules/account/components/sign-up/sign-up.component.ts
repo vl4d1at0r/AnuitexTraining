@@ -1,5 +1,8 @@
 ﻿import {Component} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Store} from "@ngrx/store";
+import {AccountState} from "../../interfaces/account.state";
+import {SignUpAction} from "../../store/account.actions";
 
 @Component({
   selector: 'account-sign-up',
@@ -7,6 +10,10 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent{
+
+  constructor(private store:Store<AccountState>) {
+  }
+
   userImage = require('../../assets/user.png')
 
   firstNameControl = new FormControl('', [
@@ -23,8 +30,9 @@ export class SignUpComponent{
     Validators.email
   ]);
   passwordControl = new FormControl('', [
-    Validators.required,
-    this.checkContainsUpper
+    this.checkContainsUpper,
+    this.checkContainsSpecialCharacter,
+    this.checkContainsLength
   ]);
   confirmPasswordControl = new FormControl('',[
     Validators.required
@@ -37,38 +45,50 @@ export class SignUpComponent{
     email: this.emailControl,
     password: this.passwordControl,
     confirmPassword: this.confirmPasswordControl
-  });
+  }, {validators: [this.checkPasswordsSame]});
 
-  checkPasswordsEqual(){
-    return this.passwordControl.value == this.confirmPasswordControl.value;
-  }
-
-  checkPasswordValid(){
-    return this.checkContainsUpper(this.passwordControl) && this.checkContainsAlphaNumeric() && this.checkContainsLength();
+  checkPasswordsSame(group: FormGroup){
+    if (group.get('password').value == group.get('confirmPassword').value) {
+      return null;
+    }
+    return { notSame: true };
   }
 
   checkContainsUpper(control: FormControl) {
     let password = control.value;
-    let result = null;
+    let result = { notHaveUpper: true };
     [...password].forEach(item => {
-      if(item == item.toUpperCase()){
-        result = { notHaveUpper: true };
+      if(item == item.toUpperCase() && !item.match(/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/)){
+        result = null;
       }
     });
     return result;
   }
 
-  checkContainsAlphaNumeric() {
-    let result = this.passwordControl.value.match(/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/);
-    return result != null;
+  checkContainsSpecialCharacter(control: FormControl) {
+    let result = control.value.match(/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/);
+    if (result == null) {
+      return { notHaveSpecialCharacter: true };
+    }
+    return null;
   }
 
-  checkContainsLength() {
-    return this.passwordControl.value.length >= 6;
+  checkContainsLength(control: FormControl) {
+    if (control.value.length >= 6){
+      return null;
+    }
+    return { notHaveLength: true };
   }
 
   signUp() {
-    if (this.checkPasswordValid()) {
+    if(this.form.valid){
+      this.store.dispatch(new SignUpAction({
+        firstName: this.firstNameControl.value,
+        lastName: this.lastNameControl.value,
+        userName: this.userNameControl.value,
+        email: this.emailControl.value,
+        password: this.passwordControl.value
+      }))
     }
   }
 }

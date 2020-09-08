@@ -1,17 +1,17 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Common.Interfaces;
+﻿using System;
+using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Common.Interfaces;
 using AnuitexTraining.BusinessLogicLayer.Exceptions;
 using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace AnuitexTraining.PresentationLayer.Middlewares
 {
     public class ErrorHandleMiddleware
     {
-        ILogger _logger;
         private readonly RequestDelegate _next;
+        private readonly ILogger _logger;
 
         public ErrorHandleMiddleware(RequestDelegate next, ILogger logger)
         {
@@ -27,11 +27,11 @@ namespace AnuitexTraining.PresentationLayer.Middlewares
             }
             catch (UserException exception)
             {
-                BaseModel model = new BaseModel
+                var model = new BaseModel
                 {
                     Errors = exception.Errors
                 };
-                string response = JsonConvert.SerializeObject(model);
+                var response = JsonConvert.SerializeObject(model);
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int) exception.Code;
                 await context.Response.WriteAsync(response);

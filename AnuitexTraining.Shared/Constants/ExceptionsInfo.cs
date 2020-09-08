@@ -2,7 +2,7 @@
 {
     public partial class Constants
     {
-        public partial class ExceptionsInfo
+        public class ExceptionsInfo
         {
             public const string WrongCredentials = "Wrong credentials";
             public const string EmailAlreadyTaken = "Email already taken";

@@ -1,12 +1,12 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Exceptions;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Exceptions;
 using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Net;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
 {
@@ -14,7 +14,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     [Route("api/users")]
     public class UserController : Controller
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
         public UserController(IUserService userService)
         {
@@ -33,13 +33,8 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         public async Task<UserModel> GetAsync(long id)
         {
             if (User.FindFirst("Id").Value == id.ToString() || User.FindFirst(ClaimTypes.Role).Value == "Admin")
-            {
                 return await _userService.GetAsync(id);
-            }
-            else
-            {
-                throw new UserException(HttpStatusCode.Unauthorized, new List<string>());
-            }
+            throw new UserException(HttpStatusCode.Unauthorized, new List<string>());
         }
 
         [Authorize(Roles = "Admin")]

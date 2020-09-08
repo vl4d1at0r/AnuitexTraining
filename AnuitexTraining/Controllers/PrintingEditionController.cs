@@ -1,9 +1,9 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.PrintingEditions;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Models.PrintingEditions;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
 {
@@ -11,7 +11,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     [ApiController]
     public class PrintingEditionController : Controller
     {
-        private IPrintingEditionService _printingEditionService;
+        private readonly IPrintingEditionService _printingEditionService;
 
         public PrintingEditionController(IPrintingEditionService printingEditionService)
         {

@@ -1,10 +1,10 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Orders;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Models.Orders;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
 {
@@ -12,7 +12,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     [Route("api/orders")]
     public class OrderController : Controller
     {
-        private IOrderService _orderService;
+        private readonly IOrderService _orderService;
 
         public OrderController(IOrderService orderService)
         {
@@ -23,8 +23,15 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         [Authorize]
         public async Task<IEnumerable<OrderModel>> GetPageAsync(OrderModel filter, int page, int pageSize)
         {
-            return await _orderService.GetPageAsync(filter, page, pageSize,
-                User.FindFirst(ClaimTypes.Role).Value == "Admin", long.Parse(User.FindFirst("Id").Value));
+            var orderModelPageModel = new OrderModelPageModel
+            {
+                Filter = filter,
+                Page = page,
+                PageSize = pageSize,
+                Admin = User.FindFirst(ClaimTypes.Role).Value == "Admin",
+                UserId = long.Parse(User.FindFirst("Id").Value)
+            };
+            return await _orderService.GetPageAsync(orderModelPageModel);
         }
 
         [HttpPost("add")]

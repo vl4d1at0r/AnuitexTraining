@@ -2,7 +2,7 @@
 {
     public partial class Constants
     {
-        public partial class EmailProviderOptions
+        public class EmailProviderOptions
         {
             public const string EmailConfirmationUrl = "https://localhost:44334/api/accounts/confirmEmail";
             public const string PasswordResetUrl = "https://localhost:44334/account/resetPassword";

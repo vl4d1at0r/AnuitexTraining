@@ -1,5 +1,5 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Models.Users;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
 {
@@ -7,7 +7,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
     {
         public Task SignInAsync(string email, string password);
         public Task SignOutAsync(string email);
-        public Task SignUpAsync(UserModel user, string password);
+        public Task SignUpAsync(UserModel user);
         public Task ConfirmEmailAsync(long id, string code);
         public Task ForgotPasswordAsync(string email);
         public Task ResetPasswordAsync(long id, string code, string newPassword);

@@ -1,6 +1,6 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Models.Users;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
 {

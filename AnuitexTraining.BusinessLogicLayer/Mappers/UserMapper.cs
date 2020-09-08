@@ -8,7 +8,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
     {
         public override UserModel Map(ApplicationUser item)
         {
-            return new UserModel()
+            return new UserModel
             {
                 Id = item.Id,
                 FirstName = item.FirstName,
@@ -22,7 +22,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
 
         public override ApplicationUser Map(UserModel item)
         {
-            return new ApplicationUser()
+            return new ApplicationUser
             {
                 Id = item.Id,
                 FirstName = item.FirstName,

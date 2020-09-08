@@ -1,10 +1,10 @@
-﻿using AnuitexTraining.DataAccessLayer.AppContext;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories
 {

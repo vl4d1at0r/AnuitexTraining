@@ -8,6 +8,11 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser, IdentityRole<long>, long>
     {
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        {
+            Database.EnsureCreated();
+        }
+
         public override DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -15,11 +20,6 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PrintingEdition> PrintingEditions { get; set; }
         public DbSet<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; }
-
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

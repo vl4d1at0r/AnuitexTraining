@@ -1,9 +1,9 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Authors;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Models.Authors;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
 {
@@ -11,7 +11,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     [ApiController]
     public class AuthorController : Controller
     {
-        private IAuthorService _authorService;
+        private readonly IAuthorService _authorService;
 
         public AuthorController(IAuthorService authorService)
         {

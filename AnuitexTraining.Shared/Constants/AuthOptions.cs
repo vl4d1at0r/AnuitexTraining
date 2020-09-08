@@ -2,7 +2,7 @@
 {
     public partial class Constants
     {
-        public partial class AuthOptions
+        public class AuthOptions
         {
             public const string Issuer = "TestServer";
             public const string Audience = "TestClient";

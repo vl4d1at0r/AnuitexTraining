@@ -1,6 +1,6 @@
-﻿using AnuitexTraining.DataAccessLayer.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AnuitexTraining.DataAccessLayer.Entities;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
 {

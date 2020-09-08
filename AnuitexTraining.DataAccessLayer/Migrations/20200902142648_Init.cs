@@ -8,8 +8,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
+                "AspNetRoles",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -20,8 +20,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 constraints: table => { table.PrimaryKey("PK_AspNetRoles", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
+                "AspNetUsers",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -47,8 +47,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 constraints: table => { table.PrimaryKey("PK_AspNetUsers", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Authors",
-                columns: table => new
+                "Authors",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -59,8 +59,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 constraints: table => { table.PrimaryKey("PK_Authors", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Payments",
-                columns: table => new
+                "Payments",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -71,8 +71,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 constraints: table => { table.PrimaryKey("PK_Payments", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "PrintingEditions",
-                columns: table => new
+                "PrintingEditions",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -87,8 +87,8 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 constraints: table => { table.PrimaryKey("PK_PrintingEditions", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
+                "AspNetRoleClaims",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -100,16 +100,16 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        x => x.RoleId,
+                        "AspNetRoles",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
-                columns: table => new
+                "AspNetUserClaims",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -121,16 +121,16 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        x => x.UserId,
+                        "AspNetUsers",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
-                columns: table => new
+                "AspNetUserLogins",
+                table => new
                 {
                     LoginProvider = table.Column<string>(nullable: false),
                     ProviderKey = table.Column<string>(nullable: false),
@@ -141,16 +141,16 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserLogins", x => new {x.LoginProvider, x.ProviderKey});
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        x => x.UserId,
+                        "AspNetUsers",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
+                "AspNetUserRoles",
+                table => new
                 {
                     UserId = table.Column<long>(nullable: false),
                     RoleId = table.Column<long>(nullable: false)
@@ -159,22 +159,22 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserRoles", x => new {x.UserId, x.RoleId});
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        x => x.RoleId,
+                        "AspNetRoles",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        x => x.UserId,
+                        "AspNetUsers",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
+                "AspNetUserTokens",
+                table => new
                 {
                     UserId = table.Column<long>(nullable: false),
                     LoginProvider = table.Column<string>(nullable: false),
@@ -185,16 +185,16 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new {x.UserId, x.LoginProvider, x.Name});
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        x => x.UserId,
+                        "AspNetUsers",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
+                "Orders",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -210,22 +210,22 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Payments_PaymentId",
-                        column: x => x.PaymentId,
-                        principalTable: "Payments",
-                        principalColumn: "Id",
+                        "FK_Orders_Payments_PaymentId",
+                        x => x.PaymentId,
+                        "Payments",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        "FK_Orders_AspNetUsers_UserId",
+                        x => x.UserId,
+                        "AspNetUsers",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AuthorInPrintingEditions",
-                columns: table => new
+                "AuthorInPrintingEditions",
+                table => new
                 {
                     AuthorId = table.Column<long>(nullable: false),
                     PrintingEditionId = table.Column<long>(nullable: false),
@@ -235,22 +235,22 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_AuthorInPrintingEditions", x => new {x.AuthorId, x.PrintingEditionId});
                     table.ForeignKey(
-                        name: "FK_AuthorInPrintingEditions_Authors_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Authors",
-                        principalColumn: "Id",
+                        "FK_AuthorInPrintingEditions_Authors_AuthorId",
+                        x => x.AuthorId,
+                        "Authors",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuthorInPrintingEditions_PrintingEditions_PrintingEditionId",
-                        column: x => x.PrintingEditionId,
-                        principalTable: "PrintingEditions",
-                        principalColumn: "Id",
+                        "FK_AuthorInPrintingEditions_PrintingEditions_PrintingEditionId",
+                        x => x.PrintingEditionId,
+                        "PrintingEditions",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItems",
-                columns: table => new
+                "OrderItems",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -266,38 +266,38 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_OrderItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
+                        "FK_OrderItems_Orders_OrderId",
+                        x => x.OrderId,
+                        "Orders",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItems_PrintingEditions_PrintingEditionId",
-                        column: x => x.PrintingEditionId,
-                        principalTable: "PrintingEditions",
-                        principalColumn: "Id",
+                        "FK_OrderItems_PrintingEditions_PrintingEditionId",
+                        x => x.PrintingEditionId,
+                        "PrintingEditions",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] {"Id", "ConcurrencyStamp", "Name", "NormalizedName"},
-                values: new object[,]
+                "AspNetRoles",
+                new[] {"Id", "ConcurrencyStamp", "Name", "NormalizedName"},
+                new object[,]
                 {
                     {1L, "f91f0bcb-0397-47c2-8fe5-0f30591adae8", "Admin", null},
                     {2L, "8b2c86df-17b1-4dee-a9fa-019d51d4246d", "Client", null}
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[]
+                "AspNetUsers",
+                new[]
                 {
                     "Id", "AccessFailedCount", "ConcurrencyStamp", "CreationDate", "Email", "EmailConfirmed",
                     "FirstName", "IsBlocked", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail",
                     "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp",
                     "TwoFactorEnabled", "UserName"
                 },
-                values: new object[,]
+                new object[,]
                 {
                     {
                         1L, 0, "beae8a3d-6016-4c46-b746-8a301bbba2fa",
@@ -317,9 +317,9 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Authors",
-                columns: new[] {"Id", "CreationDate", "IsRemoved", "Name"},
-                values: new object[,]
+                "Authors",
+                new[] {"Id", "CreationDate", "IsRemoved", "Name"},
+                new object[,]
                 {
                     {
                         1L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(6816), false,
@@ -344,9 +344,9 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Payments",
-                columns: new[] {"Id", "CreationDate", "IsRemoved", "TransactionId"},
-                values: new object[,]
+                "Payments",
+                new[] {"Id", "CreationDate", "IsRemoved", "TransactionId"},
+                new object[,]
                 {
                     {
                         1L, new DateTime(2020, 9, 2, 14, 26, 47, 311, DateTimeKind.Utc).AddTicks(4094), false,
@@ -356,9 +356,9 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "PrintingEditions",
-                columns: new[] {"Id", "CreationDate", "Currency", "Description", "IsRemoved", "Price", "Title", "Type"},
-                values: new object[,]
+                "PrintingEditions",
+                new[] {"Id", "CreationDate", "Currency", "Description", "IsRemoved", "Price", "Title", "Type"},
+                new object[,]
                 {
                     {
                         1L, new DateTime(2020, 9, 2, 14, 26, 47, 310, DateTimeKind.Utc).AddTicks(7734), 6,
@@ -383,18 +383,18 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] {"UserId", "RoleId"},
-                values: new object[,]
+                "AspNetUserRoles",
+                new[] {"UserId", "RoleId"},
+                new object[,]
                 {
                     {1L, 1L},
                     {2L, 2L}
                 });
 
             migrationBuilder.InsertData(
-                table: "AuthorInPrintingEditions",
-                columns: new[] {"AuthorId", "PrintingEditionId", "Date"},
-                values: new object[,]
+                "AuthorInPrintingEditions",
+                new[] {"AuthorId", "PrintingEditionId", "Date"},
+                new object[,]
                 {
                     {1L, 1L, new DateTime(2008, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)},
                     {2L, 2L, new DateTime(2010, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)},
@@ -404,10 +404,10 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Orders",
-                columns: new[]
+                "Orders",
+                new[]
                     {"Id", "CreationDate", "Date", "Description", "IsRemoved", "PaymentId", "Status", "UserId"},
-                values: new object[,]
+                new object[,]
                 {
                     {
                         1L, new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(6603),
@@ -422,10 +422,10 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "OrderItems",
-                columns: new[]
+                "OrderItems",
+                new[]
                     {"Id", "Amount", "Count", "CreationDate", "Currency", "IsRemoved", "OrderId", "PrintingEditionId"},
-                values: new object[,]
+                new object[,]
                 {
                     {
                         1L, 2000.0, 2, new DateTime(2020, 9, 2, 14, 26, 47, 312, DateTimeKind.Utc).AddTicks(9783), 6,
@@ -450,110 +450,110 @@ namespace AnuitexTraining.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_RoleId",
-                table: "AspNetRoleClaims",
-                column: "RoleId");
+                "IX_AspNetRoleClaims_RoleId",
+                "AspNetRoleClaims",
+                "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
+                "RoleNameIndex",
+                "AspNetRoles",
+                "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserClaims_UserId",
-                table: "AspNetUserClaims",
-                column: "UserId");
+                "IX_AspNetUserClaims_UserId",
+                "AspNetUserClaims",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserLogins_UserId",
-                table: "AspNetUserLogins",
-                column: "UserId");
+                "IX_AspNetUserLogins_UserId",
+                "AspNetUserLogins",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_RoleId",
-                table: "AspNetUserRoles",
-                column: "RoleId");
+                "IX_AspNetUserRoles_RoleId",
+                "AspNetUserRoles",
+                "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "EmailIndex",
-                table: "AspNetUsers",
-                column: "NormalizedEmail");
+                "EmailIndex",
+                "AspNetUsers",
+                "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers",
-                column: "NormalizedUserName",
+                "UserNameIndex",
+                "AspNetUsers",
+                "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorInPrintingEditions_PrintingEditionId",
-                table: "AuthorInPrintingEditions",
-                column: "PrintingEditionId");
+                "IX_AuthorInPrintingEditions_PrintingEditionId",
+                "AuthorInPrintingEditions",
+                "PrintingEditionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_OrderId",
-                table: "OrderItems",
-                column: "OrderId");
+                "IX_OrderItems_OrderId",
+                "OrderItems",
+                "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_PrintingEditionId",
-                table: "OrderItems",
-                column: "PrintingEditionId");
+                "IX_OrderItems_PrintingEditionId",
+                "OrderItems",
+                "PrintingEditionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_PaymentId",
-                table: "Orders",
-                column: "PaymentId");
+                "IX_Orders_PaymentId",
+                "Orders",
+                "PaymentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_UserId",
-                table: "Orders",
-                column: "UserId");
+                "IX_Orders_UserId",
+                "Orders",
+                "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+                "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+                "AspNetUserClaims");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
+                "AspNetUserLogins");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
+                "AspNetUserRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+                "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AuthorInPrintingEditions");
+                "AuthorInPrintingEditions");
 
             migrationBuilder.DropTable(
-                name: "OrderItems");
+                "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Authors");
+                "Authors");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                "Orders");
 
             migrationBuilder.DropTable(
-                name: "PrintingEditions");
+                "PrintingEditions");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                "Payments");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                "AspNetUsers");
         }
     }
 }

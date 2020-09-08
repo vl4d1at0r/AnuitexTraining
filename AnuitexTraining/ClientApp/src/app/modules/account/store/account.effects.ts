@@ -4,21 +4,21 @@ import {AccountService} from "../services/account.service";
 import {
   SignIn,
   SignInAction,
-  SignInCookieUpdateAction, SignInFail,
-  SignInFailAction, SignInShowErrorsAction,
+  SignInCookieUpdateAction, AuthenticationFail,
+  AuthenticationFailAction, AuthenticationShowErrorsAction,
   SignInSuccess,
-  SignInSuccessAction
+  SignInSuccessAction, SignUp, SignUpAction, SignUpSuccessAction
 } from "./account.actions";
 import {catchError, map, mergeMap} from 'rxjs/operators';
-import {SignInSuccessModel} from "../models/sign-in-success.model";
 import {config, of} from "rxjs";
 import {CookieService} from "ngx-cookie-service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {SignInSuccessModel} from "../models/sign-in/sign-in-success.model";
 
 @Injectable()
 export class AccountEffects {
   constructor(private actions$: Actions,
-              private signInService: AccountService,
+              private accountService: AccountService,
               private cookieService: CookieService,
               private snackBar: MatSnackBar) {
   }
@@ -26,18 +26,32 @@ export class AccountEffects {
   @Effect()
   signIn$ = this.actions$.pipe(ofType(SignIn),
     mergeMap((action: SignInAction) => {
-      return this.signInService.signIn(action.payload.email, action.payload.password)
+      return this.accountService.signIn(action.payload)
         .pipe(
           map((data: SignInSuccessModel) => {
             data.rememberMe = action.payload.rememberMe;
             return new SignInSuccessAction(data);
           }),
           catchError(error => {
-            return of(new SignInFailAction(error.error))
+            return of(new AuthenticationFailAction(error.error))
           })
         );
     })
   )
+
+  @Effect()
+  signUp$ = this.actions$.pipe(ofType(SignUp),
+    mergeMap((action: SignUpAction) => {
+      return this.accountService.signUp(action.payload)
+        .pipe(
+          map(() => {
+            return new SignUpSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AuthenticationFailAction(error.error))
+          })
+        );
+    }))
 
   @Effect()
   cookieUpdate$ = this.actions$.pipe(ofType(SignInSuccess),
@@ -50,9 +64,9 @@ export class AccountEffects {
     }))
 
   @Effect()
-  showError$ = this.actions$.pipe(ofType(SignInFail),
-    mergeMap((action: SignInFailAction) => {
-      this.snackBar.open(action.payload.Errors.join("\n"), "Ok", { horizontalPosition: "end", verticalPosition: "top"})
-      return of(new SignInShowErrorsAction())
+  showError$ = this.actions$.pipe(ofType(AuthenticationFail),
+    mergeMap((action: AuthenticationFailAction) => {
+      this.snackBar.open(action.payload.Errors.join(" "), "Ok", { horizontalPosition: "end", verticalPosition: "top", panelClass: "snackbar"})
+      return of(new AuthenticationShowErrorsAction())
     }))
 }

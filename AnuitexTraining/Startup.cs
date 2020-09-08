@@ -1,3 +1,5 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
 using AnuitexTraining.BusinessLogicLayer;
 using AnuitexTraining.BusinessLogicLayer.Common;
 using AnuitexTraining.BusinessLogicLayer.Common.Interfaces;
@@ -16,10 +18,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using static AnuitexTraining.Shared.Constants.Constants;
 using Stripe;
+using static AnuitexTraining.Shared.Constants.Constants;
 
 namespace AnuitexTraining
 {
@@ -38,9 +38,9 @@ namespace AnuitexTraining
             services.AddSingleton<ILogger, Logger>();
             services.AddSingleton<JwtProvider>();
 
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            var serviceProvider = services.BuildServiceProvider();
 
-            JwtProvider jwtProvider = serviceProvider.GetRequiredService<JwtProvider>();
+            var jwtProvider = serviceProvider.GetRequiredService<JwtProvider>();
 
             services.AddDbContext<ApplicationContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")),
@@ -91,7 +91,7 @@ namespace AnuitexTraining
                 {
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters()
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
                         ValidIssuer = AuthOptions.Issuer,
@@ -136,10 +136,7 @@ namespace AnuitexTraining
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            if (!env.IsDevelopment())
-            {
-                app.UseSpaStaticFiles();
-            }
+            if (!env.IsDevelopment()) app.UseSpaStaticFiles();
 
             app.UseErrorHandle();
 
@@ -151,8 +148,8 @@ namespace AnuitexTraining
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    "default",
+                    "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
@@ -162,10 +159,7 @@ namespace AnuitexTraining
 
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
+                if (env.IsDevelopment()) spa.UseAngularCliServer("start");
             });
         }
     }

@@ -1,15 +1,15 @@
-﻿using System.Net.Mail;
-using System.Net;
-using System.Web;
+﻿using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Web;
 using static AnuitexTraining.Shared.Constants.Constants;
 
 namespace AnuitexTraining.BusinessLogicLayer.Providers
 {
     public class EmailProvider
     {
-        private MailAddress _mailAddress;
-        private SmtpClient _smtpClient;
+        private readonly MailAddress _mailAddress;
+        private readonly SmtpClient _smtpClient;
 
         public EmailProvider()
         {
@@ -24,7 +24,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Providers
 
         public async Task SendEmailConfirmationMessageAsync(long id, string code, string email)
         {
-            MailMessage message = new MailMessage(_mailAddress, new MailAddress(email))
+            var message = new MailMessage(_mailAddress, new MailAddress(email))
             {
                 Subject = EmailProviderOptions.EmailConfirmationSubject,
                 Body = string.Format(EmailProviderOptions.EmailConfirmationMessage,
@@ -35,7 +35,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Providers
 
         public async Task SendPasswordResetMessageAsync(long id, string code, string email)
         {
-            MailMessage message = new MailMessage(_mailAddress, new MailAddress(email))
+            var message = new MailMessage(_mailAddress, new MailAddress(email))
             {
                 Subject = EmailProviderOptions.PasswordResetSubject,
                 Body = string.Format(EmailProviderOptions.PasswordResetMessage, EmailProviderOptions.PasswordResetUrl,
