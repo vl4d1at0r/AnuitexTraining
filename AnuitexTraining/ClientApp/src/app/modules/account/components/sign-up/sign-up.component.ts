@@ -45,14 +45,7 @@ export class SignUpComponent{
     email: this.emailControl,
     password: this.passwordControl,
     confirmPassword: this.confirmPasswordControl
-  }, {validators: [this.checkPasswordsSame]});
-
-  checkPasswordsSame(group: FormGroup){
-    if (group.get('password').value == group.get('confirmPassword').value) {
-      return null;
-    }
-    return { notSame: true };
-  }
+  });
 
   checkContainsUpper(control: FormControl) {
     let password = control.value;

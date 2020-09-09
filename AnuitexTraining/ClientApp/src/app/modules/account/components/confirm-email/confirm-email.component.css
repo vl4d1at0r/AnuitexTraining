@@ -1,0 +1,22 @@
+﻿.confirm {
+  display: block;
+  text-align: center;
+}
+
+img {
+  width: 75px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+label {
+  text-align: center;
+  display: block;
+}
+
+button {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}

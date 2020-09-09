@@ -17,10 +17,12 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AccountEffects } from './modules/account/store/account.effects';
 import {SignUpComponent} from "./modules/account/components/sign-up/sign-up.component";
+import {ConfirmEmailComponent} from "./modules/account/components/confirm-email/confirm-email.component";
 
 const appRoutes: Routes =[
   { path: 'account/signIn', component: SignInComponent},
-  { path: 'account/signUp', component: SignUpComponent}
+  { path: 'account/signUp', component: SignUpComponent},
+  { path: 'account/confirmEmail', component: ConfirmEmailComponent}
 ];
 
 @NgModule({

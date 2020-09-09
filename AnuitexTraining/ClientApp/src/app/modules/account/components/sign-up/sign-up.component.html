@@ -72,12 +72,12 @@
       <p>
         <mat-form-field>
           <label class="full-width">
-            <input formControlName="confirmPassword" matInput placeholder="Confirm password" type="password">
+            <input ngValidateEqual="password" formControlName="confirmPassword" matInput placeholder="Confirm password" type="password">
           </label>
-          <mat-error *ngIf="confirmPasswordControl.invalid">
+          <mat-error *ngIf="confirmPasswordControl.hasError('required')">
             Confirm password is <strong>required</strong>!
           </mat-error>
-          <mat-error *ngIf="form.hasError('notSame')">
+          <mat-error *ngIf="confirmPasswordControl.hasError('notEqual')">
             Passwords are not equal!
           </mat-error>
         </mat-form-field>

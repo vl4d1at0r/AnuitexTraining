@@ -1,5 +1,7 @@
 export interface AccountState {
-    accessToken: string,
-    refreshToken: string,
-    errors: string[]
-  }
+  accessToken: string,
+  refreshToken: string,
+  firstName: string,
+  lastName: string,
+  errors: string[]
+}

@@ -10,21 +10,26 @@ import {AuthorizationInterceptor} from './interceptors/authorization.interceptor
 import {CookieService} from "ngx-cookie-service";
 import {SignUpComponent} from "./components/sign-up/sign-up.component";
 import {RouterModule} from "@angular/router";
+import {ValidateEqualModule} from "ng-validate-equal";
+import {ConfirmEmailComponent} from "./components/confirm-email/confirm-email.component";
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
     EffectsModule.forFeature([AccountEffects]),
-    RouterModule
+    RouterModule,
+    ValidateEqualModule
   ],
   declarations: [
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    ConfirmEmailComponent
   ],
   exports: [
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    ConfirmEmailComponent
   ],
   providers: [
     AccountService,

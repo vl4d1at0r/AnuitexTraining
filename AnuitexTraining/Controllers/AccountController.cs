@@ -53,9 +53,9 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [HttpGet("confirmEmail")]
-        public async Task ConfirmEmailAsync(long id, string code)
+        public async Task<object> ConfirmEmailAsync(long id, string code)
         {
-            await _accountService.ConfirmEmailAsync(id, code);
+            return await _accountService.ConfirmEmailAsync(id, code);
         }
 
         [HttpPost("forgotPassword")]

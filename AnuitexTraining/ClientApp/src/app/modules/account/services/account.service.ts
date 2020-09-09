@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {SignUpModel} from "../models/sign-up/sign-up.model";
 import {SignInModel} from "../models/sign-in/sign-in.model";
+import {ConfirmEmailModel} from "../models/confirm-email/confirm-email.model";
 
 @Injectable()
 export class AccountService {
@@ -26,6 +27,15 @@ export class AccountService {
       userName: signUpModel.userName,
       email: signUpModel.email,
       password: signUpModel.password
-    })
+    });
+  }
+
+  confirmEmail(confirmEmailModel: ConfirmEmailModel) {
+    return this.http.get(this.url + "confirmEmail",{
+      params: {
+        id: confirmEmailModel.id,
+        code: confirmEmailModel.code
+      }
+    });
   }
 }

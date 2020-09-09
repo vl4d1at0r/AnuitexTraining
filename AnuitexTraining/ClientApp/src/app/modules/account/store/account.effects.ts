@@ -4,23 +4,34 @@ import {AccountService} from "../services/account.service";
 import {
   SignIn,
   SignInAction,
-  SignInCookieUpdateAction, AuthenticationFail,
-  AuthenticationFailAction, AuthenticationShowErrorsAction,
+  SignInCookieUpdateAction,
+  AccountFail,
+  AccountFailAction,
+  AccountShowErrorsAction,
   SignInSuccess,
-  SignInSuccessAction, SignUp, SignUpAction, SignUpSuccessAction
+  SignInSuccessAction,
+  SignUp,
+  SignUpAction,
+  SignUpSuccessAction,
+  SignUpSuccess,
+  ConfirmEmailRedirectAction,
+  ConfirmEmail, ConfirmEmailAction, ConfirmEmailSuccessAction
 } from "./account.actions";
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {config, of} from "rxjs";
 import {CookieService} from "ngx-cookie-service";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {SignInSuccessModel} from "../models/sign-in/sign-in-success.model";
+import {Router} from "@angular/router";
+import {ConfirmEmailSuccessModel} from "../models/confirm-email/confirm-email-success.model";
 
 @Injectable()
 export class AccountEffects {
   constructor(private actions$: Actions,
               private accountService: AccountService,
               private cookieService: CookieService,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private router: Router) {
   }
 
   @Effect()
@@ -33,7 +44,7 @@ export class AccountEffects {
             return new SignInSuccessAction(data);
           }),
           catchError(error => {
-            return of(new AuthenticationFailAction(error.error))
+            return of(new AccountFailAction(error.error))
           })
         );
     })
@@ -48,7 +59,7 @@ export class AccountEffects {
             return new SignUpSuccessAction();
           }),
           catchError(error => {
-            return of(new AuthenticationFailAction(error.error))
+            return of(new AccountFailAction(error.error))
           })
         );
     }))
@@ -64,9 +75,30 @@ export class AccountEffects {
     }))
 
   @Effect()
-  showError$ = this.actions$.pipe(ofType(AuthenticationFail),
-    mergeMap((action: AuthenticationFailAction) => {
-      this.snackBar.open(action.payload.Errors.join(" "), "Ok", { horizontalPosition: "end", verticalPosition: "top", panelClass: "snackbar"})
-      return of(new AuthenticationShowErrorsAction())
+  showError$ = this.actions$.pipe(ofType(AccountFail),
+    mergeMap((action: AccountFailAction) => {
+      this.snackBar.open(action.payload.Errors.join(" "), "Ok", { horizontalPosition: "end", verticalPosition: "top", panelClass: 'snackbar'})
+      return of(new AccountShowErrorsAction())
+    }))
+
+  @Effect()
+  redirectToEmailConfirm$ = this.actions$.pipe(ofType(SignUpSuccess),
+    mergeMap(() => {
+      this.router.navigate(['/', 'account', 'confirmEmail']).then();
+      return of(new ConfirmEmailRedirectAction())
+    }))
+
+  @Effect()
+  confirmEmail$ = this.actions$.pipe(ofType(ConfirmEmail),
+    mergeMap((action: ConfirmEmailAction) => {
+      return this.accountService.confirmEmail(action.payload)
+        .pipe(
+          map((data: ConfirmEmailSuccessModel) => {
+            return new ConfirmEmailSuccessAction(data);
+          }),
+          catchError(error => {
+            return of(new AccountFailAction(error.error));
+          })
+        )
     }))
 }

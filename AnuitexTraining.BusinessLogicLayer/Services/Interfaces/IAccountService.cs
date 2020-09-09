@@ -8,7 +8,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
         public Task SignInAsync(string email, string password);
         public Task SignOutAsync(string email);
         public Task SignUpAsync(UserModel user);
-        public Task ConfirmEmailAsync(long id, string code);
+        public Task<object> ConfirmEmailAsync(long id, string code);
         public Task ForgotPasswordAsync(string email);
         public Task ResetPasswordAsync(long id, string code, string newPassword);
         public Task UpdateRefreshTokenAsync(string email, string refreshToken);

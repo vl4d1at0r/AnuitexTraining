@@ -28,7 +28,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             _userMapper = userMapper;
         }
 
-        public async Task ConfirmEmailAsync(long id, string code)
+        public async Task<object> ConfirmEmailAsync(long id, string code)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user is null)
@@ -43,6 +43,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             if (!result.Succeeded)
                 throw new UserException(HttpStatusCode.BadRequest,
                     result.Errors.Select(error => error.Description).ToList());
+
+            return new { firstName = user.FirstName, lastName = user.LastName };
         }
 
         public async Task ForgotPasswordAsync(string email)
