@@ -1,6 +1,13 @@
 import {AccountState} from "../interfaces/account.state";
 import {createFeatureSelector, createSelector} from "@ngrx/store";
-import {getAccessToken, getFirstName, getLastName, getRefreshToken} from "./account.reducer";
+import {
+  getAccessToken,
+  getFirstName,
+  getLastName,
+  getRefreshToken,
+  getIsConfirmedEmail,
+  getIsPasswordReset
+} from "./account.reducer";
 
 export const getSignInState = createFeatureSelector<AccountState>('signIn');
 
@@ -23,3 +30,13 @@ export const getLastNameSelector = createSelector(
   getSignInState,
   getLastName
 );
+
+export const getIsConfirmedEmailSelector = createSelector(
+  getSignInState,
+  getIsConfirmedEmail
+);
+
+export const getIsPasswordResetSelector = createSelector(
+  getSignInState,
+  getIsPasswordReset
+)

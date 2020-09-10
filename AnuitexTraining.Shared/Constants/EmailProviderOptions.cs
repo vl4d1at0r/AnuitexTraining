@@ -12,7 +12,7 @@
             public const string EmailConfirmationSubject = "Email Confirmation Link";
             public const string EmailConfirmationMessage = "Your email confirmation link: {0}?id={1}&code={2}";
             public const string PasswordResetSubject = "Pasword Reset Link";
-            public const string PasswordResetMessage = "Your password reset link: {0}?id={1}&code={2}";
+            public const string PasswordResetMessage = "Your new password is: {0}";
         }
     }
 }

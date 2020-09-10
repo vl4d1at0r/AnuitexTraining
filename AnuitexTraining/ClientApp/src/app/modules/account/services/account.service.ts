@@ -31,10 +31,13 @@ export class AccountService {
   }
 
   confirmEmail(confirmEmailModel: ConfirmEmailModel) {
-    return this.http.get(this.url + "confirmEmail",{
+    return this.http.get(this.url + "confirmEmail" + "?id=" + confirmEmailModel.id + "&code=" + encodeURIComponent(confirmEmailModel.code));
+  }
+
+  forgotPassword(email: string) {
+    return this.http.get(this.url + "forgotPassword", {
       params: {
-        id: confirmEmailModel.id,
-        code: confirmEmailModel.code
+        email: email
       }
     });
   }

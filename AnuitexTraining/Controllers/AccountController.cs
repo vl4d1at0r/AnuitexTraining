@@ -58,16 +58,10 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             return await _accountService.ConfirmEmailAsync(id, code);
         }
 
-        [HttpPost("forgotPassword")]
+        [HttpGet("forgotPassword")]
         public async Task ForgotPasswordAsync(string email)
         {
             await _accountService.ForgotPasswordAsync(email);
-        }
-
-        [HttpGet("resetPassword")]
-        public async Task ResetPasswordAsync(long id, string code, string password)
-        {
-            await _accountService.ResetPasswordAsync(id, code, password);
         }
 
         [HttpGet("refreshToken")]

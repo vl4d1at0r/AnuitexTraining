@@ -1,18 +1,9 @@
 import {Component} from "@angular/core";
 import {FormGroup, FormControl, Validators, FormGroupDirective, NgForm} from "@angular/forms";
 import {AccountState} from "../../interfaces/account.state";
-import {select, Store} from "@ngrx/store";
+import {Store} from "@ngrx/store";
 import {SignInAction} from "../../store/account.actions";
-import {CookieService} from "ngx-cookie-service";
-import {getAccessTokenSelector, getRefreshTokenSelector} from "../../store/account.selectors";
 import {ErrorStateMatcher} from "@angular/material/core";
-
-export class SignInErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'account-sign-in',
@@ -50,6 +41,4 @@ export class SignInComponent {
       }));
     }
   }
-
-  matcher = new SignInErrorStateMatcher();
 }

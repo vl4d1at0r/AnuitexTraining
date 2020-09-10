@@ -18,11 +18,13 @@ import { environment } from '../environments/environment';
 import { AccountEffects } from './modules/account/store/account.effects';
 import {SignUpComponent} from "./modules/account/components/sign-up/sign-up.component";
 import {ConfirmEmailComponent} from "./modules/account/components/confirm-email/confirm-email.component";
+import {ForgotPasswordComponent} from "./modules/account/components/forgot-password/forgot-password.component";
 
 const appRoutes: Routes =[
   { path: 'account/signIn', component: SignInComponent},
   { path: 'account/signUp', component: SignUpComponent},
-  { path: 'account/confirmEmail', component: ConfirmEmailComponent}
+  { path: 'account/confirmEmail', component: ConfirmEmailComponent},
+  { path: 'account/forgotPassword', component: ForgotPasswordComponent}
 ];
 
 @NgModule({

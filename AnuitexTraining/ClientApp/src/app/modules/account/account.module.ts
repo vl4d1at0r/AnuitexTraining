@@ -12,6 +12,7 @@ import {SignUpComponent} from "./components/sign-up/sign-up.component";
 import {RouterModule} from "@angular/router";
 import {ValidateEqualModule} from "ng-validate-equal";
 import {ConfirmEmailComponent} from "./components/confirm-email/confirm-email.component";
+import {ForgotPasswordComponent} from "./components/forgot-password/forgot-password.component";
 
 @NgModule({
   imports: [
@@ -24,12 +25,14 @@ import {ConfirmEmailComponent} from "./components/confirm-email/confirm-email.co
   declarations: [
     SignInComponent,
     SignUpComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    ForgotPasswordComponent
   ],
   exports: [
     SignInComponent,
     SignUpComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    ForgotPasswordComponent
   ],
   providers: [
     AccountService,

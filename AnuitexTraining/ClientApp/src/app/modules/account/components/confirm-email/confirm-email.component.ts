@@ -3,7 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {AccountState} from "../../interfaces/account.state";
 import {ConfirmEmailAction} from "../../store/account.actions";
-import {getFirstNameSelector, getLastNameSelector} from "../../store/account.selectors";
+import {getIsConfirmedEmailSelector, getFirstNameSelector, getLastNameSelector} from "../../store/account.selectors";
 
 @Component({
   selector: 'account-confirm-email',
@@ -13,9 +13,10 @@ import {getFirstNameSelector, getLastNameSelector} from "../../store/account.sel
 export class ConfirmEmailComponent implements OnInit {
   id: string;
   code: string;
+  confirmed: boolean;
   confirming: boolean;
-  firstName: string;
-  lastName: string;
+  firstName = "";
+  lastName = "";
   checkMarkImage = require('../../assets/check-mark.png');
 
   constructor(private activateRoute: ActivatedRoute, private store: Store<AccountState>) {
@@ -26,12 +27,12 @@ export class ConfirmEmailComponent implements OnInit {
       this.id = params.id;
       this.code = params.code;
     })
-    console.log(this.code);
     if (this.id != undefined && this.code != undefined) {
       this.confirming = true;
       this.store.dispatch(new ConfirmEmailAction({id: this.id, code: this.code}));
       this.store.select(getFirstNameSelector).subscribe(item => this.firstName = item);
       this.store.select(getLastNameSelector).subscribe(item => this.lastName = item);
+      this.store.select(getIsConfirmedEmailSelector).subscribe(item => this.confirmed = item)
     }
   }
 }

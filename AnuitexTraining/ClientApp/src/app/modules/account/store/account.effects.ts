@@ -15,10 +15,15 @@ import {
   SignUpSuccessAction,
   SignUpSuccess,
   ConfirmEmailRedirectAction,
-  ConfirmEmail, ConfirmEmailAction, ConfirmEmailSuccessAction
+  ConfirmEmail,
+  ConfirmEmailAction,
+  ConfirmEmailSuccessAction,
+  ForgotPassword,
+  ForgotPasswordAction,
+  ForgotPasswordSuccessAction
 } from "./account.actions";
 import {catchError, map, mergeMap} from 'rxjs/operators';
-import {config, of} from "rxjs";
+import {config, of, pipe} from "rxjs";
 import {CookieService} from "ngx-cookie-service";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {SignInSuccessModel} from "../models/sign-in/sign-in-success.model";
@@ -44,7 +49,7 @@ export class AccountEffects {
             return new SignInSuccessAction(data);
           }),
           catchError(error => {
-            return of(new AccountFailAction(error.error))
+            return of(new AccountFailAction(error.error));
           })
         );
     })
@@ -59,7 +64,7 @@ export class AccountEffects {
             return new SignUpSuccessAction();
           }),
           catchError(error => {
-            return of(new AccountFailAction(error.error))
+            return of(new AccountFailAction(error.error));
           })
         );
     }))
@@ -78,14 +83,14 @@ export class AccountEffects {
   showError$ = this.actions$.pipe(ofType(AccountFail),
     mergeMap((action: AccountFailAction) => {
       this.snackBar.open(action.payload.Errors.join(" "), "Ok", { horizontalPosition: "end", verticalPosition: "top", panelClass: 'snackbar'})
-      return of(new AccountShowErrorsAction())
+      return of(new AccountShowErrorsAction());
     }))
 
   @Effect()
   redirectToEmailConfirm$ = this.actions$.pipe(ofType(SignUpSuccess),
     mergeMap(() => {
       this.router.navigate(['/', 'account', 'confirmEmail']).then();
-      return of(new ConfirmEmailRedirectAction())
+      return of(new ConfirmEmailRedirectAction());
     }))
 
   @Effect()
@@ -101,4 +106,19 @@ export class AccountEffects {
           })
         )
     }))
+
+  @Effect()
+  resetPassword$ = this.actions$.pipe(ofType(ForgotPassword),
+    mergeMap((action: ForgotPasswordAction) => {
+      return this.accountService.forgotPassword(action.payload)
+        .pipe(
+          map(() => {
+            return new ForgotPasswordSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AccountFailAction(error.error));
+          })
+        )
+    })
+    )
 }

@@ -33,13 +33,12 @@ namespace AnuitexTraining.BusinessLogicLayer.Providers
             await _smtpClient.SendMailAsync(message);
         }
 
-        public async Task SendPasswordResetMessageAsync(long id, string code, string email)
+        public async Task SendPasswordResetMessageAsync(string password, string email)
         {
             var message = new MailMessage(_mailAddress, new MailAddress(email))
             {
                 Subject = EmailProviderOptions.PasswordResetSubject,
-                Body = string.Format(EmailProviderOptions.PasswordResetMessage, EmailProviderOptions.PasswordResetUrl,
-                    id, HttpUtility.UrlEncode(code))
+                Body = string.Format(EmailProviderOptions.PasswordResetMessage, password)
             };
             await _smtpClient.SendMailAsync(message);
         }

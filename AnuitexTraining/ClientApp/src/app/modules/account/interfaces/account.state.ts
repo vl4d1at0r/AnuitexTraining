@@ -3,5 +3,7 @@ export interface AccountState {
   refreshToken: string,
   firstName: string,
   lastName: string,
+  isConfirmedEmail: boolean,
+  isPasswordReset: boolean,
   errors: string[]
 }

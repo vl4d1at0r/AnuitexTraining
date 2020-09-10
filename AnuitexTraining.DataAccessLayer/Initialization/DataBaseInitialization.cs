@@ -88,8 +88,8 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
 
             var identityRoles = new[]
             {
-                new IdentityRole<long> {Id = 1, Name = "Admin"},
-                new IdentityRole<long> {Id = 2, Name = "Client"}
+                new IdentityRole<long> {Id = 1, Name = "Admin", NormalizedName = "ADMIN"},
+                new IdentityRole<long> {Id = 2, Name = "Client", NormalizedName = "CLIENT"}
             };
 
             var identityUserRoles = new[]

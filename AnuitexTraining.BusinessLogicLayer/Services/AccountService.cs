@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using AnuitexTraining.BusinessLogicLayer.Exceptions;
 using AnuitexTraining.BusinessLogicLayer.Mappers;
@@ -19,13 +21,15 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         private readonly EmailProvider _emailProvider;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly UserMapper _userMapper;
+        private readonly PasswordGeneratorProvider _passwordGeneratorProvider;
 
         public AccountService(UserManager<ApplicationUser> userManager, EmailProvider emailProvider,
-            UserMapper userMapper)
+            UserMapper userMapper, PasswordGeneratorProvider passwordGeneratorProvider)
         {
             _userManager = userManager;
             _emailProvider = emailProvider;
             _userMapper = userMapper;
+            _passwordGeneratorProvider = passwordGeneratorProvider;
         }
 
         public async Task<object> ConfirmEmailAsync(long id, string code)
@@ -35,16 +39,16 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            if (!result.Succeeded)
+           if (!result.Succeeded)
                 throw new UserException(HttpStatusCode.BadRequest,
                     result.Errors.Select(error => error.Description).ToList());
 
-            result = await _userManager.AddToRoleAsync(user, UserRole.Client.ToString("g"));
+            result = await _userManager.AddToRoleAsync(user, UserRole.Client.ToString());
             if (!result.Succeeded)
                 throw new UserException(HttpStatusCode.BadRequest,
                     result.Errors.Select(error => error.Description).ToList());
-
-            return new { firstName = user.FirstName, lastName = user.LastName };
+            
+            return new { firstName = user.FirstName, lastName = user.LastName};
         }
 
         public async Task ForgotPasswordAsync(string email)
@@ -52,11 +56,11 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             var applicationUser = await _userManager.FindByEmailAsync(email);
             if (applicationUser is null)
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidEmail});
-
-            var userId = await _userManager.GetUserIdAsync(applicationUser);
-            var id = long.Parse(userId);
+            
             var passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
-            await _emailProvider.SendPasswordResetMessageAsync(id, passwordResetToken, email);
+            string newPassword = _passwordGeneratorProvider.GeneratePassword(null);
+            await _userManager.ResetPasswordAsync(applicationUser, passwordResetToken, newPassword);
+            await _emailProvider.SendPasswordResetMessageAsync(newPassword, email);
         }
 
         public async Task<long> GetIdAsync(string email)
@@ -72,18 +76,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidEmail});
 
             return (await _userManager.GetRolesAsync(user))[0];
-        }
-
-        public async Task ResetPasswordAsync(long id, string code, string newPassword)
-        {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            if (user is null)
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
-
-            var result = await _userManager.ResetPasswordAsync(user, code, newPassword);
-            if (!result.Succeeded)
-                throw new UserException(HttpStatusCode.BadRequest,
-                    result.Errors.Select(error => error.Description).ToList());
         }
 
         public async Task SignInAsync(string email, string password)
