@@ -41,4 +41,8 @@ export class AccountService {
       }
     });
   }
+
+  signOut() {
+    return this.http.get(this.url + "signOut");
+  }
 }

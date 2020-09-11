@@ -17,6 +17,10 @@ a.sign-up {
   width: 220px;
 }
 
+a.forgot-password {
+  float: right;
+}
+
 p.sign-up {
   text-align: center;
 }

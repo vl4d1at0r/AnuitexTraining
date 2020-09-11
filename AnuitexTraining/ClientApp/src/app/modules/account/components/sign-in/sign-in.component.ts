@@ -33,7 +33,7 @@ export class SignInComponent {
   userImage = require("../../assets/user.png");
 
   signIn() {
-    if (this.emailControl.valid && this.passwordControl.valid) {
+    if (this.form.valid) {
       this.store.dispatch(new SignInAction({
         email: this.emailControl.value,
         password: this.passwordControl.value,

@@ -6,7 +6,7 @@ import {
   getLastName,
   getRefreshToken,
   getIsConfirmedEmail,
-  getIsPasswordReset
+  getIsPasswordReset, getIsLoggedIn
 } from "./account.reducer";
 
 export const getSignInState = createFeatureSelector<AccountState>('signIn');
@@ -39,4 +39,9 @@ export const getIsConfirmedEmailSelector = createSelector(
 export const getIsPasswordResetSelector = createSelector(
   getSignInState,
   getIsPasswordReset
+)
+
+export const getIsLoggedInSelector = createSelector(
+  getSignInState,
+  getIsLoggedIn
 )

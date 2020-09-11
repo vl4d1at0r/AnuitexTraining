@@ -6,9 +6,10 @@
   <mat-card-content>
     <form [formGroup]="form" (ngSubmit)="signIn()">
       <p>
-        <mat-form-field>
+        E-mail
+        <mat-form-field appearance="outline">
           <label class="full-width">
-            <input formControlName="email" matInput placeholder="Email" type="email">
+            <input formControlName="email" matInput type="email">
           </label>
           <mat-error *ngIf="emailControl.hasError('email') && !emailControl.hasError('required')">
               Please enter a valid email!
@@ -20,14 +21,15 @@
       </p>
 
       <p>
-        <mat-form-field>
+        Password
+        <a class="forgot-password" routerLink="/account/forgotPassword">Forgot your password?</a>
+        <mat-form-field appearance="outline">
           <label class="full-width">
-            <input formControlName="password" matInput placeholder="Password" type="password">
+            <input formControlName="password" matInput type="password">
           </label>
             <mat-error *ngIf="passwordControl.hasError('required')">
               Password is <strong>required</strong>!
             </mat-error>
-          <mat-hint><a routerLink="/account/forgotPassword">Forgot your password?</a></mat-hint>
         </mat-form-field>
       </p>
 

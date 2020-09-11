@@ -5,5 +5,6 @@ export interface AccountState {
   lastName: string,
   isConfirmedEmail: boolean,
   isPasswordReset: boolean,
+  isLoggedIn: boolean;
   errors: string[]
 }

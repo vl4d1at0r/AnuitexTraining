@@ -6,9 +6,10 @@
   <mat-card-content>
     <form (ngSubmit)="signUp()" [formGroup]="form">
       <p>
-        <mat-form-field>
+        First name
+        <mat-form-field appearance="outline">
           <label class="full-width">
-            <input formControlName="firstName" matInput placeholder="First name">
+            <input formControlName="firstName" matInput>
           </label>
           <mat-error *ngIf="firstNameControl.invalid">
             First name is <strong>required</strong>!
@@ -17,9 +18,10 @@
       </p>
 
       <p>
-        <mat-form-field>
+        Last name
+        <mat-form-field appearance="outline">
           <label class="full-width">
-            <input formControlName="lastName" matInput placeholder="Last name">
+            <input formControlName="lastName" matInput>
           </label>
           <mat-error *ngIf="lastNameControl.invalid">
             Last name is <strong>required</strong>!
@@ -28,9 +30,10 @@
       </p>
 
       <p>
-        <mat-form-field>
+        Username
+        <mat-form-field appearance="outline">
           <label class="full-width">
-            <input formControlName="userName" matInput placeholder="Username">
+            <input formControlName="userName" matInput>
           </label>
           <mat-error *ngIf="userNameControl.invalid">
             User name is <strong>required</strong>!
@@ -39,9 +42,10 @@
       </p>
 
       <p>
-        <mat-form-field>
+        Email
+        <mat-form-field appearance="outline">
           <label class="full-width">
-            <input formControlName="email" matInput placeholder="Email" type="email">
+            <input formControlName="email" matInput type="email">
           </label>
           <mat-error *ngIf="emailControl.hasError('email') && !emailControl.hasError('required')">
             Please enter a valid email!
@@ -53,9 +57,10 @@
       </p>
 
       <p>
-        <mat-form-field>
+        Password
+        <mat-form-field appearance="outline">
           <label class="full-width">
-            <input formControlName="password" matInput placeholder="Password" type="password">
+            <input formControlName="password" matInput type="password">
           </label>
           <mat-error *ngIf="passwordControl.hasError('notHaveLength')">
             Password minimal length is 6!
@@ -70,9 +75,10 @@
       </p>
 
       <p>
-        <mat-form-field>
+        Confirm password
+        <mat-form-field appearance="outline">
           <label class="full-width">
-            <input ngValidateEqual="password" formControlName="confirmPassword" matInput placeholder="Confirm password" type="password">
+            <input ngValidateEqual="password" formControlName="confirmPassword" matInput type="password">
           </label>
           <mat-error *ngIf="confirmPasswordControl.hasError('required')">
             Confirm password is <strong>required</strong>!

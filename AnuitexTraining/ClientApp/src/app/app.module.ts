@@ -19,12 +19,16 @@ import { AccountEffects } from './modules/account/store/account.effects';
 import {SignUpComponent} from "./modules/account/components/sign-up/sign-up.component";
 import {ConfirmEmailComponent} from "./modules/account/components/confirm-email/confirm-email.component";
 import {ForgotPasswordComponent} from "./modules/account/components/forgot-password/forgot-password.component";
+import {ProfileComponent} from "./modules/user/components/profile.component";
+import {UserModule} from "./modules/user/user.module";
+import {MaterialModule} from "./modules/shared/material.module";
 
 const appRoutes: Routes =[
   { path: 'account/signIn', component: SignInComponent},
   { path: 'account/signUp', component: SignUpComponent},
   { path: 'account/confirmEmail', component: ConfirmEmailComponent},
-  { path: 'account/forgotPassword', component: ForgotPasswordComponent}
+  { path: 'account/forgotPassword', component: ForgotPasswordComponent},
+  { path: 'user/profile', component: ProfileComponent}
 ];
 
 @NgModule({
@@ -32,13 +36,14 @@ const appRoutes: Routes =[
     AppComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     NgbModule,
     AccountModule,
+    UserModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -47,7 +52,8 @@ const appRoutes: Routes =[
       }
     }),
     EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

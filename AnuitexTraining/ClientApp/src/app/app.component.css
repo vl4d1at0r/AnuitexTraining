@@ -1,0 +1,20 @@
+﻿mat-icon.book {
+  transform: scale(3);
+  margin-left: 30px;
+  margin-right: 40px;
+}
+
+.right-button {
+  margin-bottom: auto;
+  margin-top: auto;
+  margin-left: auto;
+}
+
+a.log-in {
+  font-size: 14px;
+  margin-left: auto;
+}
+
+::ng-deep .mat-menu-content  {
+  padding: 0!important;
+}

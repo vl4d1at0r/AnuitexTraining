@@ -18,6 +18,8 @@ export const ConfirmEmail = '[Account] Confirm Email';
 export const ConfirmEmailSuccess = '[Account] Confirm Email Success';
 export const ForgotPassword = '[Account] Forgot Password';
 export const ForgotPasswordSuccess = '[Account] Forgot Password Success';
+export const SignOut = '[Account] Sign Out';
+export const SignOutSuccess = '[Account] Sign Out Success';
 
 export class SignInAction implements Action {
     readonly type = SignIn;
@@ -77,8 +79,16 @@ export class ForgotPasswordSuccessAction implements Action {
   readonly type = ForgotPasswordSuccess;
 }
 
+export class SignOutAction implements Action {
+  readonly type = SignOut;
+}
+
+export class SignOutSuccessAction implements Action {
+  readonly type = SignOutSuccess;
+}
+
 export type AccountActions = SignInAction | SignInSuccessAction |
   AccountFailAction | SignInCookieUpdateAction | AccountShowErrorsAction |
   SignUpAction | SignUpSuccessAction | ConfirmEmailRedirectAction |
   ConfirmEmailAction | ConfirmEmailSuccessAction | ForgotPasswordAction |
-  ForgotPasswordSuccessAction;
+  ForgotPasswordSuccessAction | SignOutAction | SignOutSuccessAction;
