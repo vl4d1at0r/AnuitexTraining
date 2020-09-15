@@ -25,7 +25,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         public async Task AddAsync(AuthorModel item)
         {
             if (string.IsNullOrEmpty(item.Name))
+            {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidName});
+            }
 
             await _authorRepository.AddAsync(_authorMapper.Map(item));
         }
@@ -33,7 +35,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         public async Task DeleteAsync(long id)
         {
             if (await _authorRepository.GetAsync(id) is null)
+            {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
+            }
 
             await _authorRepository.DeleteAsync(id);
         }
@@ -47,18 +51,29 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         {
             var author = await _authorRepository.GetAsync(id);
             if (author is null)
+            {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
+            }
 
             return _authorMapper.Map(author);
         }
 
         public async Task UpdateAsync(AuthorModel item)
         {
-            if (await _authorRepository.GetAsync(item.Id) is null) item.Errors.Add(ExceptionsInfo.InvalidId);
+            if (await _authorRepository.GetAsync(item.Id) is null)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidId);
+            }
 
-            if (string.IsNullOrEmpty(item.Name)) item.Errors.Add(ExceptionsInfo.InvalidName);
+            if (string.IsNullOrEmpty(item.Name))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidName);
+            }
 
-            if (item.Errors.Any()) throw new UserException(HttpStatusCode.BadRequest, item.Errors);
+            if (item.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, item.Errors);
+            }
 
             await _authorRepository.UpdateAsync(_authorMapper.Map(item));
         }

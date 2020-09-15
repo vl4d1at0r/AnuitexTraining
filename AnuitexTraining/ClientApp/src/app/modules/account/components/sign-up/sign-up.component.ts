@@ -3,6 +3,12 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {AccountState} from "../../interfaces/account.state";
 import {SignUpAction} from "../../store/account.actions";
+import {
+  checkContainsLength,
+  checkContainsNumeric,
+  checkContainsSpecialCharacter,
+  checkContainsUpper
+} from "../../../shared/validators";
 
 @Component({
   selector: 'account-sign-up',
@@ -22,7 +28,7 @@ export class SignUpComponent{
   lastNameControl = new FormControl('', [
     Validators.required
   ]);
-  userNameControl = new FormControl('',[
+  nickNameControl = new FormControl('',[
     Validators.required
   ]);
   emailControl = new FormControl('', [
@@ -30,9 +36,10 @@ export class SignUpComponent{
     Validators.email
   ]);
   passwordControl = new FormControl('', [
-    this.checkContainsUpper,
-    this.checkContainsSpecialCharacter,
-    this.checkContainsLength
+    checkContainsUpper,
+    checkContainsSpecialCharacter,
+    checkContainsLength,
+    checkContainsNumeric
   ]);
   confirmPasswordControl = new FormControl('',[
     Validators.required
@@ -41,44 +48,18 @@ export class SignUpComponent{
   form = new FormGroup({
     firstName: this.firstNameControl,
     lastName: this.lastNameControl,
-    userName: this.userNameControl,
+    nickName: this.nickNameControl,
     email: this.emailControl,
     password: this.passwordControl,
     confirmPassword: this.confirmPasswordControl
   });
-
-  checkContainsUpper(control: FormControl) {
-    let password = control.value;
-    let result = { notHaveUpper: true };
-    [...password].forEach(item => {
-      if(item == item.toUpperCase() && !item.match(/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/)){
-        result = null;
-      }
-    });
-    return result;
-  }
-
-  checkContainsSpecialCharacter(control: FormControl) {
-    let result = control.value.match(/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/);
-    if (result == null) {
-      return { notHaveSpecialCharacter: true };
-    }
-    return null;
-  }
-
-  checkContainsLength(control: FormControl) {
-    if (control.value.length >= 6){
-      return null;
-    }
-    return { notHaveLength: true };
-  }
 
   signUp() {
     if(this.form.valid){
       this.store.dispatch(new SignUpAction({
         firstName: this.firstNameControl.value,
         lastName: this.lastNameControl.value,
-        userName: this.userNameControl.value,
+        nickName: this.nickNameControl.value,
         email: this.emailControl.value,
         password: this.passwordControl.value
       }))

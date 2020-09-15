@@ -24,7 +24,7 @@ export class AccountService {
     return this.http.post(this.url + "signUp", {
       firstName: signUpModel.firstName,
       lastName: signUpModel.lastName,
-      userName: signUpModel.userName,
+      nickName: signUpModel.nickName,
       email: signUpModel.email,
       password: signUpModel.password
     });

@@ -33,15 +33,24 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         public async Task<UserModel> GetAsync(long id)
         {
             if (User.FindFirst("Id").Value == id.ToString() || User.FindFirst(ClaimTypes.Role).Value == "Admin")
+            {
                 return await _userService.GetAsync(id);
+            }
+
             throw new UserException(HttpStatusCode.Unauthorized, new List<string>());
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPut("update")]
         public async Task UpdateAsync(UserModel user)
         {
-            await _userService.UpdateAsync(user);
+            if (User.FindFirst("Id").Value == user.Id.ToString() || User.FindFirst(ClaimTypes.Role).Value == "Admin")
+            {
+                await _userService.UpdateAsync(user);
+            }
+            else
+            {
+                throw new UserException(HttpStatusCode.Unauthorized, new List<string>());
+            }
         }
 
         [Authorize(Roles = "Admin")]

@@ -1,6 +1,9 @@
 ﻿export interface UserState {
-  FirstName: string,
-  LastName: string,
-  Username: string,
-  Email: string
+  id: number,
+  firstName: string,
+  lastName: string,
+  nickName: string,
+  email: string,
+  password: string,
+  phoneNumber: string
 }

@@ -1,10 +1,10 @@
 import { Action } from "@ngrx/store";
 import {SignUpModel} from "../models/sign-up/sign-up.model";
-import {AuthenticationFailModel} from "../models/authentication-fail.model";
 import {SignInModel} from "../models/sign-in/sign-in.model";
 import {SignInSuccessModel} from "../models/sign-in/sign-in-success.model";
 import {ConfirmEmailModel} from "../models/confirm-email/confirm-email.model";
 import {ConfirmEmailSuccessModel} from "../models/confirm-email/confirm-email-success.model";
+import {FailModel} from "../../shared/models/fail.model";
 
 export const SignIn = '[Account] Sign-In';
 export const SignInSuccess = '[Account] Sign-In Success';
@@ -42,7 +42,7 @@ export class SignInSuccessAction implements Action {
 
 export class AccountFailAction implements Action {
     readonly type = AccountFail;
-    constructor(public payload: AuthenticationFailModel) { }
+    constructor(public payload: FailModel) { }
 }
 
 export class SignInCookieUpdateAction implements Action {

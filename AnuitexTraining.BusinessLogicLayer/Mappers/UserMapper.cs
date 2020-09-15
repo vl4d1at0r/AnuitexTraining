@@ -13,7 +13,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 Id = item.Id,
                 FirstName = item.FirstName,
                 LastName = item.LastName,
-                UserName = item.UserName,
+                NickName = item.UserName,
                 Email = item.Email,
                 PhoneNumber = item.PhoneNumber,
                 CreationDate = item.CreationDate
@@ -27,7 +27,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 Id = item.Id,
                 FirstName = item.FirstName,
                 LastName = item.LastName,
-                UserName = item.UserName,
+                UserName = item.NickName,
                 Email = item.Email,
                 PhoneNumber = item.PhoneNumber,
                 CreationDate = item.CreationDate

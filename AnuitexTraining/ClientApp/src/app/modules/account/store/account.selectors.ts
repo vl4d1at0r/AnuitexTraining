@@ -9,39 +9,39 @@ import {
   getIsPasswordReset, getIsLoggedIn
 } from "./account.reducer";
 
-export const getSignInState = createFeatureSelector<AccountState>('signIn');
+export const getAccountState = createFeatureSelector<AccountState>('account');
 
 export const getAccessTokenSelector = createSelector(
-  getSignInState,
+  getAccountState,
   getAccessToken
 );
 
 export const getRefreshTokenSelector = createSelector(
-  getSignInState,
+  getAccountState,
   getRefreshToken
 );
 
 export const getFirstNameSelector = createSelector(
-  getSignInState,
+  getAccountState,
   getFirstName
 );
 
 export const getLastNameSelector = createSelector(
-  getSignInState,
+  getAccountState,
   getLastName
 );
 
 export const getIsConfirmedEmailSelector = createSelector(
-  getSignInState,
+  getAccountState,
   getIsConfirmedEmail
 );
 
 export const getIsPasswordResetSelector = createSelector(
-  getSignInState,
+  getAccountState,
   getIsPasswordReset
 )
 
 export const getIsLoggedInSelector = createSelector(
-  getSignInState,
+  getAccountState,
   getIsLoggedIn
 )

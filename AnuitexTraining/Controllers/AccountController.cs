@@ -58,6 +58,12 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             return await _accountService.ConfirmEmailAsync(id, code);
         }
 
+        [HttpGet("changeEmail")]
+        public async Task ChangeEmailAsync(long id, string email, string code)
+        {
+            await _accountService.ChangeEmailAsync(id, email, code);
+        }
+
         [HttpGet("forgotPassword")]
         public async Task ForgotPasswordAsync(string email)
         {

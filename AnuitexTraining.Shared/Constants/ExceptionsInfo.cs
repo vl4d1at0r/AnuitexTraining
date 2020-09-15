@@ -12,7 +12,7 @@
             public const string UserBlocked = "User blocked";
             public const string InvalidPhoneNumber = "Invalid phone number";
             public const string InvalidEmail = "Invalid email";
-            public const string InvalidUsername = "Invalid username";
+            public const string InvalidNickname = "Invalid nickname";
             public const string InvalidId = "Invalid id";
             public const string InvalidFirstName = "Invalid first name";
             public const string InvalidLastName = "Invalid last name";

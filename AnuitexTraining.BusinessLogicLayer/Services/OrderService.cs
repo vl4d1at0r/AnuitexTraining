@@ -59,38 +59,79 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
         public async Task AddAsync(OrderModel orderModel, long userId)
         {
-            if (orderModel.Date == default) orderModel.Errors.Add(ExceptionsInfo.InvalidDate);
+            if (orderModel.Date == default)
+            {
+                orderModel.Errors.Add(ExceptionsInfo.InvalidDate);
+            }
 
-            if (orderModel.Items == null || !orderModel.Items.Any()) orderModel.Errors.Add(ExceptionsInfo.EmptyOrder);
+            if (orderModel.Items == null || !orderModel.Items.Any())
+            {
+                orderModel.Errors.Add(ExceptionsInfo.EmptyOrder);
+            }
 
-            if (string.IsNullOrEmpty(orderModel.Description)) orderModel.Errors.Add(ExceptionsInfo.InvalidDescription);
+            if (string.IsNullOrEmpty(orderModel.Description))
+            {
+                orderModel.Errors.Add(ExceptionsInfo.InvalidDescription);
+            }
 
-            if (orderModel.Id != default) orderModel.Errors.Add(ExceptionsInfo.InvalidId);
+            if (orderModel.Id != default)
+            {
+                orderModel.Errors.Add(ExceptionsInfo.InvalidId);
+            }
 
-            if (orderModel.PaymentId != default) orderModel.Errors.Add(ExceptionsInfo.InvalidPaymentId);
+            if (orderModel.PaymentId != default)
+            {
+                orderModel.Errors.Add(ExceptionsInfo.InvalidPaymentId);
+            }
 
-            if (orderModel.Status != OrderStatus.None) orderModel.Errors.Add(ExceptionsInfo.InvalidStatus);
+            if (orderModel.Status != OrderStatus.None)
+            {
+                orderModel.Errors.Add(ExceptionsInfo.InvalidStatus);
+            }
 
-            if (orderModel.Errors.Any()) throw new UserException(HttpStatusCode.BadRequest, orderModel.Errors);
+            if (orderModel.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, orderModel.Errors);
+            }
 
             foreach (var item in orderModel.Items)
             {
                 var index = orderModel.Items.IndexOf(item);
-                if (item.Amount == default) orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidAmount, index));
+                if (item.Amount == default)
+                {
+                    orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidAmount, index));
+                }
 
                 if (item.PrintingEditionId == default)
+                {
                     orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidPrintingEditionId, index));
+                }
 
-                if (item.Id != default) orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidItemId, index));
+                if (item.Id != default)
+                {
+                    orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidItemId, index));
+                }
 
-                if (item.OrderId != default) orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidOrderId, index));
+                if (item.OrderId != default)
+                {
+                    orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidOrderId, index));
+                }
 
-                if (item.Count == default) orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidCount, index));
+                if (item.Count == default)
+                {
+                    orderModel.Errors.Add(string.Format(ExceptionsInfo.InvalidCount, index));
+                }
 
-                if (item.Currency == default) orderModel.Errors.Add(ExceptionsInfo.InvalidCurrencyType);
+                if (item.Currency == default)
+                {
+                    orderModel.Errors.Add(ExceptionsInfo.InvalidCurrencyType);
+                }
             }
 
-            if (orderModel.Errors.Any()) throw new UserException(HttpStatusCode.BadRequest, orderModel.Errors);
+            if (orderModel.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, orderModel.Errors);
+            }
 
             orderModel.Items.ForEach(async item =>
             {
@@ -116,7 +157,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         {
             var order = await _orderRepository.GetAsync(id);
             if (order is null)
+            {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
+            }
 
             await _orderRepository.DeleteAsync(id);
         }
@@ -125,12 +168,16 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         {
             var order = await _orderRepository.GetAsync(id);
             if (order is null)
+            {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
+            }
 
             var orderItems = await _orderItemRepository.GetByOrderIdAsync(id);
             long sum = 0;
             foreach (var item in orderItems)
+            {
                 sum += Convert.ToInt64(item.Amount.ToString("F").Replace(",", string.Empty));
+            }
 
             var options = new ChargeCreateOptions
             {

@@ -38,7 +38,10 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                     item.Status == orderPageModel.Filter.Status || orderPageModel.Filter.Status == OrderStatus.None);
             }
 
-            if (!orderPageModel.Admin) orders = orders.Where(item => item.UserId == orderPageModel.UserId);
+            if (!orderPageModel.Admin)
+            {
+                orders = orders.Where(item => item.UserId == orderPageModel.UserId);
+            }
 
             return await orders.ToPagedListAsync(orderPageModel.Page, orderPageModel.PageSize);
         }

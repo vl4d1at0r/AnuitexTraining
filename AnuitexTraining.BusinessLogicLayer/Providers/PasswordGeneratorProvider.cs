@@ -23,37 +23,50 @@ namespace AnuitexTraining.BusinessLogicLayer.Providers
                 };
             }
 
-            Random random = new Random(Environment.TickCount);
-            List<char> chars = new List<char>();
+            var random = new Random(Environment.TickCount);
+            var chars = new List<char>();
 
             if (options.RequireUppercase)
-                chars.Insert(random.Next(0, chars.Count), 
-                    PasswordGeneratorOptions.UppercaseChars[random.Next(0, PasswordGeneratorOptions.UppercaseChars.Length)]);
+            {
+                chars.Insert(random.Next(0, chars.Count),
+                    PasswordGeneratorOptions.UppercaseChars[
+                        random.Next(0, PasswordGeneratorOptions.UppercaseChars.Length)]);
+            }
 
             if (options.RequireLowercase)
-                chars.Insert(random.Next(0, chars.Count), 
-                    PasswordGeneratorOptions.LowercaseChars[random.Next(0, PasswordGeneratorOptions.LowercaseChars.Length)]);
+            {
+                chars.Insert(random.Next(0, chars.Count),
+                    PasswordGeneratorOptions.LowercaseChars[
+                        random.Next(0, PasswordGeneratorOptions.LowercaseChars.Length)]);
+            }
 
             if (options.RequireDigit)
-                chars.Insert(random.Next(0, chars.Count), 
+            {
+                chars.Insert(random.Next(0, chars.Count),
                     PasswordGeneratorOptions.DigitChars[random.Next(0, PasswordGeneratorOptions.DigitChars.Length)]);
+            }
 
             if (options.RequireNonAlphanumeric)
-                chars.Insert(random.Next(0, chars.Count), 
-                    PasswordGeneratorOptions.SpecialChars[random.Next(0, PasswordGeneratorOptions.SpecialChars.Length)]);
-
-            for (int i = chars.Count; i < options.RequiredLength
-                                      || chars.Distinct().Count() < options.RequiredUniqueChars; i++)
             {
-                string[] randomChars = new[]
+                chars.Insert(random.Next(0, chars.Count),
+                    PasswordGeneratorOptions.SpecialChars[
+                        random.Next(0, PasswordGeneratorOptions.SpecialChars.Length)]);
+            }
+
+            for (var i = chars.Count;
+                i < options.RequiredLength
+                || chars.Distinct().Count() < options.RequiredUniqueChars;
+                i++)
+            {
+                var randomChars = new[]
                 {
                     PasswordGeneratorOptions.UppercaseChars,
                     PasswordGeneratorOptions.LowercaseChars,
                     PasswordGeneratorOptions.DigitChars,
                     PasswordGeneratorOptions.SpecialChars
                 };
-                string randomChar = randomChars[random.Next(0, randomChars.Length)];
-                chars.Insert(random.Next(0, chars.Count), 
+                var randomChar = randomChars[random.Next(0, randomChars.Length)];
+                chars.Insert(random.Next(0, chars.Count),
                     randomChar[random.Next(0, randomChar.Length)]);
             }
 

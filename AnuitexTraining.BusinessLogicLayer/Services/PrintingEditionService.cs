@@ -44,19 +44,40 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
         public async Task AddAsync(PrintingEditionModel item)
         {
-            if (string.IsNullOrEmpty(item.Title)) item.Errors.Add(ExceptionsInfo.InvalidTitle);
+            if (string.IsNullOrEmpty(item.Title))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidTitle);
+            }
 
-            if (string.IsNullOrEmpty(item.Description)) item.Errors.Add(ExceptionsInfo.InvalidDescription);
+            if (string.IsNullOrEmpty(item.Description))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidDescription);
+            }
 
-            if (string.IsNullOrEmpty(item.AuthorName)) item.Errors.Add(ExceptionsInfo.InvalidAuthor);
+            if (string.IsNullOrEmpty(item.AuthorName))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidAuthor);
+            }
 
-            if (item.Type == PrintingEditionType.None) item.Errors.Add(ExceptionsInfo.InvalidPrintingEditionType);
+            if (item.Type == PrintingEditionType.None)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidPrintingEditionType);
+            }
 
-            if (item.Currency == CurrencyType.None) item.Errors.Add(ExceptionsInfo.InvalidCurrencyType);
+            if (item.Currency == CurrencyType.None)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidCurrencyType);
+            }
 
-            if (item.Price == default) item.Errors.Add(ExceptionsInfo.InvalidPrice);
+            if (item.Price == default)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidPrice);
+            }
 
-            if (item.Errors.Any()) throw new UserException(HttpStatusCode.BadRequest, item.Errors);
+            if (item.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, item.Errors);
+            }
 
             var author = await _authorRepository.GetByNameAsync(item.AuthorName);
             if (author is null)
@@ -74,7 +95,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         public async Task DeleteAsync(long id)
         {
             if (await _printingEditionRepository.GetAsync(id) is null)
+            {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
+            }
 
             await _printingEditionRepository.DeleteAsync(id);
         }
@@ -82,21 +105,45 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         public async Task UpdateAsync(PrintingEditionModel item)
         {
             var printingEdition = await _printingEditionRepository.GetAsync(item.Id);
-            if (printingEdition is null) item.Errors.Add(ExceptionsInfo.InvalidId);
+            if (printingEdition is null)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidId);
+            }
 
-            if (string.IsNullOrEmpty(item.Title)) item.Errors.Add(ExceptionsInfo.InvalidTitle);
+            if (string.IsNullOrEmpty(item.Title))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidTitle);
+            }
 
-            if (string.IsNullOrEmpty(item.Description)) item.Errors.Add(ExceptionsInfo.InvalidDescription);
+            if (string.IsNullOrEmpty(item.Description))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidDescription);
+            }
 
-            if (string.IsNullOrEmpty(item.AuthorName)) item.Errors.Add(ExceptionsInfo.InvalidAuthor);
+            if (string.IsNullOrEmpty(item.AuthorName))
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidAuthor);
+            }
 
-            if (item.Type == PrintingEditionType.None) item.Errors.Add(ExceptionsInfo.InvalidPrintingEditionType);
+            if (item.Type == PrintingEditionType.None)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidPrintingEditionType);
+            }
 
-            if (item.Currency == CurrencyType.None) item.Errors.Add(ExceptionsInfo.InvalidCurrencyType);
+            if (item.Currency == CurrencyType.None)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidCurrencyType);
+            }
 
-            if (item.Price == default) item.Errors.Add(ExceptionsInfo.InvalidPrice);
+            if (item.Price == default)
+            {
+                item.Errors.Add(ExceptionsInfo.InvalidPrice);
+            }
 
-            if (item.Errors.Any()) throw new UserException(HttpStatusCode.BadRequest, item.Errors);
+            if (item.Errors.Any())
+            {
+                throw new UserException(HttpStatusCode.BadRequest, item.Errors);
+            }
 
             printingEdition.Price = item.Price;
             printingEdition.Title = item.Title;
@@ -120,7 +167,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         {
             var printingEdition = await _printingEditionRepository.GetAsync(id);
             if (printingEdition is null)
+            {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
+            }
 
             var authorInPrintingEdition =
                 await _authorInPrintingEditionRepository.GetByPrintingEditionIdAsync(id);

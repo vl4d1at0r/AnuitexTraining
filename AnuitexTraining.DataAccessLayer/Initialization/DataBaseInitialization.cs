@@ -73,7 +73,7 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
                     SecurityStamp = "UD6OIMX72OWACSZNP6QXRDB6AK5UAQWK",
                     PasswordHash =
                         "AQAAAAEAACcQAAAAEKHk3sTABbsMTgCaH81KcsHXbNSfveaBeQYBbLM8tOS5EKut5YWZcDbh7uCXUARPmQ==",
-                    CreationDate = DateTime.UtcNow
+                    CreationDate = DateTime.UtcNow, PhoneNumber = ""
                 },
                 new ApplicationUser
                 {
@@ -82,7 +82,7 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
                     EmailConfirmed = true, SecurityStamp = "P5IWCILRLNALOGOW77G2WLTUREFC7BZG",
                     PasswordHash =
                         "AQAAAAEAACcQAAAAELXM6ETOnIrNLqiksYqOZZ1tKbsO/TLM1hKXn9FCvapFZEcWYLcYxvK9rxxxDSQCSA==",
-                    CreationDate = DateTime.UtcNow
+                    CreationDate = DateTime.UtcNow, PhoneNumber = ""
                 }
             };
 

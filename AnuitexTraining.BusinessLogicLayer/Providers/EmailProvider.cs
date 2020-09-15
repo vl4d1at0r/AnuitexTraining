@@ -42,5 +42,15 @@ namespace AnuitexTraining.BusinessLogicLayer.Providers
             };
             await _smtpClient.SendMailAsync(message);
         }
+
+        public async Task SendEmailChangeMessageAsync(long id, string email, string code)
+        {
+            var message = new MailMessage(_mailAddress, new MailAddress(email))
+            {
+                Subject = EmailProviderOptions.EmailChangeSubject,
+                Body = string.Format(EmailProviderOptions.EmailChangeMessage, EmailProviderOptions.EmailChangeUrl, id, email, HttpUtility.UrlEncode(code))
+            };
+            await _smtpClient.SendMailAsync(message);
+        }
     }
 }

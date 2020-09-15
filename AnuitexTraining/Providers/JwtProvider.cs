@@ -67,7 +67,9 @@ namespace AnuitexTraining.PresentationLayer.Providers
             if (securityToken is JwtSecurityToken jwtSecurityToken &&
                 jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
                     StringComparison.InvariantCultureIgnoreCase))
+            {
                 return jwtSecurityToken;
+            }
 
             return null;
         }

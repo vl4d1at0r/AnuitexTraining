@@ -40,8 +40,10 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             }
 
             if (!string.IsNullOrEmpty(orderField))
+            {
                 printingEditions = printingEditions.OrderBy(orderField,
-                    descending ? SortOrder.Descending.ToString() : SortOrder.Ascending.ToString());
+                    @descending ? SortOrder.Descending.ToString() : SortOrder.Ascending.ToString());
+            }
 
             return await printingEditions.ToPagedListAsync(page, pageSize);
         }

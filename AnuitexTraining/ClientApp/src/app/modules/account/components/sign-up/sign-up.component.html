@@ -30,12 +30,12 @@
       </p>
 
       <p>
-        Username
+        Nickname
         <mat-form-field appearance="outline">
           <label class="full-width">
-            <input formControlName="userName" matInput>
+            <input formControlName="nickName" matInput>
           </label>
-          <mat-error *ngIf="userNameControl.invalid">
+          <mat-error *ngIf="nickNameControl.invalid">
             User name is <strong>required</strong>!
           </mat-error>
         </mat-form-field>
@@ -70,6 +70,9 @@
           </mat-error>
           <mat-error *ngIf="passwordControl.hasError('notHaveUpper')">
             Password must contain at least 1 upper character!
+          </mat-error>
+          <mat-error *ngIf="passwordControl.hasError('notHaveNumeric')">
+            Password must contain at least 1 number!
           </mat-error>
         </mat-form-field>
       </p>

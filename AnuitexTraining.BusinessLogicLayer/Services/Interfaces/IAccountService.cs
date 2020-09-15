@@ -14,5 +14,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
         public Task<string> GetRoleAsync(string email);
         public Task VerifyRefreshTokenAsync(string email, string refreshToken);
         public Task<long> GetIdAsync(string email);
+        public Task ChangeEmailAsync(long id, string email, string code);
     }
 }
