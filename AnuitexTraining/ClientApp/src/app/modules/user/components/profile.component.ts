@@ -54,11 +54,7 @@ export class ProfileComponent implements OnInit {
       checkContainsNumeric
     ]
   });
-  confirmPasswordControl = new FormControl('', {
-    validators: [
-      Validators.required
-    ]
-  });
+  confirmPasswordControl = new FormControl('');
 
   form = new FormGroup({
     firstName: this.firstNameControl,
@@ -102,7 +98,12 @@ export class ProfileComponent implements OnInit {
         phoneNumber: ''
       }
       this.userStore.dispatch(new UpdateUserAction(state));
-      this.cancel();
+      this.userStore.select(getUserSelector).subscribe(item => {
+        console.log(item);
+        if (item) {
+          this.cancel();
+        }
+      })
     }
   }
 

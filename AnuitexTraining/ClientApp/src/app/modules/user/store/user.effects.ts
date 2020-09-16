@@ -30,7 +30,10 @@ export class UserEffects {
             return new GetUserSuccessAction(data)
           }),
           catchError(error => {
-            return of(new UserFailAction(error.error))
+            if (error.error != null) {
+              return of(new UserFailAction(error.error))
+            }
+            return of()
           })
         )
     })
@@ -41,11 +44,13 @@ export class UserEffects {
     mergeMap((action: UpdateUserAction) => {
       return this.userService.updateUser(action.payload)
         .pipe(
-          map(() => {
-            return new UpdateUserSuccessAction();
+          map((result) => {
+            return new UpdateUserSuccessAction(action.payload);
           }),
           catchError(error => {
-            return of(new UserFailAction(error.error))
+            if (error.error != null)
+              return of(new UserFailAction(error.error))
+            return of()
           })
         )
     }));

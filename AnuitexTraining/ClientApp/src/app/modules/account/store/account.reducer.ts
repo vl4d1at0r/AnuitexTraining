@@ -2,7 +2,7 @@ import {
   AccountActions,
   AccountFail,
   ConfirmEmailSuccess,
-  ForgotPasswordSuccess,
+  ForgotPasswordSuccess, SignIn,
   SignInSuccess,
   SignOutSuccess
 } from "./account.actions";
@@ -16,6 +16,7 @@ export const accountInitialState: AccountState = {
   isConfirmedEmail: false,
   isPasswordReset: false,
   isLoggedIn: false,
+  rememberMe: false,
   errors: []
 };
 
@@ -26,6 +27,7 @@ export const getLastName = (state: AccountState) => state.lastName;
 export const getIsConfirmedEmail = (state: AccountState) => state.isConfirmedEmail;
 export const getIsPasswordReset = (state: AccountState) => state.isPasswordReset;
 export const getIsLoggedIn = (state: AccountState) => state.isLoggedIn;
+export const getRememberMe = (state: AccountState) => state.rememberMe;
 
 
 export function accountReducer(state = accountInitialState, action: AccountActions) {
@@ -37,6 +39,12 @@ export function accountReducer(state = accountInitialState, action: AccountActio
         refreshToken: action.payload.refreshToken,
         isLoggedIn: true
       };
+    }
+    case SignIn: {
+      return {
+        ...state,
+        rememberMe: action.payload.rememberMe
+      }
     }
     case AccountFail: {
       return {
@@ -63,7 +71,8 @@ export function accountReducer(state = accountInitialState, action: AccountActio
         ...state,
         isLoggedIn: false,
         accessToken: '',
-        refreshToken: ''
+        refreshToken: '',
+        rememberMe: false
       }
     }
     default:

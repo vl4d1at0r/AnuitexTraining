@@ -44,8 +44,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         {
             await _accountService.SignUpAsync(user);
         }
-
-        [Authorize]
+        
         [HttpGet("signOut")]
         public async Task SignOutAsync()
         {

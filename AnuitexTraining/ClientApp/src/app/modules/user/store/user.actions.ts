@@ -34,6 +34,8 @@ export class UpdateUserAction implements Action {
 
 export class UpdateUserSuccessAction implements Action {
   readonly type = UpdateUserSuccess;
+  constructor(public payload: UserState) {
+  }
 }
 
 export type UserActions = GetUserAction | GetUserSuccessAction | UserFailAction |

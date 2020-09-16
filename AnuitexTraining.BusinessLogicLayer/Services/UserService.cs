@@ -43,7 +43,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             var applicationUser = await _userManager.FindByIdAsync(user.Id.ToString());
             if (applicationUser is null)
             {
-                throw new UserException(HttpStatusCode.BadRequest,new List<string>{ExceptionsInfo.InvalidId});
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
             }
 
             if (string.IsNullOrEmpty(user.FirstName))
@@ -72,6 +72,12 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             applicationUser.PhoneNumber = user.PhoneNumber;
             if (applicationUser.Email != user.Email)
             {
+                if (await _userManager.FindByEmailAsync(user.Email) != null)
+                {
+                    throw new UserException(HttpStatusCode.BadRequest,
+                        new List<string> {ExceptionsInfo.EmailAlreadyTaken});
+                }
+
                 string code = await _userManager.GenerateChangeEmailTokenAsync(applicationUser, user.Email);
                 await _emailProvider.SendEmailChangeMessageAsync(applicationUser.Id, user.Email, code);
             }
@@ -81,6 +87,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 string code = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
                 await _userManager.ResetPasswordAsync(applicationUser, code, user.Password);
             }
+
             if (user.Errors.Any())
             {
                 throw new UserException(HttpStatusCode.BadRequest, user.Errors);

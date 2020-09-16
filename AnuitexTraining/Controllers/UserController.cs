@@ -40,6 +40,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             throw new UserException(HttpStatusCode.Unauthorized, new List<string>());
         }
 
+        [Authorize]
         [HttpPut("update")]
         public async Task UpdateAsync(UserModel user)
         {

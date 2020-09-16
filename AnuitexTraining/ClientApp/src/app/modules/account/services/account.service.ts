@@ -45,4 +45,8 @@ export class AccountService {
   signOut() {
     return this.http.get(this.url + "signOut");
   }
+
+  refreshToken(accessToken: string, refreshToken: string) {
+    return this.http.get(this.url + "refreshToken?accessToken=" + accessToken + "&refreshToken=" + encodeURIComponent(refreshToken));
+  }
 }

@@ -36,6 +36,7 @@ export class SignUpComponent{
     Validators.email
   ]);
   passwordControl = new FormControl('', [
+    Validators.required,
     checkContainsUpper,
     checkContainsSpecialCharacter,
     checkContainsLength,

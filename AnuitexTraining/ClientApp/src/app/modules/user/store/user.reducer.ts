@@ -1,5 +1,5 @@
 ﻿import {UserState} from "../models/user.state";
-import {GetUserSuccess, UpdateUser, UserActions} from "./user.actions";
+import {GetUserSuccess, UpdateUserSuccess, UserActions, UserFail} from "./user.actions";
 
 export const userInitialState: UserState = {
   id: 0,
@@ -17,7 +17,7 @@ export function userReducer(state = userInitialState, action: UserActions) {
   switch (action.type) {
     case GetUserSuccess:
       return action.payload;
-    case UpdateUser:
+    case UpdateUserSuccess:
       return action.payload;
     default:
       return state;
