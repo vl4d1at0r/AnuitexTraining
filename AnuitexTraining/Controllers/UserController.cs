@@ -1,9 +1,12 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Exceptions;
+using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
-using AnuitexTraining.PresentationLayer.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace AnuitexTraining.PresentationLayer.Controllers
 {
@@ -11,45 +14,57 @@ namespace AnuitexTraining.PresentationLayer.Controllers
     [Route("api/users")]
     public class UserController : Controller
     {
-        private IUserService service;
+        private readonly IUserService _userService;
 
         public UserController(IUserService userService)
         {
-            service = userService;
+            _userService = userService;
         }
 
-        [HttpGet]
-        public IEnumerable<UserModel> GetAll()
+        [Authorize(Roles = "Admin")]
+        [HttpPost("getAll")]
+        public async Task<IEnumerable<UserModel>> GetAllAsync(UserModel filter)
         {
-            return service.GetAll();
-        }
-
-        [HttpGet("{id}")]
-        public UserModel Get(int id)
-        {
-            return service.Get(id);
-        }
-
-        [HttpPost]
-        public IActionResult Add(UserModel user)
-        {
-            service.Add(user);
-            return Ok();
-        }
-
-        [HttpPut]
-        public IActionResult Update(UserModel user)
-        {
-            service.Update(user);
-            return Ok();
+            return await _userService.GetAllAsync(filter);
         }
 
         [Authorize]
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpGet("get/{id}")]
+        public async Task<UserModel> GetAsync(long id)
         {
-            service.Delete(id);
-            return Ok();
+            if (User.FindFirst("Id").Value == id.ToString() || User.FindFirst(ClaimTypes.Role).Value == "Admin")
+            {
+                return await _userService.GetAsync(id);
+            }
+
+            throw new UserException(HttpStatusCode.Unauthorized, new List<string>());
+        }
+
+        [HttpPut("update")]
+        public async Task UpdateAsync(UserModel user)
+        {
+            if (User.FindFirst("Id").Value == user.Id.ToString() || User.FindFirst(ClaimTypes.Role).Value == "Admin")
+            {
+                await _userService.UpdateAsync(user);
+            }
+            else
+            {
+                throw new UserException(HttpStatusCode.Unauthorized, new List<string>());
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("delete/{id}")]
+        public async Task DeleteAsync(long id)
+        {
+            await _userService.DeleteAsync(id);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("block/{id}")]
+        public async Task BlockAsync(long id)
+        {
+            await _userService.BlockAsync(id);
         }
     }
 }

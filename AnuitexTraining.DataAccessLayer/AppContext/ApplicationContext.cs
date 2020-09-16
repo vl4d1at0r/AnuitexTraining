@@ -8,6 +8,11 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser, IdentityRole<long>, long>
     {
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        {
+            Database.EnsureCreated();
+        }
+
         public override DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -16,11 +21,6 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
         public DbSet<PrintingEdition> PrintingEditions { get; set; }
         public DbSet<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -28,7 +28,7 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
             DataBaseInitialization.SeedData(modelBuilder);
 
             modelBuilder.Entity<AuthorInPrintingEdition>()
-                .HasKey(item => new { item.AuthorId, item.PrintingEditionId });
+                .HasKey(item => new {item.AuthorId, item.PrintingEditionId});
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

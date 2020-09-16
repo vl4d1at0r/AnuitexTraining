@@ -6,7 +6,6 @@ namespace AnuitexTraining.PresentationLayer.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            
         }
     }
 }

@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200902120301_Init.cs" />
+    <Compile Remove="Migrations\20200902120301_Init.Designer.cs" />
+    <Compile Remove="Migrations\20200902142648_Init.cs" />
+    <Compile Remove="Migrations\20200902142648_Init.Designer.cs" />
+    <Compile Remove="Migrations\20200910083534_Init.cs" />
+    <Compile Remove="Migrations\20200910083534_Init.Designer.cs" />
+    <Compile Remove="Migrations\20200910084026_Init.cs" />
+    <Compile Remove="Migrations\20200910084026_Init.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
@@ -17,6 +28,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.2" />
+    <PackageReference Include="X.PagedList" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AnuitexTraining.Shared\AnuitexTraining.Shared.csproj" />
   </ItemGroup>
 
 </Project>

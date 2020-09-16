@@ -1,6 +1,6 @@
-﻿using AnuitexTraining.DataAccessLayer.Entities.Base;
-using AnuitexTraining.DataAccessLayer.Enums;
-using System;
+﻿using System;
+using AnuitexTraining.DataAccessLayer.Entities.Base;
+using static AnuitexTraining.Shared.Enums.Enums;
 
 namespace AnuitexTraining.DataAccessLayer.Entities
 {

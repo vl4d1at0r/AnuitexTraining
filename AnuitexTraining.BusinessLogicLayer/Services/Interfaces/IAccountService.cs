@@ -1,14 +1,19 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Models.Users;
+﻿using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Models.Users;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
 {
     public interface IAccountService
     {
-        public bool SignIn(UserModel email, string password);
-        public void SignOut(UserModel user);
-        public void SignUp(UserModel user, string password);
-        public void ConfirmEmail(long id, string code);
-        public void ForgotPassword(UserModel user);
-        public void ResetPassword(UserModel user, string code, string newPassword);
+        public Task SignInAsync(string email, string password);
+        public Task SignOutAsync(string email);
+        public Task SignUpAsync(UserModel user);
+        public Task<object> ConfirmEmailAsync(long id, string code);
+        public Task ForgotPasswordAsync(string email);
+        public Task UpdateRefreshTokenAsync(string email, string refreshToken);
+        public Task<string> GetRoleAsync(string email);
+        public Task VerifyRefreshTokenAsync(string email, string refreshToken);
+        public Task<long> GetIdAsync(string email);
+        public Task ChangeEmailAsync(long id, string email, string code);
     }
 }

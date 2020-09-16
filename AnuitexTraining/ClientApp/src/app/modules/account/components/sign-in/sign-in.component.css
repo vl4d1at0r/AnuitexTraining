@@ -1,0 +1,30 @@
+mat-form-field {
+  width: 100%;
+}
+
+button.sign-in {
+  float: right;
+}
+
+img {
+  width: 75px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a.sign-up {
+  width: 220px;
+}
+
+a.forgot-password {
+  float: right;
+}
+
+p.sign-up {
+  text-align: center;
+}
+
+label.full-width {
+  width: 100%;
+}
