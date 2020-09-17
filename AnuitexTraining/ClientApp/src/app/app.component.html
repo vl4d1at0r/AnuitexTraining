@@ -13,7 +13,7 @@
         </mat-icon>
       </button>
       <mat-menu #accountActions="matMenu">
-        <button routerLink="/user/profile" mat-menu-item>
+        <button (click)="profile()" mat-menu-item>
           Profile
         </button>
         <button mat-menu-item (click)="signOut()">

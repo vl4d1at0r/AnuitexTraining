@@ -37,7 +37,6 @@ import {ConfirmEmailSuccessModel} from "../models/confirm-email/confirm-email-su
 export class AccountEffects {
   constructor(private actions$: Actions,
               private accountService: AccountService,
-              private cookieService: CookieService,
               private snackBar: MatSnackBar,
               private router: Router) {
   }
@@ -76,8 +75,8 @@ export class AccountEffects {
   cookieUpdate$ = this.actions$.pipe(ofType(SignInSuccess),
     mergeMap((action: SignInSuccessAction) => {
       if (action.payload.rememberMe) {
-        this.cookieService.set('accessToken', action.payload.accessToken);
-        this.cookieService.set('refreshToken', action.payload.refreshToken);
+        localStorage.setItem('accessToken', action.payload.accessToken);
+        localStorage.setItem('refreshToken', action.payload.refreshToken);
       }
       return of(new SignInCookieUpdateAction());
     }));
@@ -134,8 +133,8 @@ export class AccountEffects {
       return this.accountService.signOut()
         .pipe(
           map(() => {
-            this.cookieService.delete('accessToken');
-            this.cookieService.delete('refreshToken');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
             return new SignOutSuccessAction();
           }),
           catchError(error => {

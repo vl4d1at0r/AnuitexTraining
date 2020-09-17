@@ -1,4 +1,4 @@
-﻿import {Component, OnChanges, OnInit} from "@angular/core";
+﻿import {Component, OnInit} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {getAccessTokenSelector} from "../../account/store/account.selectors";
@@ -12,6 +12,7 @@ import {
   checkContainsSpecialCharacter,
   checkContainsUpper
 } from "../../shared/validators";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'user-profile',
@@ -20,10 +21,12 @@ import {
 })
 export class ProfileComponent implements OnInit {
   constructor(private userStore: Store<UserState>,
-              private accountStore: Store<AccountState>) {
+              private accountStore: Store<AccountState>,
+              private route: ActivatedRoute) {
   }
 
   user: UserState;
+  id: string;
 
   firstNameControl = new FormControl({value: '', disabled: true}, {
     validators: [
@@ -71,18 +74,17 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.accountStore.select(getAccessTokenSelector).subscribe(item => this.accessToken = item);
     if (this.accessToken != '') {
-      let tokenInfo = JSON.parse(atob(this.accessToken.split('.')[1]));
-      let id = tokenInfo.Id;
-      if (id != null) {
-        this.userStore.dispatch(new GetUserAction(id));
-        this.userStore.select(getUserSelector).subscribe((item: UserState) => {
-          this.user = item;
-          this.firstNameControl.setValue(item.firstName);
-          this.lastNameControl.setValue(item.lastName);
-          this.emailControl.setValue(item.email);
-          this.nickNameControl.setValue(item.nickName);
-        });
-      }
+      this.route.queryParams.subscribe(params => {
+        this.id = params.id;
+      })
+      this.userStore.dispatch(new GetUserAction(this.id));
+      this.userStore.select(getUserSelector).subscribe((item: UserState) => {
+        this.user = item;
+        this.firstNameControl.setValue(item.firstName);
+        this.lastNameControl.setValue(item.lastName);
+        this.emailControl.setValue(item.email);
+        this.nickNameControl.setValue(item.nickName);
+      });
     }
   }
 
@@ -99,11 +101,14 @@ export class ProfileComponent implements OnInit {
       }
       this.userStore.dispatch(new UpdateUserAction(state));
       this.userStore.select(getUserSelector).subscribe(item => {
-        console.log(item);
-        if (item) {
-          this.cancel();
+          this.user = item;
+          this.firstNameControl.setValue(item.firstName);
+          this.lastNameControl.setValue(item.lastName);
+          this.emailControl.setValue(item.email);
+          this.nickNameControl.setValue(item.nickName);
         }
-      })
+      )
+      this.cancel()
     }
   }
 

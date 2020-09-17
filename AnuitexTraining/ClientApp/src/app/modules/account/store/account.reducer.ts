@@ -37,6 +37,7 @@ export function accountReducer(state = accountInitialState, action: AccountActio
         ...state,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
+        rememberMe: action.payload.rememberMe,
         isLoggedIn: true
       };
     }

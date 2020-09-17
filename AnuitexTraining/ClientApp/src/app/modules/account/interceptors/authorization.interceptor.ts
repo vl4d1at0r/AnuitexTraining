@@ -44,6 +44,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
         if (error.status == 401 && rememberMe) {
           return this.accountService.refreshToken(accessToken, refreshToken).pipe(
             switchMap((item: SignInSuccessModel) => {
+              item.rememberMe = true;
               this.store.dispatch(new SignInSuccessAction(item));
               return next.handle(request.clone({headers: request.headers.set('Authorization', "Bearer " + accessToken)}));
             })

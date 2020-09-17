@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AnuitexTraining.BusinessLogicLayer\AnuitexTraining.BusinessLogicLayer.csproj" />
-    <ProjectReference Include="..\AnuitexTraining.DataAccessLayer\AnuitexTraining.DataAccessLayer.csproj" />
     <ProjectReference Include="..\AnuitexTraining.Shared\AnuitexTraining.Shared.csproj" />
   </ItemGroup>
 

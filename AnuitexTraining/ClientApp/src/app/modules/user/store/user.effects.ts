@@ -44,7 +44,7 @@ export class UserEffects {
     mergeMap((action: UpdateUserAction) => {
       return this.userService.updateUser(action.payload)
         .pipe(
-          map((result) => {
+          map(() => {
             return new UpdateUserSuccessAction(action.payload);
           }),
           catchError(error => {

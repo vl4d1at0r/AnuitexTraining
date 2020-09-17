@@ -22,13 +22,18 @@ import {ForgotPasswordComponent} from "./modules/account/components/forgot-passw
 import {ProfileComponent} from "./modules/user/components/profile.component";
 import {UserModule} from "./modules/user/user.module";
 import {MaterialModule} from "./modules/shared/material.module";
+import {AuthorizedRouterGuard} from "./router-guards/authorized.router-guard";
+import {UnauthorizedRouterGuard} from "./router-guards/unauthorized.router-guard";
+import {AdministratorModule} from "./modules/administrator/administrator.module";
+import {ClientsComponent} from "./modules/administrator/components/clients/clients.component";
 
 const appRoutes: Routes =[
-  { path: 'account/signIn', component: SignInComponent},
-  { path: 'account/signUp', component: SignUpComponent},
-  { path: 'account/confirmEmail', component: ConfirmEmailComponent},
-  { path: 'account/forgotPassword', component: ForgotPasswordComponent},
-  { path: 'user/profile', component: ProfileComponent}
+  { path: 'account/signIn', component: SignInComponent, canActivate: [UnauthorizedRouterGuard]},
+  { path: 'account/signUp', component: SignUpComponent, canActivate: [UnauthorizedRouterGuard]},
+  { path: 'account/confirmEmail', component: ConfirmEmailComponent, canActivate: [UnauthorizedRouterGuard]},
+  { path: 'account/forgotPassword', component: ForgotPasswordComponent , canActivate: [UnauthorizedRouterGuard]},
+  { path: 'user/profile', component: ProfileComponent, canActivate: [AuthorizedRouterGuard]},
+  { path: 'administrator/clients', component: ClientsComponent}
 ];
 
 @NgModule({
@@ -44,6 +49,7 @@ const appRoutes: Routes =[
     NgbModule,
     AccountModule,
     UserModule,
+    AdministratorModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -55,7 +61,7 @@ const appRoutes: Routes =[
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     MaterialModule
   ],
-  providers: [],
+  providers: [AuthorizedRouterGuard, UnauthorizedRouterGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
