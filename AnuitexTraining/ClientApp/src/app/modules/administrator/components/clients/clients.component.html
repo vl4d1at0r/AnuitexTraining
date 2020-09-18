@@ -1,26 +1,32 @@
 ﻿<p>Users managment</p>
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+<table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
 
   <ng-container matColumnDef="username">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> User name </th>
-    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    <th *matHeaderCellDef mat-header-cell>
+      <button [matMenuTriggerFor]="bruh">User name</button>
+      <mat-menu #bruh="matMenu">
+        User name
+      </mat-menu>
+    </th>
+    <td *matCellDef="let element" mat-cell> {{element.firstName + " " + element.lastName}} </td>
   </ng-container>
 
   <ng-container matColumnDef="email">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> User Email </th>
-    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> User Email</th>
+    <td *matCellDef="let element" mat-cell> {{element.email}} </td>
   </ng-container>
 
   <ng-container matColumnDef="enabled">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-    <td mat-cell *matCellDef="let element"> {{element.blocked}} </td>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> Status</th>
+    <td *matCellDef="let element" mat-cell> {{element.blocked}} </td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-    <td mat-cell *matCellDef="let element">Some</td>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+    <td *matCellDef="let element" mat-cell>Some</td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 </table>
+<mat-paginator [length]="25" [pageSizeOptions]="[5,10,15,20,25]" [pageSize]="25"></mat-paginator>
