@@ -1,32 +1,56 @@
 ﻿<p>Users managment</p>
-<table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+<table [dataSource]="dataSource" mat-table matSort>
 
   <ng-container matColumnDef="username">
     <th *matHeaderCellDef mat-header-cell>
-      <button [matMenuTriggerFor]="bruh">User name</button>
-      <mat-menu #bruh="matMenu">
-        User name
-      </mat-menu>
+      <div (click)="userFilter=!userFilter" class="fill">User name</div>
+      <div class="filter" [hidden]="!userFilter">
+        <mat-card>
+          <mat-form-field appearance="outline">
+            <label class="full-width">
+              <mat-icon>search</mat-icon><input placeholder="Search" class="search" matInput>
+            </label>
+          </mat-form-field>
+        </mat-card>
+      </div>
     </th>
     <td *matCellDef="let element" mat-cell> {{element.firstName + " " + element.lastName}} </td>
   </ng-container>
 
   <ng-container matColumnDef="email">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header> User Email</th>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>
+      User Email
+    </th>
     <td *matCellDef="let element" mat-cell> {{element.email}} </td>
   </ng-container>
 
   <ng-container matColumnDef="enabled">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header> Status</th>
-    <td *matCellDef="let element" mat-cell> {{element.blocked}} </td>
+    <th *matHeaderCellDef mat-header-cell>
+      <div (click)="statusFilter=!statusFilter" class="fill">Status</div>
+      <div class="filter" [hidden]="!statusFilter">
+        <mat-card>
+          <mat-checkbox>Active</mat-checkbox>
+          <br>
+          <mat-checkbox>Blocked</mat-checkbox>
+        </mat-card>
+      </div>
+    </th>
+    <td *matCellDef="let element" mat-cell> <mat-slide-toggle (click)="statusChange(element.id)" [checked]="!element.isBlocked"></mat-slide-toggle> </td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
-    <td *matCellDef="let element" mat-cell>Some</td>
+    <th *matHeaderCellDef mat-header-cell class="actions"></th>
+    <td *matCellDef="let element" mat-cell class="actions">
+      <button mat-icon-button>
+        <mat-icon>create</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>remove_circle_outline</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
-  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+  <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
   <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 </table>
-<mat-paginator [length]="25" [pageSizeOptions]="[5,10,15,20,25]" [pageSize]="25"></mat-paginator>
+<mat-paginator [length]="25" [pageSize]="25"></mat-paginator>

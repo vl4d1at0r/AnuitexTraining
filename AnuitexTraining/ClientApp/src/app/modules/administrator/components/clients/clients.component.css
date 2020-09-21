@@ -1,3 +1,57 @@
 ﻿table {
   width: 100%;
 }
+
+.filter {
+  width: 100%;
+  position: absolute;
+  left: 0;
+}
+
+th, td {
+  padding-left: 0 !important;
+  min-width: 100px;
+  border-right: 2px solid #bdbdbd;
+}
+
+table {
+  border: 2px solid #bdbdbd;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+label {
+  margin-bottom: 0;
+}
+
+label.full-width {
+  width: 100%;
+}
+
+mat-slide-toggle {
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+}
+
+.actions {
+  min-width: 82px;
+  width: 82px;
+  padding-right: 0 !important;
+}
+
+mat-card {
+  border: 1px solid black;
+}
+
+input.search {
+  position: absolute;
+  margin-top: 4px;
+}
+
+div.fill {
+  padding: 18px 0;
+  cursor: pointer;
+}

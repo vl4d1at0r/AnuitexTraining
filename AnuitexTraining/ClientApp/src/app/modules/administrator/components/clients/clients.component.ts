@@ -7,7 +7,6 @@ import {GetUsersAction} from "../../store/administrator.actions";
 import {getUsersSelector} from "../../store/administrator.selectors";
 import {merge} from "rxjs";
 import {MatPaginator} from "@angular/material/paginator";
-import {map, startWith, switchMap} from "rxjs/operators";
 
 export interface PeriodicElement {
   name: string;
@@ -21,16 +20,18 @@ export interface PeriodicElement {
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css']
 })
-export class ClientsComponent implements OnInit,AfterViewInit {
+export class ClientsComponent implements OnInit, AfterViewInit {
   constructor(private store: Store<AdministratorState>) {
   }
 
-  dataSource: UserState[]
-
+  //dataSource$ ;
+  dataSource: UserState[];
   displayedColumns: string[] = ['username', 'email', 'enabled', 'actions'];
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  userFilter = false;
+  statusFilter = false;
 
   ngOnInit() {
     this.store.dispatch(new GetUsersAction());
@@ -40,7 +41,10 @@ export class ClientsComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.paginator, this.sort);
-    merge(this.sort.sortChange, this.paginator.page, )
+    merge(this.sort.sortChange, this.paginator.page,)
+  }
+
+  statusChange(id: number) {
+    this.dataSource[0].email = "";
   }
 }

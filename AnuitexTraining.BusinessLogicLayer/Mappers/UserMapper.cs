@@ -16,7 +16,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 NickName = item.UserName,
                 Email = item.Email,
                 PhoneNumber = item.PhoneNumber,
-                CreationDate = item.CreationDate
+                CreationDate = item.CreationDate,
+                IsBlocked = item.IsBlocked
             };
         }
 
@@ -30,7 +31,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 UserName = item.NickName,
                 Email = item.Email,
                 PhoneNumber = item.PhoneNumber,
-                CreationDate = item.CreationDate
+                CreationDate = item.CreationDate,
+                IsBlocked = item.IsBlocked
             };
         }
     }

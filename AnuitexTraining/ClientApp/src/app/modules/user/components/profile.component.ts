@@ -97,7 +97,8 @@ export class ProfileComponent implements OnInit {
         nickName: this.nickNameControl.value,
         email: this.emailControl.value,
         password: this.passwordControl.value,
-        phoneNumber: ''
+        phoneNumber: '',
+        isBlocked: false
       }
       this.userStore.dispatch(new UpdateUserAction(state));
       this.userStore.select(getUserSelector).subscribe(item => {

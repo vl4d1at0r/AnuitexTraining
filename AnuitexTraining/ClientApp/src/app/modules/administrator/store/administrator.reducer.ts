@@ -2,7 +2,7 @@
 import {AdministratorActions, AdministratorFail, GetUsersSuccess} from "./administrator.actions";
 
 export const administratorInitialState: AdministratorState = {
-  users: [{firstName:"",lastName:"",nickName:"",phoneNumber:"",email:"",password:"",id:0}],
+  users: [],
   errors: []
 };
 
@@ -13,7 +13,7 @@ export function administratorReducer(state = administratorInitialState, action: 
     case GetUsersSuccess:
       return {
         ...state,
-        users: action.payload
+        users: [...action.payload]
       }
     case AdministratorFail:
       return {

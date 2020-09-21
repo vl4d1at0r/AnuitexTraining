@@ -5,5 +5,6 @@
   nickName: string,
   email: string,
   password: string,
-  phoneNumber: string
+  phoneNumber: string,
+  isBlocked: boolean
 }

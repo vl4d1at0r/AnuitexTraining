@@ -8,7 +8,8 @@ export const userInitialState: UserState = {
   nickName: '',
   email: '',
   password: '',
-  phoneNumber: ''
+  phoneNumber: '',
+  isBlocked: false
 }
 
 export const getUser = (state: UserState) => state;
