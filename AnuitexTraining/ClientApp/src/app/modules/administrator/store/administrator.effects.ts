@@ -1,11 +1,17 @@
 ﻿import {Injectable} from "@angular/core";
 import {Actions, Effect, ofType} from "@ngrx/effects";
-import {AdministratorFailAction, GetUsers, GetUsersAction, GetUsersSuccessAction} from "./administrator.actions";
+import {
+  AdministratorFailAction, DeleteUser, DeleteUserAction,
+  DeleteUserSuccessAction,
+  GetUsers,
+  GetUsersAction,
+  GetUsersSuccessAction
+} from "./administrator.actions";
 import {catchError, map, mergeMap} from "rxjs/operators";
 import {AdministratorService} from "../services/administrator.service";
 import {UserState} from "../../user/models/user.state";
 import {of} from "rxjs";
-import {GetUsersSuccessModel} from "../models/get-users-success.model";
+import {UpdateUser, UpdateUserAction} from "../../user/store/user.actions";
 
 @Injectable()
 export class AdministratorEffects {
@@ -16,13 +22,27 @@ export class AdministratorEffects {
   @Effect()
   getUsers$ = this.actions$.pipe(ofType(GetUsers),
     mergeMap((action: GetUsersAction) => {
-      return this.administratorService.getUsers()
+      return this.administratorService.getUsers(action.payload)
         .pipe(
           map((data: UserState[]) => {
             return new GetUsersSuccessAction(data);
           }),
           catchError(error => {
-            return of(new AdministratorFailAction((error.error)));
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  deleteUser$ = this.actions$.pipe(ofType(DeleteUser),
+    mergeMap((action: DeleteUserAction) => {
+      return this.administratorService.deleteUser(action.payload)
+        .pipe(
+          map(() => {
+            return new DeleteUserSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
           })
         )
     }))

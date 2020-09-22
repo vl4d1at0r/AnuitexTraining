@@ -70,6 +70,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             applicationUser.FirstName = user.FirstName;
             applicationUser.LastName = user.LastName;
             applicationUser.PhoneNumber = user.PhoneNumber;
+            applicationUser.IsBlocked = user.IsBlocked;
             if (applicationUser.Email != user.Email)
             {
                 if (await _userManager.FindByEmailAsync(user.Email) != null)

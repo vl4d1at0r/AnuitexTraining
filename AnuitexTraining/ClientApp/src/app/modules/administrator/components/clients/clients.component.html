@@ -35,16 +35,16 @@
         </mat-card>
       </div>
     </th>
-    <td *matCellDef="let element" mat-cell> <mat-slide-toggle (click)="statusChange(element.id)" [checked]="!element.isBlocked"></mat-slide-toggle> </td>
+    <td *matCellDef="let element" mat-cell> <mat-slide-toggle (change)="statusChange(element)" [checked]="!element.isBlocked"></mat-slide-toggle> </td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef mat-header-cell class="actions"></th>
     <td *matCellDef="let element" mat-cell class="actions">
-      <button mat-icon-button>
+      <button mat-icon-button (click)="edit(element)">
         <mat-icon>create</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="delete(element)">
         <mat-icon>remove_circle_outline</mat-icon>
       </button>
     </td>

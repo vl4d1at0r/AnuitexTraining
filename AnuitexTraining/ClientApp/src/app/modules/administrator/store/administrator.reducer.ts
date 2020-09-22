@@ -1,5 +1,5 @@
 ﻿import {AdministratorState} from "../models/administrator.state";
-import {AdministratorActions, AdministratorFail, GetUsersSuccess} from "./administrator.actions";
+import {AdministratorActions, AdministratorFail, DeleteUserSuccess, GetUsersSuccess} from "./administrator.actions";
 
 export const administratorInitialState: AdministratorState = {
   users: [],

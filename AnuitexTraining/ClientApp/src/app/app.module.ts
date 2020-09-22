@@ -33,7 +33,7 @@ const appRoutes: Routes =[
   { path: 'account/confirmEmail', component: ConfirmEmailComponent, canActivate: [UnauthorizedRouterGuard]},
   { path: 'account/forgotPassword', component: ForgotPasswordComponent , canActivate: [UnauthorizedRouterGuard]},
   { path: 'user/profile', component: ProfileComponent, canActivate: [AuthorizedRouterGuard]},
-  { path: 'administrator/clients', component: ClientsComponent}
+  { path: 'administrator/clients', component: ClientsComponent, canActivate: [AuthorizedRouterGuard]}
 ];
 
 @NgModule({

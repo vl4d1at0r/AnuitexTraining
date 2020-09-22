@@ -6,5 +6,6 @@
   email: string,
   password: string,
   phoneNumber: string,
-  isBlocked: boolean
+  isBlocked: boolean,
+  creationDate: Date
 }

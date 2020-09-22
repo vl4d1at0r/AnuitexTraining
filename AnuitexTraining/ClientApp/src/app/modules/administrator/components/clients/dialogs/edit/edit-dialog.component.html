@@ -1,0 +1,93 @@
+﻿<p>
+  <mat-icon>edit</mat-icon>
+</p>
+<form [formGroup]="form">
+  <p>
+    First name
+    <mat-form-field appearance="outline">
+      <label class="full-width">
+        <input formControlName="firstName" matInput>
+      </label>
+      <mat-error *ngIf="firstNameControl.invalid">
+        First name is <strong>required</strong>!
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    Last name
+    <mat-form-field appearance="outline">
+      <label class="full-width">
+        <input formControlName="lastName" matInput>
+      </label>
+      <mat-error *ngIf="lastNameControl.invalid">
+        Last name is <strong>required</strong>!
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    Nickname
+    <mat-form-field appearance="outline">
+      <label class="full-width">
+        <input formControlName="nickName" matInput>
+      </label>
+      <mat-error *ngIf="nickNameControl.invalid">
+        User name is <strong>required</strong>!
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    Email
+    <mat-form-field appearance="outline">
+      <label class="full-width">
+        <input formControlName="email" matInput type="email">
+      </label>
+      <mat-error *ngIf="emailControl.hasError('email') && !emailControl.hasError('required')">
+        Please enter a valid email!
+      </mat-error>
+      <mat-error *ngIf="emailControl.hasError('required')">
+        Email is <strong>required</strong>!
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    Password
+    <mat-form-field appearance="outline">
+      <label class="full-width">
+        <input formControlName="password" matInput type="password">
+      </label>
+      <mat-error *ngIf="passwordControl.hasError('notHaveLength')">
+        Password minimal length is 6!
+      </mat-error>
+      <mat-error *ngIf="passwordControl.hasError('notHaveSpecialCharacter')">
+        Password must contain at least 1 special character!
+      </mat-error>
+      <mat-error *ngIf="passwordControl.hasError('notHaveUpper')">
+        Password must contain at least 1 upper character!
+      </mat-error>
+      <mat-error *ngIf="passwordControl.hasError('notHaveNumeric')">
+        Password must contain at least 1 number!
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    Confirm password
+    <mat-form-field appearance="outline">
+      <label class="full-width">
+        <input formControlName="confirmPassword" matInput ngValidateEqual="password" type="password">
+      </label>
+      <mat-error *ngIf="confirmPasswordControl.hasError('required')">
+        Confirm password is <strong>required</strong>!
+      </mat-error>
+      <mat-error *ngIf="confirmPasswordControl.hasError('notEqual')">
+        Passwords are not equal!
+      </mat-error>
+    </mat-form-field>
+  </p>
+  <button class="cancel" color="accent" mat-raised-button>Cancel</button>
+  <button class="save" color="primary" mat-raised-button (click)="save()">Save</button>
+</form>

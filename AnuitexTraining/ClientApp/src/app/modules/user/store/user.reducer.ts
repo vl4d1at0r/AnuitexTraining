@@ -1,5 +1,6 @@
 ﻿import {UserState} from "../models/user.state";
 import {GetUserSuccess, UpdateUserSuccess, UserActions, UserFail} from "./user.actions";
+import {min} from "rxjs/operators";
 
 export const userInitialState: UserState = {
   id: 0,
@@ -9,7 +10,8 @@ export const userInitialState: UserState = {
   email: '',
   password: '',
   phoneNumber: '',
-  isBlocked: false
+  isBlocked: false,
+  creationDate: null
 }
 
 export const getUser = (state: UserState) => state;

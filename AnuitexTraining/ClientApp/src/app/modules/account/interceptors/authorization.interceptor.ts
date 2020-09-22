@@ -46,7 +46,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
             switchMap((item: SignInSuccessModel) => {
               item.rememberMe = true;
               this.store.dispatch(new SignInSuccessAction(item));
-              return next.handle(request.clone({headers: request.headers.set('Authorization', "Bearer " + accessToken)}));
+              return next.handle(request.clone({headers: request.headers.set('Authorization', "Bearer " + item.accessToken)}));
             })
           )
         }

@@ -37,11 +37,8 @@ export class AppComponent implements OnInit {
   }
 
   profile() {
-    console.log("bruh")
     this.store.select(getAccessTokenSelector).subscribe(item => this.accessToken = item)
-    console.log(this.accessToken);
     let id = JSON.parse(atob(this.accessToken.split('.')[1])).Id;
-    console.log(id);
     this.router.navigate(["user", "profile"], {
       queryParams: {
         id: id
