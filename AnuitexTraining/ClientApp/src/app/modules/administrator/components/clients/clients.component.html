@@ -17,7 +17,7 @@
     <td *matCellDef="let element" mat-cell> {{element.firstName + " " + element.lastName}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="email">
+  <ng-container matColumnDef="Email">
     <th *matHeaderCellDef mat-header-cell mat-sort-header>
       User Email
     </th>
@@ -53,4 +53,4 @@
   <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
   <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 </table>
-<mat-paginator [length]="25" [pageSize]="25"></mat-paginator>
+<mat-paginator [length]="length" [pageSize]="5"></mat-paginator>

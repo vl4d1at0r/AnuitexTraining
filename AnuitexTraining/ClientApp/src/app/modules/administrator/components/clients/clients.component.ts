@@ -3,20 +3,15 @@ import {UserState} from "../../../user/models/user.state";
 import {MatSort} from "@angular/material/sort";
 import {Store} from "@ngrx/store";
 import {AdministratorState} from "../../models/administrator.state";
-import {
-  DeleteUserAction,
-  DeleteUserSuccess,
-  GetUsers,
-  GetUsersAction,
-  GetUsersSuccess
-} from "../../store/administrator.actions";
-import {getUsersSelector} from "../../store/administrator.selectors";
+import {DeleteUserAction, DeleteUserSuccess, GetUsersAction, GetUsersSuccess} from "../../store/administrator.actions";
+import {getAdministratorSelector, getUsersSelector} from "../../store/administrator.selectors";
 import {merge} from "rxjs";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
 import {EditDialogComponent} from "./dialogs/edit/edit-dialog.component";
-import {UpdateUser, UpdateUserAction, UpdateUserSuccess} from "../../../user/store/user.actions";
+import {UpdateUserAction, UpdateUserSuccess} from "../../../user/store/user.actions";
 import {Actions, ofType} from "@ngrx/effects";
+import {SortOrderEnum} from "../../../shared/enums/sort-order.enum";
 
 @Component({
   selector: 'administrator-clients',
@@ -32,7 +27,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
 
   //dataSource$ ;
   dataSource: UserState[];
-  displayedColumns: string[] = ['username', 'email', 'enabled', 'actions'];
+  displayedColumns: string[] = ['username', 'Email', 'enabled', 'actions'];
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -45,27 +40,60 @@ export class ClientsComponent implements OnInit, AfterViewInit {
     phoneNumber: "",
     id: 0,
     creationDate: null,
-    isBlocked: false
+    isBlocked: null
   };
   userFilter = false;
   statusFilter = false;
+  length = 0;
 
   ngOnInit() {
-    this.actions$.pipe(ofType(UpdateUserSuccess, DeleteUserSuccess)).subscribe(() => {
-      this.administratorStore.dispatch(new GetUsersAction(this.filter));
-    })
-
-    this.actions$.pipe(ofType(GetUsersSuccess)).subscribe(() => {
-      this.administratorStore.select(getUsersSelector).subscribe(item => {
-        this.dataSource = item
-      });
-    })
-    this.administratorStore.dispatch(new GetUsersAction(this.filter));
   }
 
   ngAfterViewInit() {
-    merge(this.sort.sortChange, this.paginator.page).subscribe(() => {
-      this.administratorStore.dispatch(new GetUsersAction(this.filter));
+    this.actions$.pipe(ofType(UpdateUserSuccess, DeleteUserSuccess)).subscribe(() => {
+      this.paginator.firstPage();
+      this.administratorStore.dispatch(new GetUsersAction({
+        filter: this.filter,
+        page: this.paginator.pageIndex + 1,
+        pageSize: this.paginator.pageSize,
+        sortField: this.sort.active,
+        sortOrder: SortOrderEnum[this.sort.direction]
+      }));
+    })
+
+    this.actions$.pipe(ofType(GetUsersSuccess)).subscribe(() => {
+      this.administratorStore.select(getAdministratorSelector).subscribe(item => {
+        this.dataSource = item.users;
+        this.length = item.length
+      });
+    })
+    this.administratorStore.dispatch(new GetUsersAction({
+      filter: this.filter,
+      page: this.paginator.pageIndex + 1,
+      pageSize: this.paginator.pageSize,
+      sortField: this.sort.active,
+      sortOrder: SortOrderEnum[this.sort.direction]
+    }));
+
+    merge(this.sort.sortChange).subscribe(() => {
+      this.paginator.firstPage();
+      this.administratorStore.dispatch(new GetUsersAction({
+        filter: this.filter,
+        page: this.paginator.pageIndex + 1,
+        pageSize: this.paginator.pageSize,
+        sortField: this.sort.active,
+        sortOrder: SortOrderEnum[this.sort.direction]
+      }));
+    })
+
+    this.paginator.page.subscribe(() => {
+      this.administratorStore.dispatch(new GetUsersAction({
+        filter: this.filter,
+        page: this.paginator.pageIndex + 1,
+        pageSize: this.paginator.pageSize,
+        sortField: this.sort.active,
+        sortOrder: SortOrderEnum[this.sort.direction]
+      }));
     })
   }
 

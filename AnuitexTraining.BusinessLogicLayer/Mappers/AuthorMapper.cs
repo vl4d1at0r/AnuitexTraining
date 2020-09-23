@@ -11,7 +11,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
             return new Author
             {
                 Id = item.Id,
-                CreationDate = item.CreationDate,
+                CreationDate = item.CreationDate ?? default,
                 Name = item.Name
             };
         }

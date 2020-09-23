@@ -12,6 +12,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.Base
 
         public long Id { get; set; }
         public List<string> Errors { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
     }
 }

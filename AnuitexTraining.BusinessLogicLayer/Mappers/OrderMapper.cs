@@ -11,7 +11,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
             return new Order
             {
                 Id = item.Id,
-                CreationDate = item.CreationDate,
+                CreationDate = item.CreationDate ?? default,
                 Date = item.Date,
                 Description = item.Description,
                 PaymentId = item.PaymentId,

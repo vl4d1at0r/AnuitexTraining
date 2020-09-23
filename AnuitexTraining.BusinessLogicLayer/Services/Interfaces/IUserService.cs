@@ -8,8 +8,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
     {
         public Task DeleteAsync(long id);
         public Task<UserModel> GetAsync(long id);
-        public Task<IEnumerable<UserModel>> GetAllAsync(UserModel filter);
-        public Task UpdateAsync(UserModel user);
+        public Task<object> GetAllAsync(UserPageModel pageModel);
+        public Task UpdateAsync(UserModel user, bool force);
         public Task BlockAsync(long id);
     }
 }

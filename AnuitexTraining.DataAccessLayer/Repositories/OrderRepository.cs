@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AnuitexTraining.DataAccessLayer.AppContext;
@@ -25,7 +26,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                 orders = _dbSet.Where(item =>
                     item.Description.ToLower().Contains(orderPageModel.Filter.Description.ToLower()));
                 orders = _dbSet.Where(item =>
-                    item.CreationDate.CompareTo(orderPageModel.Filter.CreationDate) == 0 ||
+                    DateTime.Compare((DateTime) item.CreationDate, (DateTime) orderPageModel.Filter.CreationDate) == 0 ||
                     orderPageModel.Filter.CreationDate == default);
                 orders = _dbSet.Where(item =>
                     item.Date.CompareTo(orderPageModel.Filter.Date) == 0 || orderPageModel.Filter.Date == default);

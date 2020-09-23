@@ -2,6 +2,7 @@
 import {UserState} from "../../user/models/user.state";
 import {FailModel} from "../../shared/models/fail.model";
 import {GetUsersModel} from "../models/get-users.model";
+import {GetUsersSuccessModel} from "../models/get-users-success.model";
 
 export const GetUsers = '[Administrator] Get Users';
 export const GetUsersSuccess = '[Administrator] Get Users Success';
@@ -15,13 +16,13 @@ export class DeleteUserSuccessAction implements Action {
 
 export class GetUsersAction implements Action {
   readonly type = GetUsers;
-  constructor(public payload: UserState) {
+  constructor(public payload: GetUsersModel) {
   }
 }
 
 export class GetUsersSuccessAction implements Action {
   readonly type = GetUsersSuccess;
-  constructor(public payload: UserState[]) {
+  constructor(public payload: GetUsersSuccessModel) {
   }
 }
 

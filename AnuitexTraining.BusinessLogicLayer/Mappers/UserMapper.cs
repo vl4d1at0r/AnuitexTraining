@@ -31,8 +31,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 UserName = item.NickName,
                 Email = item.Email,
                 PhoneNumber = item.PhoneNumber,
-                CreationDate = item.CreationDate,
-                IsBlocked = item.IsBlocked
+                CreationDate = item.CreationDate ?? default,
+                IsBlocked = item.IsBlocked ?? default
             };
         }
     }

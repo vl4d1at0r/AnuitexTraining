@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                 printingEditions =
                     _dbSet.Where(item => item.Description.ToLower().Contains(filter.Description.ToLower()));
                 printingEditions = _dbSet.Where(item =>
-                    item.CreationDate.CompareTo(filter.CreationDate) == 0 || filter.CreationDate == default);
+                    filter.CreationDate == null || DateTime.Compare(item.CreationDate, filter.CreationDate) == 0);
                 printingEditions = _dbSet.Where(item =>
                     item.Currency == filter.Currency || filter.Currency == CurrencyType.None);
                 printingEditions = _dbSet.Where(item =>

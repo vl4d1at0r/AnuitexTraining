@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Net;
 using System.Threading.Tasks;
 using AnuitexTraining.BusinessLogicLayer.Exceptions;
@@ -9,7 +11,9 @@ using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 using static AnuitexTraining.Shared.Constants.Constants;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services
@@ -38,7 +42,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             await _userManager.DeleteAsync(user);
         }
 
-        public async Task UpdateAsync(UserModel user)
+        public async Task UpdateAsync(UserModel user, bool force = false)
         {
             var applicationUser = await _userManager.FindByIdAsync(user.Id.ToString());
             if (applicationUser is null)
@@ -70,7 +74,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             applicationUser.FirstName = user.FirstName;
             applicationUser.LastName = user.LastName;
             applicationUser.PhoneNumber = user.PhoneNumber;
-            applicationUser.IsBlocked = user.IsBlocked;
+            applicationUser.IsBlocked = user.IsBlocked ?? default;
             if (applicationUser.Email != user.Email)
             {
                 if (await _userManager.FindByEmailAsync(user.Email) != null)
@@ -80,7 +84,14 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 }
 
                 string code = await _userManager.GenerateChangeEmailTokenAsync(applicationUser, user.Email);
-                await _emailProvider.SendEmailChangeMessageAsync(applicationUser.Id, user.Email, code);
+                if (!force)
+                {
+                    await _emailProvider.SendEmailChangeMessageAsync(applicationUser.Id, user.Email, code);
+                }
+                else
+                {
+                    await _userManager.ChangeEmailAsync(applicationUser, user.Email, code);
+                }
             }
 
             if (!string.IsNullOrEmpty(user.Password))
@@ -119,16 +130,29 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             return _userMapper.Map(user);
         }
 
-        public async Task<IEnumerable<UserModel>> GetAllAsync(UserModel filter)
+        public async Task<object> GetAllAsync(UserPageModel pageModel)
         {
-            var users = await _userManager.Users.ToListAsync();
-            users = users.Where(user => user.UserName.ToLower().Contains(filter.NickName.ToLower()) &&
-                                        user.Email.ToLower().Contains(filter.Email.ToLower()) &&
-                                        user.FirstName.ToLower().Contains(filter.FirstName.ToLower()) &&
-                                        user.LastName.ToLower().Contains(filter.LastName.ToLower()) &&
-                                        (user.CreationDate.CompareTo(filter.CreationDate) == 0 ||
-                                         filter.CreationDate == default)).ToList();
-            return _userMapper.Map(users);
+            var users = _userManager.Users;
+            users = users.Where(user => user.UserName.ToLower().Contains(pageModel.Filter.NickName.ToLower()) &&
+                                        user.Email.ToLower().Contains(pageModel.Filter.Email.ToLower()) &&
+                                        user.FirstName.ToLower().Contains(pageModel.Filter.FirstName.ToLower()) &&
+                                        user.LastName.ToLower().Contains(pageModel.Filter.LastName.ToLower()) &&
+                                        (pageModel.Filter.IsBlocked == null ||
+                                         pageModel.Filter.IsBlocked == user.IsBlocked) &&
+                                        (pageModel.Filter.CreationDate == null || DateTime.Compare(user.CreationDate,
+                                            (DateTime) pageModel.Filter.CreationDate) == 0));
+            if (pageModel.SortOrder != SortOrder.Unspecified)
+            {
+                users = users.OrderBy(pageModel.SortField + " " + pageModel.SortOrder.ToString());
+            }
+
+            var usersList = await users.ToListAsync();
+
+            return new
+            {
+                users = _userMapper.Map(await usersList.ToPagedListAsync(pageModel.Page, pageModel.PageSize)),
+                length = usersList.Count
+            };
         }
 
         public async Task BlockAsync(long id)

@@ -23,9 +23,9 @@ namespace AnuitexTraining.PresentationLayer.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("getAll")]
-        public async Task<IEnumerable<UserModel>> GetAllAsync(UserModel filter)
+        public async Task<object> GetAllAsync(UserPageModel pageModel)
         {
-            return await _userService.GetAllAsync(filter);
+            return await _userService.GetAllAsync(pageModel);
         }
 
         [Authorize]
@@ -44,9 +44,10 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         [HttpPut("update")]
         public async Task UpdateAsync(UserModel user)
         {
-            if (User.FindFirst("Id").Value == user.Id.ToString() || User.FindFirst(ClaimTypes.Role).Value == "Admin")
+            bool isAdmin = User.FindFirst(ClaimTypes.Role).Value == "Admin";
+            if (User.FindFirst("Id").Value == user.Id.ToString() || isAdmin)
             {
-                await _userService.UpdateAsync(user);
+                await _userService.UpdateAsync(user, isAdmin);
             }
             else
             {

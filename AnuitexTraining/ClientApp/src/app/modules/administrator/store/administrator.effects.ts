@@ -12,6 +12,7 @@ import {AdministratorService} from "../services/administrator.service";
 import {UserState} from "../../user/models/user.state";
 import {of} from "rxjs";
 import {UpdateUser, UpdateUserAction} from "../../user/store/user.actions";
+import {GetUsersSuccessModel} from "../models/get-users-success.model";
 
 @Injectable()
 export class AdministratorEffects {
@@ -24,7 +25,7 @@ export class AdministratorEffects {
     mergeMap((action: GetUsersAction) => {
       return this.administratorService.getUsers(action.payload)
         .pipe(
-          map((data: UserState[]) => {
+          map((data: GetUsersSuccessModel) => {
             return new GetUsersSuccessAction(data);
           }),
           catchError(error => {

@@ -11,7 +11,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
             return new PrintingEdition
             {
                 Id = item.Id,
-                CreationDate = item.CreationDate,
+                CreationDate = item.CreationDate ?? default,
                 Currency = item.Currency,
                 Description = item.Description,
                 Price = item.Price,

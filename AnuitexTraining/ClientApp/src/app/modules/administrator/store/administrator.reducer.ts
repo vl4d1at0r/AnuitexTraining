@@ -3,17 +3,20 @@ import {AdministratorActions, AdministratorFail, DeleteUserSuccess, GetUsersSucc
 
 export const administratorInitialState: AdministratorState = {
   users: [],
-  errors: []
+  errors: [],
+  length: 0
 };
 
 export const getUsers = (state: AdministratorState) => state.users;
+export const getAdministrator = (state: AdministratorState) => state;
 
 export function administratorReducer(state = administratorInitialState, action: AdministratorActions) {
   switch (action.type) {
     case GetUsersSuccess:
       return {
         ...state,
-        users: [...action.payload]
+        users: [...action.payload.users],
+        length: action.payload.length
       }
     case AdministratorFail:
       return {

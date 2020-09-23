@@ -13,7 +13,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 Id = item.Id,
                 Amount = item.Amount,
                 Count = item.Count,
-                CreationDate = item.CreationDate,
+                CreationDate = item.CreationDate ?? default,
                 Currency = item.Currency,
                 OrderId = item.OrderId,
                 PrintingEditionId = item.PrintingEditionId

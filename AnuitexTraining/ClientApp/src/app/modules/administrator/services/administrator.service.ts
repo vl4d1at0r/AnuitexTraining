@@ -1,6 +1,7 @@
 ﻿import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {UserState} from "../../user/models/user.state";
+import {GetUsersModel} from "../models/get-users.model";
 
 @Injectable()
 export class AdministratorService {
@@ -10,8 +11,8 @@ export class AdministratorService {
   private userUrl = "/api/users/";
   private accountUrl = "/api/accounts/";
 
-  getUsers(filter: UserState) {
-    return this.http.post(this.userUrl + "getAll", filter);
+  getUsers(model: GetUsersModel) {
+    return this.http.post(this.userUrl + "getAll", model);
   }
 
   deleteUser(id: number) {

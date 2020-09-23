@@ -1,7 +1,6 @@
 ﻿import {UserState} from "../../user/models/user.state";
 
-export interface AdministratorState {
+export interface GetUsersSuccessModel {
   users: UserState[],
-  errors: string[],
   length: number
 }

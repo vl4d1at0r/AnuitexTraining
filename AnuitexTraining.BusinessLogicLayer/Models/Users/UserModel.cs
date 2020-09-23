@@ -4,7 +4,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.Users
 {
     public class UserModel : BaseModel
     {
-        public bool IsBlocked { get; set; }
+        public bool? IsBlocked { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string NickName { get; set; }

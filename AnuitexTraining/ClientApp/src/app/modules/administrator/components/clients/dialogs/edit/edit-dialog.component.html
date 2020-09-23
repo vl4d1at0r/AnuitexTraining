@@ -88,6 +88,6 @@
       </mat-error>
     </mat-form-field>
   </p>
-  <button class="cancel" color="accent" mat-raised-button>Cancel</button>
+  <button class="cancel" color="accent" mat-raised-button (click)="this.dialogRef.close()">Cancel</button>
   <button class="save" color="primary" mat-raised-button (click)="save()">Save</button>
 </form>
