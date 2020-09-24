@@ -1,0 +1,12 @@
+﻿mat-form-field {
+  width: 100%;
+}
+
+button.save {
+  float: right;
+  margin-right: 50px;
+}
+
+button.cancel {
+  margin-left: 50px;
+}

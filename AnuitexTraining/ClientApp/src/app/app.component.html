@@ -1,0 +1,32 @@
+<body>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <mat-icon color="primary" class="book">
+      menu_book
+    </mat-icon>
+    Book Publishing Company
+    <a routerLink="/account/signIn" class="log-in" *ngIf="!(isLoggedIn$ | async)">Log in</a>
+    <div class="right-button" *ngIf="isLoggedIn$ | async">
+      <button mat-icon-button [matMenuTriggerFor]="accountActions">
+        <mat-icon>
+          account_circle
+        </mat-icon>
+      </button>
+      <mat-menu #accountActions="matMenu">
+        <button (click)="profile()" mat-menu-item>
+          Profile
+        </button>
+        <button mat-menu-item (click)="signOut()">
+          Sign out
+        </button>
+      </mat-menu>
+      <button mat-icon-button>
+        <mat-icon>
+          shopping_cart
+        </mat-icon>
+      </button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet></router-outlet>
+</body>

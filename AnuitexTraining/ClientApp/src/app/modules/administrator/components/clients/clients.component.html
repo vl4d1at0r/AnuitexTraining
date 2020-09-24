@@ -1,0 +1,62 @@
+﻿<p>Users managment</p>
+<table [dataSource]="dataSource" mat-table matSort>
+
+  <ng-container matColumnDef="username">
+    <th *matHeaderCellDef mat-header-cell>
+      <div (click)="userFilter=!userFilter" class="fill">User name</div>
+      <div [hidden]="!userFilter" class="filter">
+        <mat-card>
+            <mat-form-field appearance="outline">
+              <label class="full-width">
+                <mat-icon>search</mat-icon>
+                <input class="search" matInput placeholder="Search" [(ngModel)]="searchText" (keyup.enter)="search()" (ngModelChange)="searchTextChange()" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptions" [value]="option" (click)="search()">{{option}}</mat-option>
+                </mat-autocomplete>
+              </label>
+            </mat-form-field>
+        </mat-card>
+      </div>
+    </th>
+    <td *matCellDef="let element" mat-cell> {{element.firstName + " " + element.lastName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Email">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>
+      User Email
+    </th>
+    <td *matCellDef="let element" mat-cell> {{element.email}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="enabled">
+    <th *matHeaderCellDef mat-header-cell>
+      <div (click)="statusFilter=!statusFilter" class="fill">Status</div>
+      <div [hidden]="!statusFilter" class="filter">
+        <mat-card>
+          <mat-checkbox [(ngModel)]="active" (change)="change()">Active</mat-checkbox>
+          <br>
+          <mat-checkbox [(ngModel)]="blocked" (change)="change()">Blocked</mat-checkbox>
+        </mat-card>
+      </div>
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      <mat-slide-toggle (change)="statusChange(element)" [checked]="!element.isBlocked"></mat-slide-toggle>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef class="actions" mat-header-cell></th>
+    <td *matCellDef="let element" class="actions" mat-cell>
+      <button (click)="edit(element)" mat-icon-button>
+        <mat-icon>create</mat-icon>
+      </button>
+      <button (click)="delete(element)" mat-icon-button>
+        <mat-icon>remove_circle_outline</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+</table>
+<mat-paginator [length]="length" [pageSize]="5"></mat-paginator>
