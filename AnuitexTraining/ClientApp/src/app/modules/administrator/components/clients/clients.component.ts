@@ -1,4 +1,4 @@
-﻿import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
+﻿import {AfterViewInit, Component, EventEmitter, OnInit, ViewChild} from "@angular/core";
 import {UserState} from "../../../user/models/user.state";
 import {MatSort} from "@angular/material/sort";
 import {Store} from "@ngrx/store";
@@ -12,6 +12,7 @@ import {EditDialogComponent} from "./dialogs/edit/edit-dialog.component";
 import {UpdateUserAction, UpdateUserSuccess} from "../../../user/store/user.actions";
 import {Actions, ofType} from "@ngrx/effects";
 import {SortOrderEnum} from "../../../shared/enums/sort-order.enum";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'administrator-clients',
@@ -25,7 +26,8 @@ export class ClientsComponent implements OnInit, AfterViewInit {
               private actions$: Actions) {
   }
 
-  //dataSource$ ;
+  options: string[];
+  filteredOptions: string[];
   dataSource: UserState[];
   displayedColumns: string[] = ['username', 'Email', 'enabled', 'actions'];
 
@@ -46,54 +48,34 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   statusFilter = false;
   length = 0;
 
+  active = true;
+  blocked = true;
+
+  searchText = "";
+  refresh = new EventEmitter();
+
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.actions$.pipe(ofType(UpdateUserSuccess, DeleteUserSuccess)).subscribe(() => {
-      this.paginator.firstPage();
-      this.administratorStore.dispatch(new GetUsersAction({
-        filter: this.filter,
-        page: this.paginator.pageIndex + 1,
-        pageSize: this.paginator.pageSize,
-        sortField: this.sort.active,
-        sortOrder: SortOrderEnum[this.sort.direction]
-      }));
-    })
 
     this.actions$.pipe(ofType(GetUsersSuccess)).subscribe(() => {
       this.administratorStore.select(getAdministratorSelector).subscribe(item => {
         this.dataSource = item.users;
-        this.length = item.length
+        this.length = item.length;
+        this.options = item.users.map(item => item.firstName + " " + item.lastName);
+        this.filteredOptions = this.options
       });
     })
-    this.administratorStore.dispatch(new GetUsersAction({
-      filter: this.filter,
-      page: this.paginator.pageIndex + 1,
-      pageSize: this.paginator.pageSize,
-      sortField: this.sort.active,
-      sortOrder: SortOrderEnum[this.sort.direction]
-    }));
+    this.getUsers()
 
-    merge(this.sort.sortChange).subscribe(() => {
+    merge(this.sort.sortChange, this.actions$.pipe(ofType(UpdateUserSuccess, DeleteUserSuccess)), this.refresh).subscribe(() => {
       this.paginator.firstPage();
-      this.administratorStore.dispatch(new GetUsersAction({
-        filter: this.filter,
-        page: this.paginator.pageIndex + 1,
-        pageSize: this.paginator.pageSize,
-        sortField: this.sort.active,
-        sortOrder: SortOrderEnum[this.sort.direction]
-      }));
+      this.getUsers()
     })
 
     this.paginator.page.subscribe(() => {
-      this.administratorStore.dispatch(new GetUsersAction({
-        filter: this.filter,
-        page: this.paginator.pageIndex + 1,
-        pageSize: this.paginator.pageSize,
-        sortField: this.sort.active,
-        sortOrder: SortOrderEnum[this.sort.direction]
-      }));
+      this.getUsers()
     })
   }
 
@@ -111,5 +93,41 @@ export class ClientsComponent implements OnInit, AfterViewInit {
 
   delete(element) {
     this.administratorStore.dispatch(new DeleteUserAction(element.id));
+  }
+
+  getUsers() {
+    this.administratorStore.dispatch(new GetUsersAction({
+      filter: this.filter,
+      page: this.paginator.pageIndex + 1,
+      pageSize: this.paginator.pageSize,
+      sortField: this.sort.active,
+      sortOrder: SortOrderEnum[this.sort.direction]
+    }));
+  }
+
+  search() {
+    let names = this.searchText.split(' ');
+    this.filter.firstName = names[0];
+    this.filter.lastName = names[1] == null ? "" : names[1];
+    this.refresh.emit();
+  }
+
+  change() {
+    if (this.active == this.blocked) {
+      this.filter.isBlocked = null;
+    }
+    else if (this.active) {
+      this.filter.isBlocked = false;
+    }
+    else if(this.blocked) {
+      this.filter.isBlocked = true;
+    }
+    this.refresh.emit();
+  }
+
+  searchTextChange() {
+    this.filteredOptions = this.options.filter(item => {
+      return item.toLowerCase().includes(this.searchText.toLowerCase());
+    })
   }
 }

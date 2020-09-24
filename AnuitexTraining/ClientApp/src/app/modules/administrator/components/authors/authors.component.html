@@ -1,20 +1,20 @@
-﻿<p>Users managment</p>
-<table [dataSource]="dataSource" mat-table matSort>
+﻿<p>Authors Page</p>
+<!-- <table [dataSource]="dataSource" mat-table matSort>
 
   <ng-container matColumnDef="username">
     <th *matHeaderCellDef mat-header-cell>
       <div (click)="userFilter=!userFilter" class="fill">User name</div>
       <div [hidden]="!userFilter" class="filter">
         <mat-card>
-            <mat-form-field appearance="outline">
-              <label class="full-width">
-                <mat-icon>search</mat-icon>
-                <input class="search" matInput placeholder="Search" [(ngModel)]="searchText" (keyup.enter)="search()" (ngModelChange)="searchTextChange()" [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of filteredOptions" [value]="option" (click)="search()">{{option}}</mat-option>
-                </mat-autocomplete>
-              </label>
-            </mat-form-field>
+          <mat-form-field appearance="outline">
+            <label class="full-width">
+              <mat-icon>search</mat-icon>
+              <input class="search" matInput placeholder="Search" [(ngModel)]="searchText" (keyup.enter)="search()" (ngModelChange)="searchTextChange()" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions" [value]="option" (click)="search()">{{option}}</mat-option>
+              </mat-autocomplete>
+            </label>
+          </mat-form-field>
         </mat-card>
       </div>
     </th>
@@ -60,3 +60,4 @@
   <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 </table>
 <mat-paginator [length]="length" [pageSize]="5"></mat-paginator>
+-->

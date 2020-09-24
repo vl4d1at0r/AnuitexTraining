@@ -26,6 +26,8 @@ import {AuthorizedRouterGuard} from "./router-guards/authorized.router-guard";
 import {UnauthorizedRouterGuard} from "./router-guards/unauthorized.router-guard";
 import {AdministratorModule} from "./modules/administrator/administrator.module";
 import {ClientsComponent} from "./modules/administrator/components/clients/clients.component";
+import {AuthorsComponent} from "./modules/administrator/components/authors/authors.component";
+import {AdministratorRouterGuard} from "./router-guards/administrator.router-guard";
 
 const appRoutes: Routes =[
   { path: 'account/signIn', component: SignInComponent, canActivate: [UnauthorizedRouterGuard]},
@@ -33,7 +35,8 @@ const appRoutes: Routes =[
   { path: 'account/confirmEmail', component: ConfirmEmailComponent, canActivate: [UnauthorizedRouterGuard]},
   { path: 'account/forgotPassword', component: ForgotPasswordComponent , canActivate: [UnauthorizedRouterGuard]},
   { path: 'user/profile', component: ProfileComponent, canActivate: [AuthorizedRouterGuard]},
-  { path: 'administrator/clients', component: ClientsComponent, canActivate: [AuthorizedRouterGuard]}
+  { path: 'administrator/clients', component: ClientsComponent, canActivate: [AuthorizedRouterGuard, AdministratorRouterGuard]},
+  { path: 'administrator/authors', component: AuthorsComponent, canActivate: [AuthorizedRouterGuard, AdministratorRouterGuard]}
 ];
 
 @NgModule({
@@ -61,7 +64,7 @@ const appRoutes: Routes =[
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     MaterialModule
   ],
-  providers: [AuthorizedRouterGuard, UnauthorizedRouterGuard],
+  providers: [AuthorizedRouterGuard, UnauthorizedRouterGuard, AdministratorRouterGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

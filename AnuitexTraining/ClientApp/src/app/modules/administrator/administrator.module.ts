@@ -7,20 +7,25 @@ import {AdministratorService} from "./services/administrator.service";
 import {CommonModule} from "@angular/common";
 import {EditDialogComponent} from "./components/clients/dialogs/edit/edit-dialog.component";
 import {ValidateEqualModule} from "ng-validate-equal";
+import {FormsModule} from "@angular/forms";
+import {AuthorsComponent} from "./components/authors/authors.component";
 
 @NgModule({
   declarations: [
     ClientsComponent,
-    EditDialogComponent
+    EditDialogComponent,
+    AuthorsComponent
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    EffectsModule.forFeature([AdministratorEffects]),
-    ValidateEqualModule
-  ],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        EffectsModule.forFeature([AdministratorEffects]),
+        ValidateEqualModule,
+        FormsModule
+    ],
   exports: [
-    ClientsComponent
+    ClientsComponent,
+    AuthorsComponent
   ],
   providers: [
     AdministratorService
