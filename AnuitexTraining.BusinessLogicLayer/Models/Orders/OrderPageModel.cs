@@ -1,6 +1,6 @@
 ﻿namespace AnuitexTraining.BusinessLogicLayer.Models.Orders
 {
-    public class OrderModelPageModel
+    public class OrderPageModel
     {
         public bool Admin;
         public OrderModel Filter;

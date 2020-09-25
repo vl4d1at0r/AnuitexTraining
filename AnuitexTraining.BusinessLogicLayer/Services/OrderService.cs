@@ -43,10 +43,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             _orderPageMapper = orderPageMapper;
         }
 
-        public async Task<IEnumerable<OrderModel>> GetPageAsync(OrderModelPageModel orderModelPageModel)
+        public async Task<IEnumerable<OrderModel>> GetPageAsync(OrderPageModel orderPageModel)
         {
-            var orderPageModel = _orderPageMapper.Map(orderModelPageModel);
-            var orders = await _orderRepository.GetPageAsync(orderPageModel);
+            var orderPage = _orderPageMapper.Map(orderPageModel);
+            var orders = await _orderRepository.GetPageAsync(orderPage);
             var models = _orderMapper.Map(orders);
             models.ForEach(item =>
             {

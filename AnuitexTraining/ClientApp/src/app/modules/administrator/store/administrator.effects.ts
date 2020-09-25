@@ -1,18 +1,19 @@
 ﻿import {Injectable} from "@angular/core";
 import {Actions, Effect, ofType} from "@ngrx/effects";
 import {
-  AdministratorFailAction, DeleteUser, DeleteUserAction,
-  DeleteUserSuccessAction,
+  AddAuthor, AddAuthorAction, AddAuthorSuccessAction,
+  AdministratorFailAction,
+  DeleteUser,
+  DeleteUserAction,
+  DeleteUserSuccessAction, GetAuthors, GetAuthorsAction, GetAuthorsSuccessAction,
   GetUsers,
-  GetUsersAction,
-  GetUsersSuccessAction
+  GetUsersAction, GetUsersSuccessAction
 } from "./administrator.actions";
 import {catchError, map, mergeMap} from "rxjs/operators";
 import {AdministratorService} from "../services/administrator.service";
-import {UserState} from "../../user/models/user.state";
 import {of} from "rxjs";
-import {UpdateUser, UpdateUserAction} from "../../user/store/user.actions";
 import {GetUsersSuccessModel} from "../models/get-users-success.model";
+import {GetAuthorsSuccessModel} from "../models/get-authors-success.model";
 
 @Injectable()
 export class AdministratorEffects {
@@ -41,6 +42,34 @@ export class AdministratorEffects {
         .pipe(
           map(() => {
             return new DeleteUserSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  addAuthor$ = this.actions$.pipe(ofType(AddAuthor),
+    mergeMap((action: AddAuthorAction) => {
+      return this.administratorService.addAuthor(action.payload)
+        .pipe(
+          map(() => {
+            return new AddAuthorSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  getAuthors$ = this.actions$.pipe(ofType(GetAuthors),
+    mergeMap((action: GetAuthorsAction) => {
+      return this.administratorService.getAuthors(action.payload)
+        .pipe(
+          map((data: GetAuthorsSuccessModel) => {
+            return new GetAuthorsSuccessAction(data);
           }),
           catchError(error => {
             return of(new AdministratorFailAction(error.error));

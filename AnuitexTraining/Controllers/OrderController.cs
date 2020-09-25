@@ -23,7 +23,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         [Authorize]
         public async Task<IEnumerable<OrderModel>> GetPageAsync(OrderModel filter, int page, int pageSize)
         {
-            var orderModelPageModel = new OrderModelPageModel
+            var orderModelPageModel = new OrderPageModel
             {
                 Filter = filter,
                 Page = page,

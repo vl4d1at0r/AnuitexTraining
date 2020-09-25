@@ -42,9 +42,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             await _authorRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<AuthorModel>> GetAllAsync()
+        public async Task<object> GetPageAsync(AuthorPageModel authorPageModel)
         {
-            return _authorMapper.Map(await _authorRepository.GetAllAsync());
+            var authors = await _authorRepository.GetPageAsync();
+            _authorMapper.Map(await _authorRepository.GetAllAsync());
         }
 
         public async Task<AuthorModel> GetAsync(long id)

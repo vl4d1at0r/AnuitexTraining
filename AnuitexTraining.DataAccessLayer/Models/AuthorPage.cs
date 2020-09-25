@@ -1,13 +1,14 @@
 ﻿using AnuitexTraining.DataAccessLayer.Entities;
+using Microsoft.Data.SqlClient;
 
 namespace AnuitexTraining.DataAccessLayer.Models
 {
-    public class OrderPageModel
+    public class AuthorPage
     {
-        public bool Admin;
-        public Order Filter;
+        public Author Filter;
         public int Page;
         public int PageSize;
-        public long UserId;
+        public string SortField;
+        public SortOrder SortOrder;
     }
 }

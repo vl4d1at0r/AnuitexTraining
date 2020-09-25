@@ -24,10 +24,10 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             return await _authorService.GetAsync(id);
         }
 
-        [HttpGet("getAll")]
-        public async Task<IEnumerable<AuthorModel>> GetAllAsync()
+        [HttpPost("getPage")]
+        public async Task<IEnumerable<AuthorModel>> GetPageAsync()
         {
-            return await _authorService.GetAllAsync();
+            return await _authorService.GetPageAsync();
         }
 
         [HttpPost("add")]

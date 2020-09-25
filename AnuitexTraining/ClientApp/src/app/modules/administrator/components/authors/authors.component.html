@@ -1,46 +1,29 @@
 ﻿<p>Authors Page</p>
-<!-- <table [dataSource]="dataSource" mat-table matSort>
+<button mat-icon-button (click)="add()">
+  <mat-icon>add</mat-icon>
+</button>
+<table [dataSource]="dataSource" mat-table matSort>
 
-  <ng-container matColumnDef="username">
+  <ng-container matColumnDef="id">
     <th *matHeaderCellDef mat-header-cell>
-      <div (click)="userFilter=!userFilter" class="fill">User name</div>
-      <div [hidden]="!userFilter" class="filter">
-        <mat-card>
-          <mat-form-field appearance="outline">
-            <label class="full-width">
-              <mat-icon>search</mat-icon>
-              <input class="search" matInput placeholder="Search" [(ngModel)]="searchText" (keyup.enter)="search()" (ngModelChange)="searchTextChange()" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions" [value]="option" (click)="search()">{{option}}</mat-option>
-              </mat-autocomplete>
-            </label>
-          </mat-form-field>
-        </mat-card>
-      </div>
+      ID
     </th>
-    <td *matCellDef="let element" mat-cell> {{element.firstName + " " + element.lastName}} </td>
+    <td *matCellDef="let element" mat-cell> {{element.id}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="Email">
+  <ng-container matColumnDef="name">
     <th *matHeaderCellDef mat-header-cell mat-sort-header>
-      User Email
+      Name
     </th>
-    <td *matCellDef="let element" mat-cell> {{element.email}} </td>
+    <td *matCellDef="let element" mat-cell> {{element.name}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="enabled">
+  <ng-container matColumnDef="product">
     <th *matHeaderCellDef mat-header-cell>
-      <div (click)="statusFilter=!statusFilter" class="fill">Status</div>
-      <div [hidden]="!statusFilter" class="filter">
-        <mat-card>
-          <mat-checkbox [(ngModel)]="active" (change)="change()">Active</mat-checkbox>
-          <br>
-          <mat-checkbox [(ngModel)]="blocked" (change)="change()">Blocked</mat-checkbox>
-        </mat-card>
-      </div>
+      Product
     </th>
     <td *matCellDef="let element" mat-cell>
-      <mat-slide-toggle (change)="statusChange(element)" [checked]="!element.isBlocked"></mat-slide-toggle>
+      <p *ngFor="let item of element.products">{{item}}</p>
     </td>
   </ng-container>
 
@@ -60,4 +43,3 @@
   <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 </table>
 <mat-paginator [length]="length" [pageSize]="5"></mat-paginator>
--->

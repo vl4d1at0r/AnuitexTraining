@@ -4,7 +4,7 @@ using AnuitexTraining.DataAccessLayer.Models;
 
 namespace AnuitexTraining.BusinessLogicLayer.Mappers
 {
-    public class OrderPageMapper : BaseMapper<OrderModelPageModel, OrderPageModel>
+    public class OrderPageMapper : BaseMapper<OrderPageModel, OrderPage>
     {
         private readonly OrderMapper _orderMapper;
 
@@ -13,9 +13,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
             _orderMapper = orderMapper;
         }
 
-        public override OrderModelPageModel Map(OrderPageModel item)
+        public override OrderPageModel Map(OrderPage item)
         {
-            return new OrderModelPageModel
+            return new OrderPageModel
             {
                 Filter = _orderMapper.Map(item.Filter),
                 Admin = item.Admin,
@@ -25,9 +25,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
             };
         }
 
-        public override OrderPageModel Map(OrderModelPageModel item)
+        public override OrderPage Map(OrderPageModel item)
         {
-            return new OrderPageModel
+            return new OrderPage
             {
                 Filter = _orderMapper.Map(item.Filter),
                 Admin = item.Admin,
