@@ -6,13 +6,13 @@ using System.Net;
 using System.Threading.Tasks;
 using AnuitexTraining.BusinessLogicLayer.Exceptions;
 using AnuitexTraining.BusinessLogicLayer.Mappers;
+using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using static AnuitexTraining.Shared.Constants.Constants;
 
@@ -130,7 +130,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             return _userMapper.Map(user);
         }
 
-        public async Task<object> GetAllAsync(UserPageModel pageModel)
+        public async Task<object> GetPageAsync(PageModel<UserModel> pageModel)
         {
             var users = _userManager.Users;
             users = users.Where(user => user.UserName.ToLower().Contains(pageModel.Filter.NickName.ToLower()) &&
@@ -146,12 +146,12 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 users = users.OrderBy(pageModel.SortField + " " + pageModel.SortOrder.ToString());
             }
 
-            var usersList = await users.ToListAsync();
+            var usersList = await users.ToPagedListAsync(pageModel.Page, pageModel.PageSize);
 
-            return new
+            return new PageDataModel<UserModel>
             {
-                users = _userMapper.Map(await usersList.ToPagedListAsync(pageModel.Page, pageModel.PageSize)),
-                length = usersList.Count
+                Data = _userMapper.Map(usersList),
+                Length = usersList.TotalItemCount
             };
         }
 

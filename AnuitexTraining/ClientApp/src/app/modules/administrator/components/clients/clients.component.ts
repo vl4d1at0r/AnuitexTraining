@@ -62,7 +62,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
     this.actions$.pipe(ofType(GetUsersSuccess)).subscribe(() => {
       this.administratorStore.select(getAdministratorSelector).subscribe(item => {
         this.dataSource = item.users;
-        this.length = item.length;
+        this.length = item.usersTotal;
         this.options = item.users.map(item => item.firstName + " " + item.lastName);
         this.filteredOptions = this.options
       });

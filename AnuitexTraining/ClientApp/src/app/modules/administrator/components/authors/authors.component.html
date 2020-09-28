@@ -1,7 +1,9 @@
-﻿<p>Authors Page</p>
-<button mat-icon-button (click)="add()">
-  <mat-icon>add</mat-icon>
-</button>
+﻿<p>
+  Authors Page
+  <button mat-icon-button (click)="add()" class="add">
+    <mat-icon>add</mat-icon>
+  </button>
+</p>
 <table [dataSource]="dataSource" mat-table matSort>
 
   <ng-container matColumnDef="id">

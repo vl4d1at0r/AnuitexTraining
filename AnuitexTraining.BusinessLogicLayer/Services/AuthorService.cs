@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using AnuitexTraining.BusinessLogicLayer.Exceptions;
 using AnuitexTraining.BusinessLogicLayer.Mappers;
 using AnuitexTraining.BusinessLogicLayer.Models.Authors;
+using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
+using AnuitexTraining.DataAccessLayer.Entities;
+using AnuitexTraining.DataAccessLayer.Models;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using static AnuitexTraining.Shared.Constants.Constants;
 
@@ -42,10 +45,22 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             await _authorRepository.DeleteAsync(id);
         }
 
-        public async Task<object> GetPageAsync(AuthorPageModel authorPageModel)
+        public async Task<PageDataModel<AuthorModel>> GetPageAsync(PageModel<AuthorModel> pageModel)
         {
-            var authors = await _authorRepository.GetPageAsync();
-            _authorMapper.Map(await _authorRepository.GetAllAsync());
+            var authors = await _authorRepository.GetPageAsync(new PageOptions<Author>
+            {
+                Filter = pageModel.Filter == null ? null : _authorMapper.Map(pageModel.Filter),
+                Page = pageModel.Page,
+                PageSize = pageModel.PageSize,
+                SortField = pageModel.SortField,
+                SortOrder = pageModel.SortOrder
+            });
+            
+            return new PageDataModel<AuthorModel>
+            {
+                Data = _authorMapper.Map(authors),
+                Length = authors.TotalItemCount
+            };
         }
 
         public async Task<AuthorModel> GetAsync(long id)
@@ -61,7 +76,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
         public async Task UpdateAsync(AuthorModel item)
         {
-            if (await _authorRepository.GetAsync(item.Id) is null)
+            var author = await _authorRepository.GetAsync(item.Id);
+            if (author is null)
             {
                 item.Errors.Add(ExceptionsInfo.InvalidId);
             }
@@ -76,7 +92,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 throw new UserException(HttpStatusCode.BadRequest, item.Errors);
             }
 
-            await _authorRepository.UpdateAsync(_authorMapper.Map(item));
+            author.Name = item.Name;
+
+            await _authorRepository.UpdateAsync(author);
         }
     }
 }

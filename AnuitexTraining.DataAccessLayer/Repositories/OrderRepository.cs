@@ -18,7 +18,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
         {
         }
 
-        public async Task<IEnumerable<Order>> GetPageAsync(OrderPage orderPage)
+        public async Task<IEnumerable<Order>> GetPageAsync(PageOptions<Order> orderPage, bool admin, long userId)
         {
             IQueryable<Order> orders = _dbSet;
             if (orderPage.Filter != null)
@@ -39,9 +39,9 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                     item.Status == orderPage.Filter.Status || orderPage.Filter.Status == OrderStatus.None);
             }
 
-            if (!orderPage.Admin)
+            if (!admin)
             {
-                orders = orders.Where(item => item.UserId == orderPage.UserId);
+                orders = orders.Where(item => item.UserId == userId);
             }
 
             return await orders.ToPagedListAsync(orderPage.Page, orderPage.PageSize);

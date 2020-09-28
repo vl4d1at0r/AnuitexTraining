@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.Orders;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -21,17 +22,11 @@ namespace AnuitexTraining.PresentationLayer.Controllers
 
         [HttpPost("getPage")]
         [Authorize]
-        public async Task<IEnumerable<OrderModel>> GetPageAsync(OrderModel filter, int page, int pageSize)
+        public async Task<IEnumerable<OrderModel>> GetPageAsync(PageModel<OrderModel> pageModel)
         {
-            var orderModelPageModel = new OrderPageModel
-            {
-                Filter = filter,
-                Page = page,
-                PageSize = pageSize,
-                Admin = User.FindFirst(ClaimTypes.Role).Value == "Admin",
-                UserId = long.Parse(User.FindFirst("Id").Value)
-            };
-            return await _orderService.GetPageAsync(orderModelPageModel);
+            bool admin = User.FindFirst(ClaimTypes.Role).Value == "Admin";
+            long userId = long.Parse(User.FindFirst("Id").Value);
+            return await _orderService.GetPageAsync(pageModel, admin, userId);
         }
 
         [HttpPost("add")]

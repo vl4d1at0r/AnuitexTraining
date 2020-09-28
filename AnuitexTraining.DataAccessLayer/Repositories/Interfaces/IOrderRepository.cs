@@ -7,6 +7,6 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
 {
     public interface IOrderRepository : IBaseRepository<Order>
     {
-        public Task<IEnumerable<Order>> GetPageAsync(OrderPage orderPage);
+        public Task<IEnumerable<Order>> GetPageAsync(PageOptions<Order> orderPage, bool admin, long userId);
     }
 }

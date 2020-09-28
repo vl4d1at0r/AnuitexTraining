@@ -5,14 +5,17 @@ using System.Net;
 using System.Threading.Tasks;
 using AnuitexTraining.BusinessLogicLayer.Exceptions;
 using AnuitexTraining.BusinessLogicLayer.Mappers;
+using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.Orders;
 using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
+using AnuitexTraining.DataAccessLayer.Models;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Stripe;
 using static AnuitexTraining.Shared.Constants.Constants;
 using static AnuitexTraining.Shared.Enums.Enums;
+using Order = AnuitexTraining.DataAccessLayer.Entities.Order;
 
 namespace AnuitexTraining.BusinessLogicLayer.Services
 {
@@ -22,7 +25,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         private readonly OrderItemMapper _orderItemMapper;
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly OrderMapper _orderMapper;
-        private readonly OrderPageMapper _orderPageMapper;
         private readonly IOrderRepository _orderRepository;
         private readonly IPaymentRepository _paymentRepository;
 
@@ -31,8 +33,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             IPaymentRepository paymentRepository,
             OrderMapper orderMapper,
             OrderItemMapper orderItemMapper,
-            ExchangeRateProvider exchangeRateProvider,
-            OrderPageMapper orderPageMapper)
+            ExchangeRateProvider exchangeRateProvider)
         {
             _orderRepository = orderRepository;
             _orderItemRepository = orderItemRepository;
@@ -40,13 +41,20 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             _orderMapper = orderMapper;
             _orderItemMapper = orderItemMapper;
             _exchangeRateProvider = exchangeRateProvider;
-            _orderPageMapper = orderPageMapper;
         }
 
-        public async Task<IEnumerable<OrderModel>> GetPageAsync(OrderPageModel orderPageModel)
+        public async Task<IEnumerable<OrderModel>> GetPageAsync(PageModel<OrderModel> orderPageModel, bool admin, long userId)
         {
-            var orderPage = _orderPageMapper.Map(orderPageModel);
-            var orders = await _orderRepository.GetPageAsync(orderPage);
+            var orderPage = new PageOptions<Order>
+            {
+                Filter = _orderMapper.Map(orderPageModel.Filter),
+                Page = orderPageModel.Page,
+                PageSize = orderPageModel.PageSize,
+                SortField = orderPageModel.SortField,
+                SortOrder = orderPageModel.SortOrder
+            };
+            
+            var orders = await _orderRepository.GetPageAsync(orderPage, admin, userId);
             var models = _orderMapper.Map(orders);
             models.ForEach(item =>
             {

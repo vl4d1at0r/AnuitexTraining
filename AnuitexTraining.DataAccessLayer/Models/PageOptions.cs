@@ -1,11 +1,10 @@
-﻿using AnuitexTraining.DataAccessLayer.Entities;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 
 namespace AnuitexTraining.DataAccessLayer.Models
 {
-    public class AuthorPage
+    public class PageOptions<T>
     {
-        public Author Filter;
+        public T Filter;
         public int Page;
         public int PageSize;
         public string SortField;

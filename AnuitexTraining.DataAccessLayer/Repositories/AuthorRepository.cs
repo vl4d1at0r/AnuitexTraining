@@ -1,13 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Models;
 using AnuitexTraining.DataAccessLayer.Repositories.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
-using AnuitexTraining.Shared.Enums;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace AnuitexTraining.DataAccessLayer.Repositories
 {
@@ -22,7 +23,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             return await _dbSet.FirstOrDefaultAsync(item => item.Name == authorName);
         }
 
-        public async Task<object> GetPageAsync(AuthorPage page)
+        public async Task<IPagedList<Author>> GetPageAsync(PageOptions<Author> page)
         {
             IQueryable<Author> authors = _dbSet;
             if (page.Filter != null)
@@ -31,12 +32,12 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                     item.Name.ToLower().Contains(page.Filter.Name.ToLower()));
             }
 
-            if (!orderPage.Admin)
+            if (page.SortOrder != SortOrder.Unspecified)
             {
-                orders = orders.Where(item => item.UserId == orderPage.UserId);
+                authors = authors.OrderBy(page.SortField + " " + page.SortOrder.ToString());
             }
 
-            return await orders.ToPagedListAsync(orderPage.Page, orderPage.PageSize);
+            return await authors.ToPagedListAsync(page.Page, page.PageSize);
         }
     }
 }
