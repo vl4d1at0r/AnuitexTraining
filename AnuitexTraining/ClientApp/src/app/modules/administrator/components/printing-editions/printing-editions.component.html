@@ -1,0 +1,74 @@
+﻿<p>
+  Product management
+  <button mat-icon-button (click)="add()" class="add">
+    <mat-icon>add</mat-icon>
+  </button>
+</p>
+<table [dataSource]="dataSource" mat-table matSort>
+
+  <ng-container matColumnDef="id">
+    <th *matHeaderCellDef mat-header-cell>
+      ID
+    </th>
+    <td *matCellDef="let element" mat-cell> {{element.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>
+      Name
+    </th>
+    <td *matCellDef="let element" mat-cell> {{element.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th *matHeaderCellDef mat-header-cell>
+      Description
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      {{element.description}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="category">
+    <th *matHeaderCellDef mat-header-cell>
+      Category
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      {{element.category}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="author">
+    <th *matHeaderCellDef mat-header-cell>
+      Author
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      <div *ngFor="let item of element.authors">{{item}}<br></div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th *matHeaderCellDef mat-header-cell>
+      Price
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      {{element.price}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef class="actions" mat-header-cell></th>
+    <td *matCellDef="let element" class="actions" mat-cell>
+      <button (click)="edit(element)" mat-icon-button>
+        <mat-icon>create</mat-icon>
+      </button>
+      <button (click)="delete(element)" mat-icon-button>
+        <mat-icon>remove_circle_outline</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+</table>
+<mat-paginator [length]="length" [pageSize]="5"></mat-paginator>

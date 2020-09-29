@@ -28,6 +28,7 @@ import {AdministratorModule} from "./modules/administrator/administrator.module"
 import {ClientsComponent} from "./modules/administrator/components/clients/clients.component";
 import {AuthorsComponent} from "./modules/administrator/components/authors/authors.component";
 import {AdministratorRouterGuard} from "./router-guards/administrator.router-guard";
+import {PrintingEditionsComponent} from "./modules/administrator/components/printing-editions/printing-editions.component";
 
 const appRoutes: Routes =[
   { path: 'account/signIn', component: SignInComponent, canActivate: [UnauthorizedRouterGuard]},
@@ -36,7 +37,8 @@ const appRoutes: Routes =[
   { path: 'account/forgotPassword', component: ForgotPasswordComponent , canActivate: [UnauthorizedRouterGuard]},
   { path: 'user/profile', component: ProfileComponent, canActivate: [AuthorizedRouterGuard]},
   { path: 'administrator/clients', component: ClientsComponent, canActivate: [AuthorizedRouterGuard, AdministratorRouterGuard]},
-  { path: 'administrator/authors', component: AuthorsComponent, canActivate: [AuthorizedRouterGuard, AdministratorRouterGuard]}
+  { path: 'administrator/authors', component: AuthorsComponent, canActivate: [AuthorizedRouterGuard, AdministratorRouterGuard]},
+  { path: 'administrator/printingEditions', component: PrintingEditionsComponent, canActivate: [AuthorizedRouterGuard, AdministratorRouterGuard]}
 ];
 
 @NgModule({

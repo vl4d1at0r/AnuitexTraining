@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {UserState} from "../../user/models/user.state";
 import {AuthorModel} from "../models/author.model";
 import {GetPageModel} from "../models/get-page.model";
+import {PrintingEditionModel} from "../models/printing-edition.model";
 
 @Injectable()
 export class AdministratorService {
@@ -11,7 +12,8 @@ export class AdministratorService {
 
   private userUrl = "/api/users/";
   private accountUrl = "/api/accounts/";
-  private authorUrl = "/api/authors/"
+  private authorUrl = "/api/authors/";
+  private printingEditionUrl = "/api/printingEditions/";
 
   getUsers(model: GetPageModel<UserState>) {
     return this.http.post(this.userUrl + "getPage", model);
@@ -35,5 +37,9 @@ export class AdministratorService {
 
   deleteAuthor(id: number) {
     return this.http.delete(this.authorUrl + "delete/" + id);
+  }
+
+  getPrintingEditions(model: GetPageModel<PrintingEditionModel>) {
+    return this.http.post(this.printingEditionUrl + "getPage", model);
   }
 }

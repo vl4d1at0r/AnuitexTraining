@@ -4,6 +4,7 @@ import {FailModel} from "../../shared/models/fail.model";
 import {AuthorModel} from "../models/author.model";
 import {GetPageSuccessModel} from "../models/get-page-success.model";
 import {GetPageModel} from "../models/get-page.model";
+import {PrintingEditionModel} from "../models/printing-edition.model";
 
 export const GetUsers = '[Administrator] Get Users';
 export const GetUsersSuccess = '[Administrator] Get Users Success';
@@ -17,7 +18,9 @@ export const AddAuthorSuccess = '[Administrator] Add Author Success';
 export const EditAuthor = '[Administrator] Edit Author';
 export const EditAuthorSuccess = '[Administrator] Edit Author Success';
 export const DeleteAuthor = '[Administrator] Delete Author';
-export const DeleteAuthorSuccess = '[Administrator] Delete Author Success'
+export const DeleteAuthorSuccess = '[Administrator] Delete Author Success';
+export const GetPrintingEditions = '[Administrator] Get Printing Editions';
+export const GetPrintingEditionsSuccess = '[Administrator] Get Printing Editions Success'
 
 export class DeleteUserSuccessAction implements Action {
   readonly type = DeleteUserSuccess
@@ -89,6 +92,18 @@ export class DeleteAuthorSuccessAction implements Action {
   readonly type = DeleteAuthorSuccess;
 }
 
+export class GetPrintingEditionsAction implements Action {
+  readonly type = GetPrintingEditions;
+  constructor(public payload: GetPageModel<PrintingEditionModel>) {
+  }
+}
+
+export class GetPrintingEditionsSuccessAction implements Action {
+  readonly type = GetPrintingEditionsSuccess;
+  constructor(public payload: GetPageSuccessModel<PrintingEditionModel>) {
+  }
+}
+
 export type AdministratorActions = GetUsersAction  | GetAuthorsSuccessAction | AdministratorFailAction | DeleteUserAction | DeleteUserSuccessAction
   | GetAuthorsAction | GetUsersSuccessAction | AddAuthorAction | AddAuthorSuccessAction | EditAuthorAction | EditAuthorSuccessAction |
-  DeleteAuthorAction | DeleteAuthorSuccessAction;
+  DeleteAuthorAction | DeleteAuthorSuccessAction | GetPrintingEditionsAction | GetPrintingEditionsSuccessAction;

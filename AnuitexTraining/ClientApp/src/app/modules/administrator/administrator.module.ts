@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {AuthorsComponent} from "./components/authors/authors.component";
 import {AuthorsEditDialogComponent} from "./components/authors/dialogs/edit/authors-edit-dialog.component";
 import {AuthorsAddDialogComponent} from "./components/authors/dialogs/add/authors-add-dialog.component";
+import {PrintingEditionsComponent} from "./components/printing-editions/printing-editions.component";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {AuthorsAddDialogComponent} from "./components/authors/dialogs/add/author
     ClientsEditDialogComponent,
     AuthorsComponent,
     AuthorsEditDialogComponent,
-    AuthorsAddDialogComponent
+    AuthorsAddDialogComponent,
+    PrintingEditionsComponent
   ],
     imports: [
         CommonModule,
@@ -29,7 +31,8 @@ import {AuthorsAddDialogComponent} from "./components/authors/dialogs/add/author
     ],
   exports: [
     ClientsComponent,
-    AuthorsComponent
+    AuthorsComponent,
+    PrintingEditionsComponent
   ],
   providers: [
     AdministratorService
