@@ -25,10 +25,11 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         public async Task<IPagedList<Author>> GetPageAsync(PageOptions<Author> page)
         {
-            IQueryable<Author> authors = _dbSet;
+            IQueryable<Author> authors = _dbSet.Include(item => item.AuthorInPrintingEditions)
+                .ThenInclude(item => item.PrintingEdition);
             if (page.Filter != null)
             {
-                authors = _dbSet.Where(item =>
+                authors = authors.Where(item =>
                     item.Name.ToLower().Contains(page.Filter.Name.ToLower()));
             }
 

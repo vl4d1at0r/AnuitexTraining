@@ -36,8 +36,6 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                     item.Price.ToString().Contains(filter.Price.ToString()) || filter.Price == default);
                 printingEditions =
                     _dbSet.Where(item => item.Type == filter.Type || filter.Type == PrintingEditionType.None);
-                printingEditions = _dbSet.Where(item =>
-                    item.AuthorInPrintingEdition.Author.Name.ToLower().Contains(author.ToLower()));
             }
 
             if (!string.IsNullOrEmpty(orderField))

@@ -24,7 +24,7 @@ export class AuthorsAddDialogComponent {
       this.store.dispatch(new AddAuthorAction({
         id: 0,
         name: this.nameControl.value,
-        product: null
+        products: null
       }));
       this.dialogRef.close();
     }

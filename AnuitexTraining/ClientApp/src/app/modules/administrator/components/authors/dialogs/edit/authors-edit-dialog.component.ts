@@ -30,7 +30,7 @@ export class AuthorsEditDialogComponent implements OnInit{
       this.store.dispatch(new EditAuthorAction({
         id: this.data.id,
         name: this.nameControl.value,
-        product: null
+        products: null
       }));
       this.dialogRef.close();
     }
