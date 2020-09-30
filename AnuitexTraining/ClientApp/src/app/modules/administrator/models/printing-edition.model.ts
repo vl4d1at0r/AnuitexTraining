@@ -2,9 +2,9 @@
 
 export interface PrintingEditionModel {
   id: number,
-  name: string,
+  title: string,
   description: string,
-  category: PrintingEditionCategoryEnum,
+  type: PrintingEditionCategoryEnum,
   authors: string[],
   price: number
 }

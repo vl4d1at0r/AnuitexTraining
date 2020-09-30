@@ -9,14 +9,12 @@ import {
   AddAuthorSuccess,
   DeleteAuthorSuccess,
   EditAuthorSuccess,
-  GetAuthorsSuccess,
-  GetAuthorsSuccessAction,
-  GetPrintingEditions,
   GetPrintingEditionsAction,
   GetPrintingEditionsSuccess,
   GetPrintingEditionsSuccessAction
 } from "../../store/administrator.actions";
 import {merge} from "rxjs";
+import {SortOrderEnum} from "../../../shared/enums/sort-order.enum";
 
 @Component({
   selector: 'administrator-printing-editions',
@@ -30,6 +28,14 @@ export class PrintingEditionsComponent implements AfterViewInit {
   dataSource: PrintingEditionModel[];
   displayedColumns: string[] = ['id', 'name', 'description', 'category', 'author', 'price', 'actions'];
   length: number;
+  filter: PrintingEditionModel = {
+    authors: [],
+    type: undefined,
+    description: "",
+    id: 0,
+    title: "",
+    price: 0
+  }
 
   constructor(private store: Store<AdministratorState>,
               private actions$: Actions) {
@@ -66,6 +72,12 @@ export class PrintingEditionsComponent implements AfterViewInit {
   }
 
   getPrintingEditions() {
-    this.store.dispatch(new GetPrintingEditionsAction(null))
+    this.store.dispatch(new GetPrintingEditionsAction({
+      page: this.paginator.pageIndex + 1,
+      pageSize: this.paginator.pageSize,
+      sortField: this.sort.active,
+      sortOrder: SortOrderEnum[this.sort.direction],
+      filter: this.filter
+    }))
   }
 }

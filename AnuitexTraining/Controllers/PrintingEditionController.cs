@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.PrintingEditions;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -19,10 +20,9 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [HttpPost("getPage")]
-        public async Task<IEnumerable<PrintingEditionModel>> GetPageAsync(PrintingEditionModel filter,
-            string orderField, bool descending, int page, int pageSize)
+        public async Task<PageDataModel<PrintingEditionModel>> GetPageAsync(PageModel<PrintingEditionModel> pageModel)
         {
-            return await _printingEditionService.GetPageAsync(filter, orderField, descending, page, pageSize);
+            return await _printingEditionService.GetPageAsync(pageModel);
         }
 
         [HttpGet("get/{id}")]

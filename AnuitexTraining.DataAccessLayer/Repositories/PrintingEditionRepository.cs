@@ -5,9 +5,11 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
+using AnuitexTraining.DataAccessLayer.Models;
 using AnuitexTraining.DataAccessLayer.Repositories.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using static AnuitexTraining.Shared.Enums.Enums;
 
@@ -19,32 +21,31 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
         {
         }
 
-        public async Task<IEnumerable<PrintingEdition>> GetPageAsync(int page, int pageSize,
-            PrintingEdition filter = null, string author = null, string orderField = null, bool descending = false)
+        public async Task<IPagedList<PrintingEdition>> GetPageAsync(PageOptions<PrintingEdition> pageOptions)
         {
-            IQueryable<PrintingEdition> printingEditions = _dbSet;
-            if (filter != null)
+            IQueryable<PrintingEdition> printingEditions = _dbSet.Include(item => item.AuthorInPrintingEditions)
+                .ThenInclude(item => item.Author);
+            if (pageOptions.Filter != null)
             {
-                printingEditions = _dbSet.Where(item => item.Title.ToLower().Contains(filter.Title.ToLower()));
+                printingEditions = printingEditions.Where(item => item.Title.ToLower().Contains(pageOptions.Filter.Title.ToLower()));
+                printingEditions = 
+                    printingEditions.Where(item => item.Description.ToLower().Contains(pageOptions.Filter.Description.ToLower()));
+                printingEditions = printingEditions.Where(item =>
+                    pageOptions.Filter.CreationDate == null || DateTime.Compare(item.CreationDate, pageOptions.Filter.CreationDate) == 0);
+                printingEditions = printingEditions.Where(item =>
+                    item.Currency == pageOptions.Filter.Currency || pageOptions.Filter.Currency == CurrencyType.None);
+                printingEditions = printingEditions.Where(item =>
+                    item.Price.ToString().Contains(pageOptions.Filter.Price.ToString()) || pageOptions.Filter.Price == default);
                 printingEditions =
-                    _dbSet.Where(item => item.Description.ToLower().Contains(filter.Description.ToLower()));
-                printingEditions = _dbSet.Where(item =>
-                    filter.CreationDate == null || DateTime.Compare(item.CreationDate, filter.CreationDate) == 0);
-                printingEditions = _dbSet.Where(item =>
-                    item.Currency == filter.Currency || filter.Currency == CurrencyType.None);
-                printingEditions = _dbSet.Where(item =>
-                    item.Price.ToString().Contains(filter.Price.ToString()) || filter.Price == default);
-                printingEditions =
-                    _dbSet.Where(item => item.Type == filter.Type || filter.Type == PrintingEditionType.None);
+                    printingEditions.Where(item => item.Type == pageOptions.Filter.Type || pageOptions.Filter.Type == PrintingEditionType.None);
             }
 
-            if (!string.IsNullOrEmpty(orderField))
+            if (pageOptions.SortOrder != SortOrder.Unspecified)
             {
-                printingEditions = printingEditions.OrderBy(orderField,
-                    @descending ? SortOrder.Descending.ToString() : SortOrder.Ascending.ToString());
+                printingEditions = printingEditions.OrderBy(pageOptions.SortField + " " + pageOptions.SortOrder.ToString());
             }
 
-            return await printingEditions.ToPagedListAsync(page, pageSize);
+            return await printingEditions.ToPagedListAsync(pageOptions.Page, pageOptions.PageSize);
         }
     }
 }
