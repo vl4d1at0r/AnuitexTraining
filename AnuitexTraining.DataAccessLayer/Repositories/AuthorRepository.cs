@@ -23,22 +23,22 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             return await _dbSet.FirstOrDefaultAsync(item => item.Name == authorName);
         }
 
-        public async Task<IPagedList<Author>> GetPageAsync(PageOptions<Author> page)
+        public async Task<IPagedList<Author>> GetPageAsync(PageOptions<Author> pageOptions)
         {
             IQueryable<Author> authors = _dbSet.Include(item => item.AuthorInPrintingEditions)
                 .ThenInclude(item => item.PrintingEdition);
-            if (page.Filter != null)
+            if (pageOptions.Filter != null)
             {
                 authors = authors.Where(item =>
-                    item.Name.ToLower().Contains(page.Filter.Name.ToLower()));
+                    item.Name.ToLower().Contains(pageOptions.Filter.Name.ToLower()));
             }
 
-            if (page.SortOrder != SortOrder.Unspecified)
+            if (pageOptions.SortOrder != SortOrder.Unspecified)
             {
-                authors = authors.OrderBy(page.SortField + " " + page.SortOrder.ToString());
+                authors = authors.OrderBy($"{pageOptions.SortField} {pageOptions.SortOrder.ToString()}");
             }
 
-            return await authors.ToPagedListAsync(page.Page, page.PageSize);
+            return await authors.ToPagedListAsync(pageOptions.Page, pageOptions.PageSize);
         }
     }
 }

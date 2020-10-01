@@ -8,6 +8,6 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
     public interface IAuthorRepository : IBaseRepository<Author>
     {
         public Task<Author> GetByNameAsync(string authorName);
-        public Task<IPagedList<Author>> GetPageAsync(PageOptions<Author> page);
+        public Task<IPagedList<Author>> GetPageAsync(PageOptions<Author> pageOptions);
     }
 }

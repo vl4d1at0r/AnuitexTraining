@@ -31,7 +31,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                 printingEditions = 
                     printingEditions.Where(item => item.Description.ToLower().Contains(pageOptions.Filter.Description.ToLower()));
                 printingEditions = printingEditions.Where(item =>
-                    pageOptions.Filter.CreationDate == null || DateTime.Compare(item.CreationDate, pageOptions.Filter.CreationDate) == 0);
+                    pageOptions.Filter.CreationDate == default || DateTime.Compare(item.CreationDate, pageOptions.Filter.CreationDate) == 0);
                 printingEditions = printingEditions.Where(item =>
                     item.Currency == pageOptions.Filter.Currency || pageOptions.Filter.Currency == CurrencyType.None);
                 printingEditions = printingEditions.Where(item =>
@@ -42,7 +42,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
             if (pageOptions.SortOrder != SortOrder.Unspecified)
             {
-                printingEditions = printingEditions.OrderBy(pageOptions.SortField + " " + pageOptions.SortOrder.ToString());
+                printingEditions = printingEditions.OrderBy($"{pageOptions.SortField} {pageOptions.SortOrder.ToString()}");
             }
 
             return await printingEditions.ToPagedListAsync(pageOptions.Page, pageOptions.PageSize);

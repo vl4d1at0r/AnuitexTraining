@@ -109,7 +109,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             var userNameError = result.Errors.FirstOrDefault(item => item.Code == "DuplicateUserName");
             if (userNameError != null)
             {
-                userNameError.Description = "Nickname " + user.NickName + " is already taken";
+                userNameError.Description = $"Nickname {user.NickName} is already taken";
             }
 
             if (!result.Succeeded)
@@ -143,7 +143,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                                             (DateTime) pageModel.Filter.CreationDate) == 0));
             if (pageModel.SortOrder != SortOrder.Unspecified)
             {
-                users = users.OrderBy(pageModel.SortField + " " + pageModel.SortOrder.ToString());
+                users = users.OrderBy($"{pageModel.SortField} {pageModel.SortOrder.ToString()}");
             }
 
             var usersList = await users.ToPagedListAsync(pageModel.Page, pageModel.PageSize);

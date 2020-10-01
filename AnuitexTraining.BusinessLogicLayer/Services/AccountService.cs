@@ -155,7 +155,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             var userNameError = result.Errors.FirstOrDefault(item => item.Code == "DuplicateUserName");
             if (userNameError != null)
             {
-                userNameError.Description = "Nickname '" + user.NickName + "' is already taken";
+                userNameError.Description = $"Nickname '{user.NickName}' is already taken";
             }
             if (!result.Succeeded)
             {
