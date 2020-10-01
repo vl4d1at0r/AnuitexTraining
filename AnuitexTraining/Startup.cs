@@ -42,10 +42,6 @@ namespace AnuitexTraining
 
             var jwtProvider = serviceProvider.GetRequiredService<JwtProvider>();
 
-            services.AddDbContext<ApplicationContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")),
-                ServiceLifetime.Transient);
-
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo {Title = "Test API", Version = "v1"});
@@ -74,11 +70,6 @@ namespace AnuitexTraining
 
             //Connecting BLL and DAL
             services.InitBusinessLogicLayerServices();
-
-
-            services.AddIdentity<ApplicationUser, IdentityRole<long>>(options => options.User.RequireUniqueEmail = true)
-                .AddEntityFrameworkStores<ApplicationContext>()
-                .AddDefaultTokenProviders();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(options =>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnuitexTraining.DataAccessLayer.AppContext
 {
-    public class ApplicationContext : IdentityDbContext<ApplicationUser, IdentityRole<long>, long>
+    public sealed class ApplicationContext : IdentityDbContext<ApplicationUser, IdentityRole<long>, long>
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

@@ -13,7 +13,7 @@ namespace AnuitexTraining.PresentationLayer.Providers
     public class JwtProvider
     {
         private readonly TokenValidationParameters _expiredTokenValidationParameters;
-        public SymmetricSecurityKey SymmetricSecurityKey;
+        public readonly SymmetricSecurityKey SymmetricSecurityKey;
 
         public JwtProvider()
         {
