@@ -1,4 +1,4 @@
-table {
+﻿table {
   width: 100%;
 }
 
@@ -58,4 +58,8 @@ div.fill {
 
 /deep/ .mat-dialog-container {
   height: auto !important;
+}
+
+button.add {
+  float: right;
 }

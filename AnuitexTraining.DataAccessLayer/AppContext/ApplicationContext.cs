@@ -25,10 +25,20 @@ namespace AnuitexTraining.DataAccessLayer.AppContext
         {
             base.OnModelCreating(modelBuilder);
 
-            DataBaseInitialization.SeedData(modelBuilder);
-
             modelBuilder.Entity<AuthorInPrintingEdition>()
                 .HasKey(item => new {item.AuthorId, item.PrintingEditionId});
+
+            modelBuilder.Entity<AuthorInPrintingEdition>()
+                .HasOne<Author>(item => item.Author)
+                .WithMany(item => item.AuthorInPrintingEditions)
+                .HasForeignKey(item => item.AuthorId);
+
+            modelBuilder.Entity<AuthorInPrintingEdition>()
+                .HasOne<PrintingEdition>(item => item.PrintingEdition)
+                .WithMany(item => item.AuthorInPrintingEditions)
+                .HasForeignKey(item => item.PrintingEditionId);
+            
+            DataBaseInitialization.SeedData(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

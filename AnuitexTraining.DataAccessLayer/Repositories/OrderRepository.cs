@@ -18,33 +18,33 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
         {
         }
 
-        public async Task<IEnumerable<Order>> GetPageAsync(OrderPageModel orderPageModel)
+        public async Task<IEnumerable<Order>> GetPageAsync(PageOptions<Order> pageOptions, bool isAdmin, long userId)
         {
             IQueryable<Order> orders = _dbSet;
-            if (orderPageModel.Filter != null)
+            if (pageOptions.Filter != null)
             {
                 orders = _dbSet.Where(item =>
-                    item.Description.ToLower().Contains(orderPageModel.Filter.Description.ToLower()));
+                    item.Description.ToLower().Contains(pageOptions.Filter.Description.ToLower()));
                 orders = _dbSet.Where(item =>
-                    DateTime.Compare((DateTime) item.CreationDate, (DateTime) orderPageModel.Filter.CreationDate) == 0 ||
-                    orderPageModel.Filter.CreationDate == default);
+                    DateTime.Compare((DateTime) item.CreationDate, (DateTime) pageOptions.Filter.CreationDate) == 0 ||
+                    pageOptions.Filter.CreationDate == default);
                 orders = _dbSet.Where(item =>
-                    item.Date.CompareTo(orderPageModel.Filter.Date) == 0 || orderPageModel.Filter.Date == default);
+                    item.Date.CompareTo(pageOptions.Filter.Date) == 0 || pageOptions.Filter.Date == default);
                 orders = _dbSet.Where(item =>
-                    item.PaymentId.ToString().Contains(orderPageModel.Filter.PaymentId.ToString()) ||
-                    orderPageModel.Filter.PaymentId == default);
+                    item.PaymentId.ToString().Contains(pageOptions.Filter.PaymentId.ToString()) ||
+                    pageOptions.Filter.PaymentId == default);
                 orders = _dbSet.Where(item =>
-                    item.UserId == orderPageModel.Filter.UserId || orderPageModel.Filter.UserId == default);
+                    item.UserId == pageOptions.Filter.UserId || pageOptions.Filter.UserId == default);
                 orders = _dbSet.Where(item =>
-                    item.Status == orderPageModel.Filter.Status || orderPageModel.Filter.Status == OrderStatus.None);
+                    item.Status == pageOptions.Filter.Status || pageOptions.Filter.Status == OrderStatus.None);
             }
 
-            if (!orderPageModel.Admin)
+            if (!isAdmin)
             {
-                orders = orders.Where(item => item.UserId == orderPageModel.UserId);
+                orders = orders.Where(item => item.UserId == userId);
             }
 
-            return await orders.ToPagedListAsync(orderPageModel.Page, orderPageModel.PageSize);
+            return await orders.ToPagedListAsync(pageOptions.Page, pageOptions.PageSize);
         }
     }
 }

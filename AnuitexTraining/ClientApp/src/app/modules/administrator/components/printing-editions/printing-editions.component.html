@@ -1,5 +1,5 @@
 ﻿<p>
-  Authors Page
+  Product management
   <button mat-icon-button (click)="add()" class="add">
     <mat-icon>add</mat-icon>
   </button>
@@ -17,15 +17,42 @@
     <th *matHeaderCellDef mat-header-cell mat-sort-header>
       Name
     </th>
-    <td *matCellDef="let element" mat-cell> {{element.name}} </td>
+    <td *matCellDef="let element" mat-cell> {{element.title}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="product">
+  <ng-container matColumnDef="description">
     <th *matHeaderCellDef mat-header-cell>
-      Product
+      Description
     </th>
     <td *matCellDef="let element" mat-cell>
-      <div *ngFor="let item of element.products">{{item}}<br></div>
+      {{element.description}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="category">
+    <th *matHeaderCellDef mat-header-cell>
+      Category
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      {{element.type}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="author">
+    <th *matHeaderCellDef mat-header-cell>
+      Author
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      <div *ngFor="let item of element.authors">{{item}}<br></div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th *matHeaderCellDef mat-header-cell>
+      Price
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      {{element.price}}
     </td>
   </ng-container>
 

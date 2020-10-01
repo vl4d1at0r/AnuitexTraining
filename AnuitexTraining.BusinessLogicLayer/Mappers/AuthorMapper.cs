@@ -1,4 +1,5 @@
-﻿using AnuitexTraining.BusinessLogicLayer.Mappers.Base;
+﻿using System.Linq;
+using AnuitexTraining.BusinessLogicLayer.Mappers.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.Authors;
 using AnuitexTraining.DataAccessLayer.Entities;
 
@@ -22,7 +23,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
             {
                 Id = item.Id,
                 CreationDate = item.CreationDate,
-                Name = item.Name
+                Name = item.Name,
+                Products = item.AuthorInPrintingEditions.Select(navigation => navigation.PrintingEdition.Title).ToList()
             };
         }
     }

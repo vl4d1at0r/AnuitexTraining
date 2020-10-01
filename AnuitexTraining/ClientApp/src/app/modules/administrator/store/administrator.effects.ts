@@ -1,18 +1,30 @@
 ﻿import {Injectable} from "@angular/core";
-import {Actions, Effect, ofType} from "@ngrx/effects";
+import {act, Actions, Effect, ofType} from "@ngrx/effects";
 import {
-  AdministratorFailAction, DeleteUser, DeleteUserAction,
+  AddAuthor,
+  AddAuthorAction,
+  AddAuthorSuccessAction,
+  AdministratorFailAction, DeleteAuthor, DeleteAuthorAction, DeleteAuthorSuccessAction,
+  DeleteUser,
+  DeleteUserAction,
   DeleteUserSuccessAction,
+  EditAuthor,
+  EditAuthorAction,
+  EditAuthorSuccessAction,
+  GetAuthors,
+  GetAuthorsAction,
+  GetAuthorsSuccessAction, GetPrintingEditions, GetPrintingEditionsAction, GetPrintingEditionsSuccessAction,
   GetUsers,
   GetUsersAction,
   GetUsersSuccessAction
 } from "./administrator.actions";
 import {catchError, map, mergeMap} from "rxjs/operators";
 import {AdministratorService} from "../services/administrator.service";
-import {UserState} from "../../user/models/user.state";
 import {of} from "rxjs";
-import {UpdateUser, UpdateUserAction} from "../../user/store/user.actions";
-import {GetUsersSuccessModel} from "../models/get-users-success.model";
+import {GetPageSuccessModel} from "../models/get-page-success.model";
+import {AuthorModel} from "../models/author.model";
+import {UserState} from "../../user/models/user.state";
+import {PrintingEditionModel} from "../models/printing-edition.model";
 
 @Injectable()
 export class AdministratorEffects {
@@ -25,7 +37,7 @@ export class AdministratorEffects {
     mergeMap((action: GetUsersAction) => {
       return this.administratorService.getUsers(action.payload)
         .pipe(
-          map((data: GetUsersSuccessModel) => {
+          map((data: GetPageSuccessModel<UserState>) => {
             return new GetUsersSuccessAction(data);
           }),
           catchError(error => {
@@ -41,6 +53,76 @@ export class AdministratorEffects {
         .pipe(
           map(() => {
             return new DeleteUserSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  addAuthor$ = this.actions$.pipe(ofType(AddAuthor),
+    mergeMap((action: AddAuthorAction) => {
+      return this.administratorService.addAuthor(action.payload)
+        .pipe(
+          map(() => {
+            return new AddAuthorSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  getAuthors$ = this.actions$.pipe(ofType(GetAuthors),
+    mergeMap((action: GetAuthorsAction) => {
+      return this.administratorService.getAuthors(action.payload)
+        .pipe(
+          map((data: GetPageSuccessModel<AuthorModel>) => {
+            return new GetAuthorsSuccessAction(data);
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  editAuthor$ = this.actions$.pipe(ofType(EditAuthor),
+    mergeMap((action: EditAuthorAction) => {
+      return this.administratorService.editAuthor(action.payload)
+        .pipe(
+          map(() => {
+            return new EditAuthorSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  deleteAuthor$ = this.actions$.pipe(ofType(DeleteAuthor),
+    mergeMap((action: DeleteAuthorAction) => {
+      return this.administratorService.deleteAuthor(action.payload)
+        .pipe(
+          map(() => {
+            return new DeleteAuthorSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  getPrintingEditions$ = this.actions$.pipe(ofType(GetPrintingEditions),
+    mergeMap((action: GetPrintingEditionsAction) => {
+      return this.administratorService.getPrintingEditions(action.payload)
+        .pipe(
+          map((data: GetPageSuccessModel<PrintingEditionModel>) => {
+            return new GetPrintingEditionsSuccessAction(data);
           }),
           catchError(error => {
             return of(new AdministratorFailAction(error.error));

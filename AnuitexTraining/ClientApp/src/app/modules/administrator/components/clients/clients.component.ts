@@ -8,7 +8,7 @@ import {getAdministratorSelector, getUsersSelector} from "../../store/administra
 import {merge} from "rxjs";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
-import {EditDialogComponent} from "./dialogs/edit/edit-dialog.component";
+import {ClientsEditDialogComponent} from "./dialogs/edit/clients-edit-dialog.component";
 import {UpdateUserAction, UpdateUserSuccess} from "../../../user/store/user.actions";
 import {Actions, ofType} from "@ngrx/effects";
 import {SortOrderEnum} from "../../../shared/enums/sort-order.enum";
@@ -62,7 +62,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
     this.actions$.pipe(ofType(GetUsersSuccess)).subscribe(() => {
       this.administratorStore.select(getAdministratorSelector).subscribe(item => {
         this.dataSource = item.users;
-        this.length = item.length;
+        this.length = item.usersTotal;
         this.options = item.users.map(item => item.firstName + " " + item.lastName);
         this.filteredOptions = this.options
       });
@@ -85,7 +85,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   }
 
   edit(element) {
-    let dialogRef = this.dialog.open(EditDialogComponent, {
+    let dialogRef = this.dialog.open(ClientsEditDialogComponent, {
       data: element
     });
 

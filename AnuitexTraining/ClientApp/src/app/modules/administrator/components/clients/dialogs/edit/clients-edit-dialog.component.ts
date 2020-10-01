@@ -13,11 +13,11 @@ import {UpdateUserAction} from "../../../../../user/store/user.actions";
 
 @Component({
   selector: 'edit-dialog',
-  templateUrl: './edit-dialog.component.html',
-  styleUrls: ['./edit-dialog.component.css']
+  templateUrl: './clients-edit-dialog.component.html',
+  styleUrls: ['./clients-edit-dialog.component.css']
 })
-export class EditDialogComponent implements OnInit{
-  constructor(public dialogRef: MatDialogRef<EditDialogComponent>,
+export class ClientsEditDialogComponent implements OnInit{
+  constructor(public dialogRef: MatDialogRef<ClientsEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: UserState,
               private store: Store<UserState>) {
   }

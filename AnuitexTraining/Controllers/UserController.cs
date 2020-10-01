@@ -3,6 +3,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AnuitexTraining.BusinessLogicLayer.Exceptions;
+using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.Users;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -22,10 +23,10 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("getAll")]
-        public async Task<object> GetAllAsync(UserPageModel pageModel)
+        [HttpPost("getPage")]
+        public async Task<object> GetPageAsync(PageModel<UserModel> pageModel)
         {
-            return await _userService.GetAllAsync(pageModel);
+            return await _userService.GetPageAsync(pageModel);
         }
 
         [Authorize]

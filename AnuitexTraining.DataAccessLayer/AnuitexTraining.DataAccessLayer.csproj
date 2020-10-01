@@ -36,4 +36,8 @@
     <ProjectReference Include="..\AnuitexTraining.Shared\AnuitexTraining.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Interfaces" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,15 @@
+﻿<div>Add new Author</div>
+  <mat-form-field appearance="outline">
+    <label>
+      <input matInput placeholder="Name" [formControl]="nameControl">
+    </label>
+    <mat-error *ngIf="nameControl.invalid">
+      Name is <strong>required</strong>!
+    </mat-error>
+  </mat-form-field>
+<button (click)="dialogRef.close()" color="accent" mat-raised-button>
+  Cancel
+</button>
+<button (click)="add()" color="primary" mat-raised-button>
+  Add
+</button>

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AnuitexTraining.BusinessLogicLayer.Models.Authors;
+using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,10 +24,10 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             return await _authorService.GetAsync(id);
         }
 
-        [HttpGet("getAll")]
-        public async Task<IEnumerable<AuthorModel>> GetAllAsync()
+        [HttpPost("getPage")]
+        public async Task<PageDataModel<AuthorModel>> GetPageAsync(PageModel<AuthorModel> pageModel)
         {
-            return await _authorService.GetAllAsync();
+            return await _authorService.GetPageAsync(pageModel);
         }
 
         [HttpPost("add")]

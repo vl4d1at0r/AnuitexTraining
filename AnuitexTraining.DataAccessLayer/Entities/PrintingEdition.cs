@@ -1,4 +1,5 @@
-﻿using AnuitexTraining.DataAccessLayer.Entities.Base;
+﻿using System.Collections.Generic;
+using AnuitexTraining.DataAccessLayer.Entities.Base;
 using static AnuitexTraining.Shared.Enums.Enums;
 
 namespace AnuitexTraining.DataAccessLayer.Entities
@@ -10,6 +11,6 @@ namespace AnuitexTraining.DataAccessLayer.Entities
         public double Price { get; set; }
         public CurrencyType Currency { get; set; }
         public PrintingEditionType Type { get; set; }
-        public AuthorInPrintingEdition AuthorInPrintingEdition { get; set; }
+        public ICollection<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; }
     }
 }
