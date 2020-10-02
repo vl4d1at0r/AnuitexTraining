@@ -1,0 +1,72 @@
+﻿<div>Add new Author</div>
+<table>
+  <tr>
+    <td class="first">
+      <label>Title</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <textarea [formControl]="titleControl" matInput placeholder="">
+          </textarea>
+        </label>
+        <mat-error *ngIf="titleControl.invalid">
+          Name is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+      <label>Description</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <input [formControl]="descriptionControl" matInput placeholder="">
+        </label>
+        <mat-error *ngIf="titleControl.invalid">
+          Name is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+    </td>
+    <td>
+      <label>Catergory</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <select>
+            <option *ngFor="let category of categories" [value]="category"></option>
+          </select>
+        </label>
+        <mat-error *ngIf="titleControl.invalid">
+          Name is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+      <label>Author</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <input [formControl]="authorsControl" matInput placeholder="">
+        </label>
+        <mat-error *ngIf="titleControl.invalid">
+          Name is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+      <label>Price</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <input [formControl]="priceControl" matInput placeholder="">
+        </label>
+        <mat-error *ngIf="titleControl.invalid">
+          Name is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+      <label>Currency</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <input [formControl]="currencyControl" matInput placeholder="">
+        </label>
+        <mat-error *ngIf="titleControl.invalid">
+          Name is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+      <button (click)="dialogRef.close()" color="accent" mat-raised-button>
+        Cancel
+      </button>
+      <button (click)="add()" color="primary" mat-raised-button>
+        Save
+      </button>
+    </td>
+  </tr>
+</table>

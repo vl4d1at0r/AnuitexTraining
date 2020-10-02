@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Net;
 using System.Threading.Tasks;
 using AnuitexTraining.BusinessLogicLayer.Exceptions;
@@ -7,10 +8,12 @@ using AnuitexTraining.BusinessLogicLayer.Mappers;
 using AnuitexTraining.BusinessLogicLayer.Models.Authors;
 using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.PrintingEditions;
+using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Models;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
+using Microsoft.Data.SqlClient;
 using X.PagedList;
 using static AnuitexTraining.Shared.Enums.Enums;
 using static AnuitexTraining.Shared.Constants.Constants;
@@ -23,31 +26,54 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         private readonly IAuthorRepository _authorRepository;
         private readonly PrintingEditionMapper _printingEditionMapper;
         private readonly IPrintingEditionRepository _printingEditionRepository;
+        private readonly ExchangeRateProvider _exchangeRateProvider;
 
         public PrintingEditionService(IPrintingEditionRepository printingEditionRepository,
             IAuthorInPrintingEditionRepository authorInPrintingEditionRepository,
-            PrintingEditionMapper printingEditionMapper, IAuthorRepository authorRepository)
+            PrintingEditionMapper printingEditionMapper, IAuthorRepository authorRepository,
+            ExchangeRateProvider exchangeRateProvider)
         {
             _printingEditionMapper = printingEditionMapper;
             _printingEditionRepository = printingEditionRepository;
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
             _authorRepository = authorRepository;
+            _exchangeRateProvider = exchangeRateProvider;
         }
 
-        public async Task<PageDataModel<PrintingEditionModel>> GetPageAsync(PageModel<PrintingEditionModel> pageModel)
+        public async Task<PageDataModel<PrintingEditionModel>> GetPageAsync(
+            PageModel<PrintingEditionFilterModel> pageModel)
         {
-            var printingEditions = await _printingEditionRepository.GetPageAsync(new PageOptions<PrintingEdition>
+            var printingEditions = await _printingEditionRepository.GetPageAsync(new PageOptions<PrintingEditionFilter>
             {
-                Filter = pageModel.Filter == null ? null : _printingEditionMapper.Map(pageModel.Filter),
+                Filter = pageModel.Filter == null
+                    ? null
+                    : new PrintingEditionFilter
+                    {
+                        Title = pageModel.Filter.Title,
+                        Description = pageModel.Filter.Description,
+                        Currency = pageModel.Filter.Currency,
+                        Price = pageModel.Filter.Price,
+                        Types = pageModel.Filter.Types,
+                        CreationDate = pageModel.Filter.CreationDate
+                    },
                 Page = pageModel.Page,
                 PageSize = pageModel.PageSize,
                 SortField = pageModel.SortField,
                 SortOrder = pageModel.SortOrder
             });
+
+            List<PrintingEditionModel> printingEditionModels = _printingEditionMapper.Map(printingEditions);
+            printingEditionModels.ForEach(item =>
+                item.Price = _exchangeRateProvider.Exchange(item.Currency, pageModel.Filter.Currency, item.Price));
             
+            if (pageModel.SortOrder != SortOrder.Unspecified)
+            {
+                printingEditionModels = await printingEditionModels.AsQueryable().OrderBy($"{pageModel.SortField} {pageModel.SortOrder.ToString()}").ToListAsync();
+            }
+
             return new PageDataModel<PrintingEditionModel>
             {
-                Data = _printingEditionMapper.Map(printingEditions),
+                Data = printingEditionModels,
                 Length = printingEditions.TotalItemCount
             };
         }
@@ -78,17 +104,17 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 model.Errors.Add(ExceptionsInfo.InvalidPrice);
             }
-            
+
             if (model.Authors is null)
             {
                 model.Errors.Add(ExceptionsInfo.InvalidAuthor);
             }
-            
+
             if (model.Errors.Any())
             {
                 throw new UserException(HttpStatusCode.BadRequest, model.Errors);
             }
-            
+
             List<Author> authors = new List<Author>();
             model.Authors.ForEach(async item =>
             {
@@ -102,7 +128,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                             Name = item
                         };
                         await _authorRepository.AddAsync(author);
-                    } 
+                    }
+
                     authors.Add(author);
                 }
             });
@@ -161,7 +188,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 model.Errors.Add(ExceptionsInfo.InvalidPrice);
             }
-            
+
             if (model.Authors is null)
             {
                 model.Errors.Add(ExceptionsInfo.InvalidAuthor);
@@ -191,7 +218,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                             Name = item
                         };
                         await _authorRepository.AddAsync(author);
-                    } 
+                    }
+
                     authors.Add(author);
                 }
             });
@@ -215,8 +243,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
             }
+
             var model = _printingEditionMapper.Map(printingEdition);
-            model.Authors = await printingEdition.AuthorInPrintingEditions.Select(item => item.Author.Name).ToListAsync();
+            model.Authors = await printingEdition.AuthorInPrintingEditions.Select(item => item.Author.Name)
+                .ToListAsync();
             return model;
         }
     }

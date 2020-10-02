@@ -39,7 +39,7 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
                 new PrintingEdition
                 {
                     Id = 4, CreationDate = DateTime.UtcNow, Currency = CurrencyType.EUR, Title = "How it works",
-                    Description = "How it works", Price = 50, Type = PrintingEditionType.Journal
+                    Description = "How it works", Price = 50, Type = PrintingEditionType.Magazine
                 },
                 new PrintingEdition
                 {

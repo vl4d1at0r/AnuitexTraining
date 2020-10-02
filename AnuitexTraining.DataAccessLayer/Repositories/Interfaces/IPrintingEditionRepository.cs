@@ -8,6 +8,6 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Interfaces
 {
     public interface IPrintingEditionRepository : IBaseRepository<PrintingEdition>
     {
-        public Task<IPagedList<PrintingEdition>> GetPageAsync(PageOptions<PrintingEdition> pageOptions);
+        public Task<IPagedList<PrintingEdition>> GetPageAsync(PageOptions<PrintingEditionFilter> pageOptions);
     }
 }

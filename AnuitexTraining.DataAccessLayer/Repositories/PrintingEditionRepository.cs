@@ -21,28 +21,17 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
         {
         }
 
-        public async Task<IPagedList<PrintingEdition>> GetPageAsync(PageOptions<PrintingEdition> pageOptions)
+        public async Task<IPagedList<PrintingEdition>> GetPageAsync(PageOptions<PrintingEditionFilter> pageOptions)
         {
             IQueryable<PrintingEdition> printingEditions = _dbSet.Include(item => item.AuthorInPrintingEditions)
                 .ThenInclude(item => item.Author);
             if (pageOptions.Filter != null)
             {
-                printingEditions = printingEditions.Where(item => item.Title.ToLower().Contains(pageOptions.Filter.Title.ToLower()));
-                printingEditions = 
-                    printingEditions.Where(item => item.Description.ToLower().Contains(pageOptions.Filter.Description.ToLower()));
-                printingEditions = printingEditions.Where(item =>
-                    pageOptions.Filter.CreationDate == default || DateTime.Compare(item.CreationDate, pageOptions.Filter.CreationDate) == 0);
-                printingEditions = printingEditions.Where(item =>
-                    item.Currency == pageOptions.Filter.Currency || pageOptions.Filter.Currency == CurrencyType.None);
-                printingEditions = printingEditions.Where(item =>
-                    item.Price.ToString().Contains(pageOptions.Filter.Price.ToString()) || pageOptions.Filter.Price == default);
-                printingEditions =
-                    printingEditions.Where(item => item.Type == pageOptions.Filter.Type || pageOptions.Filter.Type == PrintingEditionType.None);
-            }
-
-            if (pageOptions.SortOrder != SortOrder.Unspecified)
-            {
-                printingEditions = printingEditions.OrderBy($"{pageOptions.SortField} {pageOptions.SortOrder.ToString()}");
+                printingEditions = printingEditions.Where(item => item.Title.ToLower().Contains(pageOptions.Filter.Title.ToLower()) && 
+                    item.Description.ToLower().Contains(pageOptions.Filter.Description.ToLower()) &&
+                    (pageOptions.Filter.CreationDate == default || DateTime.Compare(item.CreationDate, pageOptions.Filter.CreationDate) == 0) &&
+                    (item.Price.ToString().Contains(pageOptions.Filter.Price.ToString()) || pageOptions.Filter.Price == default) &&
+                    (pageOptions.Filter.Types == default || pageOptions.Filter.Types.Contains(item.Type)));
             }
 
             return await printingEditions.ToPagedListAsync(pageOptions.Page, pageOptions.PageSize);

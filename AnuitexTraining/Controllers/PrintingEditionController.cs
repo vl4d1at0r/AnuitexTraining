@@ -20,7 +20,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [HttpPost("getPage")]
-        public async Task<PageDataModel<PrintingEditionModel>> GetPageAsync(PageModel<PrintingEditionModel> pageModel)
+        public async Task<PageDataModel<PrintingEditionModel>> GetPageAsync(PageModel<PrintingEditionFilterModel> pageModel)
         {
             return await _printingEditionService.GetPageAsync(pageModel);
         }

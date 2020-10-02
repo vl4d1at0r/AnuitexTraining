@@ -4,6 +4,7 @@ import {UserState} from "../../user/models/user.state";
 import {AuthorModel} from "../models/author.model";
 import {GetPageModel} from "../models/get-page.model";
 import {PrintingEditionModel} from "../models/printing-edition.model";
+import {PrintingEditionFilterModel} from "../models/printing-edition-filter.model";
 
 @Injectable()
 export class AdministratorService {
@@ -39,7 +40,7 @@ export class AdministratorService {
     return this.http.delete(this.authorUrl + "delete/" + id);
   }
 
-  getPrintingEditions(model: GetPageModel<PrintingEditionModel>) {
+  getPrintingEditions(model: GetPageModel<PrintingEditionFilterModel>) {
     return this.http.post(this.printingEditionUrl + "getPage", model);
   }
 }
