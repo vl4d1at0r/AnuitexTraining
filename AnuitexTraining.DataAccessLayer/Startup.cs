@@ -2,10 +2,10 @@
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Repositories;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
-using AnuitexTraining.Shared.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using static AnuitexTraining.Shared.Constants.Constants;
 
 namespace AnuitexTraining.DataAccessLayer
 {
@@ -14,7 +14,7 @@ namespace AnuitexTraining.DataAccessLayer
         public static void InitDataAccessLayerServices(this IServiceCollection services)
         {
             services.AddDbContext<ApplicationContext>(
-                options => options.UseSqlServer(Constants.DBOptions.ConnectionString),
+                options => options.UseSqlServer(DBOptions.ConnectionString),
                 ServiceLifetime.Transient);
             
             services.AddIdentity<ApplicationUser, IdentityRole<long>>(options => options.User.RequireUniqueEmail = true)

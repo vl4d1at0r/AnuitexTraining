@@ -43,4 +43,16 @@ export class AdministratorService {
   getPrintingEditions(model: GetPageModel<PrintingEditionFilterModel>) {
     return this.http.post(this.printingEditionUrl + "getPage", model);
   }
+
+  addPrintingEdition(model: PrintingEditionModel) {
+    return this.http.post(this.printingEditionUrl + "add", model)
+  }
+
+  deletePrintingEdition(id: number) {
+    return this.http.delete(this.printingEditionUrl + "delete/" + id)
+  }
+
+  editPrintingEdition(model: PrintingEditionModel) {
+    return this.http.put(this.printingEditionUrl + "update", model)
+  }
 }

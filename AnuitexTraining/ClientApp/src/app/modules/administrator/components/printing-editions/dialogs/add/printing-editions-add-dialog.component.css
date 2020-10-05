@@ -9,10 +9,13 @@ label {
 div {
   text-align: center;
   width: 100%;
+  padding-bottom: 30px;
 }
 
 button {
-  width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 td.first {
@@ -20,6 +23,16 @@ td.first {
   padding-right: 25px;
 }
 
-textarea {
-  max-height: 400px;
+td {
+  width: 50%;
+}
+
+textarea.title {
+  overflow: hidden;
+  margin: 0;
+}
+
+textarea.description {
+  overflow: hidden;
+  margin: 0;
 }

@@ -6,9 +6,9 @@ import {Store} from "@ngrx/store";
 import {AdministratorState} from "../../models/administrator.state";
 import {Actions, ofType} from "@ngrx/effects";
 import {
-  AddAuthorSuccess,
-  DeleteAuthorSuccess,
-  EditAuthorSuccess,
+  AddAuthorSuccess, AddPrintingEditionSuccess,
+  DeleteAuthorSuccess, DeletePrintingEditionSuccess,
+  EditAuthorSuccess, EditPrintingEditionSuccess,
   GetPrintingEditionsAction,
   GetPrintingEditionsSuccess,
   GetPrintingEditionsSuccessAction
@@ -74,7 +74,7 @@ export class PrintingEditionsComponent implements AfterViewInit {
       this.length = action.payload.length;
     });
 
-    merge(this.categoryChange, this.sort.sortChange, this.actions$.pipe(ofType(DeleteAuthorSuccess, EditAuthorSuccess, AddAuthorSuccess))).subscribe(() => {
+    merge(this.categoryChange, this.sort.sortChange, this.actions$.pipe(ofType(DeletePrintingEditionSuccess, EditPrintingEditionSuccess, AddPrintingEditionSuccess))).subscribe(() => {
       this.paginator.firstPage();
       this.getPrintingEditions()
     });

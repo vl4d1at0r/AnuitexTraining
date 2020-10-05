@@ -4,16 +4,27 @@ import {
   AddAuthor,
   AddAuthorAction,
   AddAuthorSuccessAction,
-  AdministratorFailAction, DeleteAuthor, DeleteAuthorAction, DeleteAuthorSuccessAction,
+  AddPrintingEdition,
+  AddPrintingEditionAction,
+  AddPrintingEditionSuccessAction,
+  AdministratorFailAction,
+  DeleteAuthor,
+  DeleteAuthorAction,
+  DeleteAuthorSuccessAction,
+  DeletePrintingEdition,
+  DeletePrintingEditionAction, DeletePrintingEditionSuccessAction,
   DeleteUser,
   DeleteUserAction,
   DeleteUserSuccessAction,
   EditAuthor,
   EditAuthorAction,
-  EditAuthorSuccessAction,
+  EditAuthorSuccessAction, EditPrintingEdition, EditPrintingEditionAction, EditPrintingEditionSuccessAction,
   GetAuthors,
   GetAuthorsAction,
-  GetAuthorsSuccessAction, GetPrintingEditions, GetPrintingEditionsAction, GetPrintingEditionsSuccessAction,
+  GetAuthorsSuccessAction,
+  GetPrintingEditions,
+  GetPrintingEditionsAction,
+  GetPrintingEditionsSuccessAction,
   GetUsers,
   GetUsersAction,
   GetUsersSuccessAction
@@ -123,6 +134,48 @@ export class AdministratorEffects {
         .pipe(
           map((data: GetPageSuccessModel<PrintingEditionModel>) => {
             return new GetPrintingEditionsSuccessAction(data);
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  addPrintingEdition$ = this.actions$.pipe(ofType(AddPrintingEdition),
+    mergeMap((action: AddPrintingEditionAction) => {
+      return this.administratorService.addPrintingEdition(action.payload)
+        .pipe(
+          map(() => {
+            return new AddPrintingEditionSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  deletePrintingEdition$ = this.actions$.pipe(ofType(DeletePrintingEdition),
+    mergeMap((action: DeletePrintingEditionAction) => {
+      return this.administratorService.deletePrintingEdition(action.payload)
+        .pipe(
+          map(() => {
+            return new DeletePrintingEditionSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  editPrintingEdition$ = this.actions$.pipe(ofType(EditPrintingEdition),
+    mergeMap((action: EditPrintingEditionAction) => {
+      return this.administratorService.editPrintingEdition(action.payload)
+        .pipe(
+          map(() => {
+            return new EditPrintingEditionSuccessAction();
           }),
           catchError(error => {
             return of(new AdministratorFailAction(error.error));

@@ -1,24 +1,27 @@
-﻿<div>Add new Author</div>
+﻿<div>Add new Product</div>
 <table>
   <tr>
     <td class="first">
       <label>Title</label>
       <mat-form-field appearance="outline">
         <label>
-          <textarea [formControl]="titleControl" matInput placeholder="">
-          </textarea>
+          <textarea #title [formControl]="titleControl" class="title" matInput maxlength="100"
+                    placeholder="" cdkTextareaAutosize></textarea>
         </label>
+        <mat-hint align="end"> {{title.value.length}} / 100</mat-hint>
         <mat-error *ngIf="titleControl.invalid">
-          Name is <strong>required</strong>!
+          Title is <strong>required</strong>!
         </mat-error>
       </mat-form-field>
       <label>Description</label>
       <mat-form-field appearance="outline">
         <label>
-          <input [formControl]="descriptionControl" matInput placeholder="">
+          <textarea #description [formControl]="descriptionControl" class="description" matInput maxlength="1000"
+                    placeholder="" cdkTextareaAutosize></textarea>
         </label>
-        <mat-error *ngIf="titleControl.invalid">
-          Name is <strong>required</strong>!
+        <mat-hint align="end"> {{description.value.length}} / 1000</mat-hint>
+        <mat-error *ngIf="descriptionControl.invalid">
+          Description is <strong>required</strong>!
         </mat-error>
       </mat-form-field>
     </td>
@@ -26,44 +29,54 @@
       <label>Catergory</label>
       <mat-form-field appearance="outline">
         <label>
-          <select>
-            <option *ngFor="let category of categories" [value]="category"></option>
-          </select>
+          <mat-select [formControl]="categoryControl">
+            <mat-option *ngFor="let category of categoryOptions" [value]="categories[category]">{{category}}</mat-option>
+          </mat-select>
         </label>
-        <mat-error *ngIf="titleControl.invalid">
-          Name is <strong>required</strong>!
+        <mat-error *ngIf="categoryControl.invalid">
+          Category is <strong>required</strong>!
         </mat-error>
       </mat-form-field>
       <label>Author</label>
       <mat-form-field appearance="outline">
         <label>
-          <input [formControl]="authorsControl" matInput placeholder="">
+          <mat-select [formControl]="authorsControl" multiple>
+            <mat-option *ngFor="let author of authors" [value]="author">{{author}}</mat-option>
+          </mat-select>
         </label>
-        <mat-error *ngIf="titleControl.invalid">
-          Name is <strong>required</strong>!
+        <mat-error *ngIf="authorsControl.invalid">
+          Author is <strong>required</strong>!
         </mat-error>
       </mat-form-field>
       <label>Price</label>
       <mat-form-field appearance="outline">
         <label>
-          <input [formControl]="priceControl" matInput placeholder="">
+          <input [formControl]="priceControl" type="number" min="1" matInput placeholder="">
         </label>
-        <mat-error *ngIf="titleControl.invalid">
-          Name is <strong>required</strong>!
+        <mat-error *ngIf="priceControl.invalid">
+          Price is <strong>required</strong>!
         </mat-error>
       </mat-form-field>
       <label>Currency</label>
       <mat-form-field appearance="outline">
         <label>
-          <input [formControl]="currencyControl" matInput placeholder="">
+          <mat-select [formControl]="currencyControl">
+            <mat-option *ngFor="let currency of currencyOptions" [value]="currencies[currency]">{{currency}}</mat-option>
+          </mat-select>
         </label>
-        <mat-error *ngIf="titleControl.invalid">
-          Name is <strong>required</strong>!
+        <mat-error *ngIf="currencyControl.invalid">
+          Currency is <strong>required</strong>!
         </mat-error>
       </mat-form-field>
+    </td>
+  </tr>
+  <tr>
+    <td>
       <button (click)="dialogRef.close()" color="accent" mat-raised-button>
         Cancel
       </button>
+    </td>
+    <td>
       <button (click)="add()" color="primary" mat-raised-button>
         Save
       </button>
