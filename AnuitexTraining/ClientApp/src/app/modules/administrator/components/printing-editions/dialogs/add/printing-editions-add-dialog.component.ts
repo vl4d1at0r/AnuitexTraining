@@ -1,6 +1,6 @@
 ﻿import {Component, OnInit} from "@angular/core";
 import {MatDialogRef} from "@angular/material/dialog";
-import {FormControl, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {AdministratorState} from "../../../../models/administrator.state";
 import {
@@ -39,20 +39,27 @@ export class PrintingEditionsAddDialogComponent implements OnInit{
   categoryControl = new FormControl(1, {
     validators: [Validators.required]
   });
-  authorsControl = new FormControl('', {
-    validators: [Validators.required]
-  });
+  authorsControl = new FormControl([], {});
   priceControl = new FormControl('', {
     validators: [Validators.required, Validators.min(1)]
   });
   currencyControl = new FormControl(1, {
     validators: [Validators.required]
   })
+
+  form = new FormGroup({
+    title: this.titleControl,
+    description: this.descriptionControl,
+    category: this.categoryControl,
+    authors: this.authorsControl,
+    price: this.priceControl,
+    currency: this.currencyControl
+  })
   authors: string[];
 
 
   add() {
-    if (this.titleControl.valid) {
+    if (this.form.valid) {
       this.store.dispatch(new AddPrintingEditionAction({
         title: this.titleControl.value,
         authors: this.authorsControl.value,

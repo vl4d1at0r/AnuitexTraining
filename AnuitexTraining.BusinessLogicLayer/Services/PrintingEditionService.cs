@@ -142,7 +142,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 {
                     AuthorId = item.Id,
                     PrintingEditionId = printingEdition.Id
-                });
+                }).Wait();
             });
         }
 
@@ -206,18 +206,18 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             printingEdition.Currency = model.Currency;
 
             List<Author> authors = new List<Author>();
-            model.Authors.ForEach(async item =>
+            model.Authors.ForEach(item =>
             {
                 if (!string.IsNullOrEmpty(item))
                 {
-                    Author author = await _authorRepository.GetByNameAsync(item);
+                    Author author = _authorRepository.GetByNameAsync(item).Result;
                     if (author is null)
                     {
                         author = new Author
                         {
                             Name = item
                         };
-                        await _authorRepository.AddAsync(author);
+                        _authorRepository.AddAsync(author).Wait();
                     }
 
                     authors.Add(author);
@@ -232,7 +232,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 {
                     AuthorId = item.Id,
                     PrintingEditionId = printingEdition.Id
-                });
+                }).Wait();
             });
         }
 

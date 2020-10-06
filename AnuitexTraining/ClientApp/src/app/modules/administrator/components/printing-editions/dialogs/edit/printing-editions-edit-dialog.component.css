@@ -9,8 +9,30 @@ label {
 div {
   text-align: center;
   width: 100%;
+  padding-bottom: 30px;
 }
 
 button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td.first {
+  vertical-align: top;
+  padding-right: 25px;
+}
+
+td {
   width: 50%;
+}
+
+textarea.title {
+  overflow: hidden;
+  margin: 0;
+}
+
+textarea.description {
+  overflow: hidden;
+  margin: 0;
 }

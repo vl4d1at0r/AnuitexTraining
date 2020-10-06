@@ -1,15 +1,85 @@
-﻿<div>Edit Author</div>
-<mat-form-field appearance="outline">
-  <label>
-    <input matInput placeholder="Name" [formControl]="nameControl">
-  </label>
-  <mat-error *ngIf="nameControl.invalid">
-    Name is <strong>required</strong>!
-  </mat-error>
-</mat-form-field>
-<button (click)="dialogRef.close()" color="accent" mat-raised-button>
-  Cancel
-</button>
-<button (click)="edit()" color="primary" mat-raised-button>
-  Add
-</button>
+﻿<div>Add new Product</div>
+<table>
+  <tr>
+    <td class="first">
+      <label>Title</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <textarea #title [formControl]="titleControl" class="title" matInput maxlength="100"
+                    placeholder="" cdkTextareaAutosize></textarea>
+        </label>
+        <mat-hint align="end"> {{title.value.length}} / 100</mat-hint>
+        <mat-error *ngIf="titleControl.invalid">
+          Title is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+      <label>Description</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <textarea #description [formControl]="descriptionControl" class="description" matInput maxlength="1000"
+                    placeholder="" cdkTextareaAutosize></textarea>
+        </label>
+        <mat-hint align="end"> {{description.value.length}} / 1000</mat-hint>
+        <mat-error *ngIf="descriptionControl.invalid">
+          Description is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+    </td>
+    <td>
+      <label>Catergory</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <mat-select [formControl]="categoryControl">
+            <mat-option *ngFor="let category of categoryOptions" [value]="categories[category]">{{category}}</mat-option>
+          </mat-select>
+        </label>
+        <mat-error *ngIf="categoryControl.invalid">
+          Category is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+      <label>Author</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <mat-select [formControl]="authorsControl" multiple>
+            <mat-option *ngFor="let author of authors" [value]="author">{{author}}</mat-option>
+          </mat-select>
+        </label>
+        <mat-error *ngIf="authorsControl.invalid">
+          Author is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+      <label>Price</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <input [formControl]="priceControl" type="number" min="1" matInput placeholder="">
+        </label>
+        <mat-error *ngIf="priceControl.invalid">
+          Price is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+      <label>Currency</label>
+      <mat-form-field appearance="outline">
+        <label>
+          <mat-select [formControl]="currencyControl">
+            <mat-option *ngFor="let currency of currencyOptions" [value]="currencies[currency]">{{currency}}</mat-option>
+          </mat-select>
+        </label>
+        <mat-error *ngIf="currencyControl.invalid">
+          Currency is <strong>required</strong>!
+        </mat-error>
+      </mat-form-field>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <button (click)="dialogRef.close()" color="accent" mat-raised-button>
+        Cancel
+      </button>
+    </td>
+    <td>
+      <button (click)="edit()" color="primary" mat-raised-button>
+        Save
+      </button>
+    </td>
+  </tr>
+</table>

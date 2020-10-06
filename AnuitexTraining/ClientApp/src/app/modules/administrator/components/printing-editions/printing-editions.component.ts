@@ -7,7 +7,7 @@ import {AdministratorState} from "../../models/administrator.state";
 import {Actions, ofType} from "@ngrx/effects";
 import {
   AddAuthorSuccess, AddPrintingEditionSuccess,
-  DeleteAuthorSuccess, DeletePrintingEditionSuccess,
+  DeleteAuthorSuccess, DeletePrintingEditionAction, DeletePrintingEditionSuccess,
   EditAuthorSuccess, EditPrintingEditionSuccess,
   GetPrintingEditionsAction,
   GetPrintingEditionsSuccess,
@@ -57,11 +57,11 @@ export class PrintingEditionsComponent implements AfterViewInit {
   }
 
   edit(element) {
-    this.dialog.open(PrintingEditionsEditDialogComponent)
+    this.dialog.open(PrintingEditionsEditDialogComponent, {data: element})
   }
 
   delete(element) {
-
+    this.store.dispatch(new DeletePrintingEditionAction(element.id));
   }
 
   add() {

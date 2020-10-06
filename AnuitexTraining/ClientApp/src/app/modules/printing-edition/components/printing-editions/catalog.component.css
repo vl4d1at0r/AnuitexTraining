@@ -1,0 +1,8 @@
+﻿::ng-deep .mat-figure{
+  display: block !important;
+}
+
+div.item {
+  width: 100%;
+  display: inline-table;
+}

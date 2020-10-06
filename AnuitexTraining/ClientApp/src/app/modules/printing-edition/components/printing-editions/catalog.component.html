@@ -1,0 +1,46 @@
+﻿Catalog
+<label>
+  <mat-form-field appearance="outline">
+    <input matInput>
+  </mat-form-field>
+</label>
+<br>
+Currency
+<mat-form-field appearance="outline">
+  <label>
+    <mat-select>
+
+    </mat-select>
+  </label>
+</mat-form-field>
+Sort by
+<mat-form-field appearance="outline">
+  <label>
+    <mat-select>
+
+    </mat-select>
+  </label>
+</mat-form-field>
+<mat-grid-list cols="5" >
+  <mat-grid-tile>
+    Categories
+    <br>
+    <mat-checkbox>
+      Books
+    </mat-checkbox>
+    <br>
+    <mat-checkbox>
+      Magazines
+    </mat-checkbox>
+    <br>
+    <mat-checkbox>
+      Newspapers
+    </mat-checkbox>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="3" colspan="4">
+    <div *ngFor="let item of [1,2,3,4,5,6]" class="item">{{item}}</div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    b
+  </mat-grid-tile>
+</mat-grid-list>
