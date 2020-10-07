@@ -1,46 +1,65 @@
 ﻿Catalog
-<label>
+<div class="right-up-filter">
+  <label>
+    <mat-form-field appearance="outline">
+      <input matInput>
+    </mat-form-field>
+  </label>
+  <br>
+  Currency
   <mat-form-field appearance="outline">
-    <input matInput>
+    <label>
+      <mat-select>
+
+      </mat-select>
+    </label>
   </mat-form-field>
-</label>
-<br>
-Currency
-<mat-form-field appearance="outline">
-  <label>
-    <mat-select>
+  Sort by
+  <mat-form-field appearance="outline">
+    <label>
+      <mat-select>
 
-    </mat-select>
-  </label>
-</mat-form-field>
-Sort by
-<mat-form-field appearance="outline">
-  <label>
-    <mat-select>
-
-    </mat-select>
-  </label>
-</mat-form-field>
-<mat-grid-list cols="5" >
-  <mat-grid-tile>
-    Categories
-    <br>
-    <mat-checkbox>
-      Books
-    </mat-checkbox>
-    <br>
-    <mat-checkbox>
-      Magazines
-    </mat-checkbox>
-    <br>
-    <mat-checkbox>
-      Newspapers
-    </mat-checkbox>
-  </mat-grid-tile>
-  <mat-grid-tile rowspan="3" colspan="4">
-    <div *ngFor="let item of [1,2,3,4,5,6]" class="item">{{item}}</div>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    b
-  </mat-grid-tile>
-</mat-grid-list>
+      </mat-select>
+    </label>
+  </mat-form-field>
+</div>
+<table>
+  <tr>
+    <td class="first">
+      Categories
+      <br>
+      <mat-checkbox>
+        Books
+      </mat-checkbox>
+      <br>
+      <mat-checkbox>
+        Magazines
+      </mat-checkbox>
+      <br>
+      <mat-checkbox>
+        Newspapers
+      </mat-checkbox>
+      <mat-divider></mat-divider>
+      Price
+      <br>
+      <mat-form-field class="price" appearance="outline">
+        <label>
+          <input matInput>
+        </label>
+      </mat-form-field>
+      -
+      <mat-form-field class="price" appearance="outline">
+        <label>
+          <input matInput>
+        </label>
+      </mat-form-field>
+      $
+      <button color="primary" mat-raised-button>OK</button>
+    </td>
+    <td class="border-left">
+      <div class="list">
+        <div *ngFor="let item of ['red','orange','purple','green','yellow','brown']" class="item" [style.background-color]="item" style="filter: invert(1)">{{item}}</div>
+      </div>
+    </td>
+  </tr>
+</table>

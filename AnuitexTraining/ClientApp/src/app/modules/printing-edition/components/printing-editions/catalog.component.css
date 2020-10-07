@@ -1,8 +1,38 @@
 ﻿::ng-deep .mat-figure{
   display: block !important;
+  overflow: auto;
 }
 
 div.item {
+  height: 300px;
+  padding: 140px 0;
+  text-align: center;
+}
+
+div.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+table {
   width: 100%;
-  display: inline-table;
+}
+
+div.right-up-filter {
+  float: right;
+}
+
+td.first {
+  vertical-align: top;
+  width: 250px;
+}
+
+mat-form-field.price {
+  width: 35%;
+}
+
+.mat-raised-button {
+  min-width: 0;
+  padding: 1px;
+  width: 14%;
 }
