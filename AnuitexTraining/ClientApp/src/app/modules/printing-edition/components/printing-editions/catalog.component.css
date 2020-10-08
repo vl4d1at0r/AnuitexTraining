@@ -5,8 +5,8 @@
 
 div.item {
   height: 300px;
-  padding: 140px 0;
-  text-align: center;
+  /*padding: 140px 0;
+  text-align: center;*/
 }
 
 div.list {
@@ -20,6 +20,7 @@ table {
 
 div.right-up-filter {
   float: right;
+  width: 60%;
 }
 
 td.first {
@@ -35,4 +36,43 @@ mat-form-field.price {
   min-width: 0;
   padding: 1px;
   width: 14%;
+}
+
+.ng5-slider {
+  margin: 0
+}
+
+label {
+  width: 100%;
+}
+
+/deep/ .no-padding *{
+  padding: 0;
+}
+
+.currency {
+  width: 80px;
+}
+
+label.search {
+  width: 100%;
+}
+
+mat-form-field.search {
+  width: 100%;
+  float: right;
+}
+
+div.lower {
+  float: right;
+}
+
+input.search {
+  position: absolute;
+  width: calc(100% - 24px);
+  margin-top: 4px;
+}
+
+mat-icon.item {
+  font-size: 170px;
 }
