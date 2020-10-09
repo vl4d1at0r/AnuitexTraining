@@ -11,7 +11,7 @@
     Currency
     <mat-form-field appearance="outline" class="no-padding currency">
       <label>
-        <mat-select [formControl]="currencyControl">
+        <mat-select [(ngModel)]="filter.currency" (selectionChange)="change()">
           <mat-option *ngFor="let currency of currencyOptions" [value]="currencies[currency]">{{currency}}</mat-option>
         </mat-select>
       </label>
@@ -19,9 +19,9 @@
     Sort by
     <mat-form-field appearance="outline" class="no-padding">
       <label>
-        <mat-select>
-          <mat-option [value]="true">Price Low to High</mat-option>
-          <mat-option [value]="false">Price High to Low</mat-option>
+        <mat-select [(ngModel)]="sort" (selectionChange)="sortChange()">
+          <mat-option [value]="sortOrder.asc">Price Low to High</mat-option>
+          <mat-option [value]="sortOrder.desc">Price High to Low</mat-option>
         </mat-select>
       </label>
     </mat-form-field>
@@ -32,15 +32,15 @@
     <td class="first">
       Categories
       <br>
-      <mat-checkbox>
+      <mat-checkbox [(ngModel)]="books" (change)="change()">
         Books
       </mat-checkbox>
       <br>
-      <mat-checkbox>
+      <mat-checkbox [(ngModel)]="magazines" (change)="change()">
         Magazines
       </mat-checkbox>
       <br>
-      <mat-checkbox>
+      <mat-checkbox [(ngModel)]="newspapers" (change)="change()">
         Newspapers
       </mat-checkbox>
       <mat-divider></mat-divider>
@@ -57,7 +57,7 @@
           <input [(ngModel)]="maxPrice" matInput type="number">
         </label>
       </mat-form-field>
-      $
+      {{currencyMarks[filter.currency]}}
       <button color="primary" mat-raised-button>OK</button>
       <ng5-slider [(highValue)]="maxPrice" [(value)]="minPrice" [options]="sliderOptions">
 
@@ -72,7 +72,7 @@
           <br>
           {{item.authors.join(', ')}}
           <br>
-          ${{item.price}}
+          {{currencyMarks[filter.currency]}}{{item.price}}
         </div>
       </div>
     </td>
@@ -83,5 +83,5 @@
     <mat-icon>settings</mat-icon>
     Service
   </button>
-  <mat-paginator [length]="length" [pageSize]="5" class="d-inline-block float-right"></mat-paginator>
+  <mat-paginator [length]="length" [pageSize]="6" class="d-inline-block float-right"></mat-paginator>
 </div>

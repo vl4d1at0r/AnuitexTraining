@@ -22,7 +22,6 @@ namespace AnuitexTraining.BusinessLogicLayer
             services.AddSingleton<AuthorMapper>();
             services.AddSingleton<OrderItemMapper>();
             services.AddSingleton<OrderMapper>();
-            services.AddTransient<ExchangeRateProvider>();
             services.AddSingleton<PasswordGeneratorProvider>();
 
             services.InitDataAccessLayerServices();

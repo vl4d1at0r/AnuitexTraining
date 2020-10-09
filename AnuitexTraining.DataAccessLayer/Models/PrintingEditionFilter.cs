@@ -13,5 +13,6 @@ namespace AnuitexTraining.DataAccessLayer.Models
         public CurrencyType Currency { get; set; }
         public List<PrintingEditionType> Types { get; set; }
         public DateTime CreationDate { get; set; }
+        public string SearchString { get; set; }
     }
 }

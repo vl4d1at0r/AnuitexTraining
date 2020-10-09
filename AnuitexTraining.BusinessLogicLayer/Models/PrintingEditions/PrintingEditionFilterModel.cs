@@ -12,5 +12,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.PrintingEditions
         public List<PrintingEditionType> Types { get; set; }
         public CurrencyType Currency { get; set; }
         public DateTime CreationDate { get; set; }
+        public string SearchString { get; set; }
     }
 }

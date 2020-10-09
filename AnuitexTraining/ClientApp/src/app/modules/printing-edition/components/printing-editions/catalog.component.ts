@@ -1,4 +1,4 @@
-﻿import {AfterViewInit, Component, ViewChild} from "@angular/core";
+﻿import {AfterViewInit, Component, EventEmitter, ViewChild} from "@angular/core";
 import {Options} from "ng5-slider";
 import {Actions, ofType} from "@ngrx/effects";
 import {
@@ -12,24 +12,33 @@ import {Store} from "@ngrx/store";
 import {AdministratorState} from "../../../administrator/models/administrator.state";
 import {MatPaginator} from "@angular/material/paginator";
 import {CurrencyTypeEnum} from "../../../shared/enums/currency-type.enum";
-import {FormControl} from "@angular/forms";
 import {PrintingEditionModel} from "../../../administrator/models/printing-edition.model";
+import {PrintingEditionFilterModel} from "../../../administrator/models/printing-edition-filter.model";
+import {PrintingEditionTypeEnum} from "../../../shared/enums/printing-edition-type.enum";
 
 @Component({
   selector: 'printing-edition-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css']
 })
-export class CatalogComponent implements AfterViewInit{
+export class CatalogComponent implements AfterViewInit {
 
   constructor(private store: Store<AdministratorState>,
               private actions$: Actions) {
   }
 
-  currencyControl = new FormControl();
-
   currencies = CurrencyTypeEnum;
   currencyOptions = Object.keys(CurrencyTypeEnum).filter(item => isNaN(Number(item)) && item != "None")
+  onChange = new EventEmitter()
+  currencyMarks = [
+    "",
+    "$",
+    "€",
+    "£",
+    "CHF",
+    "¥",
+    "₴"
+  ]
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
@@ -42,10 +51,26 @@ export class CatalogComponent implements AfterViewInit{
     getSelectionBarColor: () => '#673ab7'
   }
 
+  filter: PrintingEditionFilterModel = {
+    authors: [],
+    currency: CurrencyTypeEnum.USD,
+    description: "",
+    id: 0,
+    price: 0,
+    title: "",
+    types: undefined
+  }
+
   minPrice = 1;
   maxPrice = 100;
   length: number;
   dataSource: PrintingEditionModel[];
+  books = true;
+  magazines = true;
+  newspapers = true;
+  priceToHigh: boolean;
+  sort = SortOrderEnum.asc;
+  sortOrder = SortOrderEnum;
 
   ngAfterViewInit() {
     this.actions$.pipe(ofType(GetPrintingEditionsSuccess)).subscribe((action: GetPrintingEditionsSuccessAction) => {
@@ -53,7 +78,7 @@ export class CatalogComponent implements AfterViewInit{
       this.length = action.payload.length;
     });
 
-    merge().subscribe(() => {
+    merge(this.onChange).subscribe(() => {
       this.paginator.firstPage();
       this.getPrintingEditions()
     });
@@ -69,17 +94,27 @@ export class CatalogComponent implements AfterViewInit{
     this.store.dispatch(new GetPrintingEditionsAction({
       page: this.paginator.pageIndex + 1,
       pageSize: this.paginator.pageSize,
-      sortField: '',
-      sortOrder: SortOrderEnum[''],
-      filter: {
-        authors: [],
-        currency: CurrencyTypeEnum.USD,
-        description: "",
-        id: 0,
-        price: 0,
-        title: "",
-        types: undefined
-      }
+      sortField: 'price',
+      sortOrder: this.sort,
+      filter: this.filter
     }))
+  }
+
+  change() {
+    this.filter.types = [];
+    if (this.books) {
+      this.filter.types.push(PrintingEditionTypeEnum.Book)
+    }
+    if (this.magazines) {
+      this.filter.types.push(PrintingEditionTypeEnum.Magazine)
+    }
+    if (this.newspapers) {
+      this.filter.types.push(PrintingEditionTypeEnum.Newspaper)
+    }
+    this.onChange.emit()
+  }
+
+  sortChange() {
+    this.onChange.emit()
   }
 }

@@ -1,5 +1,6 @@
 ﻿using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
+using AnuitexTraining.DataAccessLayer.Providers;
 using AnuitexTraining.DataAccessLayer.Repositories;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +29,7 @@ namespace AnuitexTraining.DataAccessLayer
             services.AddTransient<IOrderItemRepository, OrderItemRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
+            services.AddTransient<ExchangeRateProvider>();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AnuitexTraining.BusinessLogicLayer.Models.ExchangeRate
+﻿namespace AnuitexTraining.DataAccessLayer.Models.ExchangeRate
 {
     public class ExchangeRateModel
     {

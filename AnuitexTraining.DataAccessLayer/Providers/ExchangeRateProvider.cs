@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
-using AnuitexTraining.BusinessLogicLayer.Models.ExchangeRate;
+using AnuitexTraining.DataAccessLayer.Models.ExchangeRate;
 using Newtonsoft.Json;
 using static AnuitexTraining.Shared.Enums.Enums;
 
-namespace AnuitexTraining.BusinessLogicLayer.Providers
+namespace AnuitexTraining.DataAccessLayer.Providers
 {
     public class ExchangeRateProvider
     {

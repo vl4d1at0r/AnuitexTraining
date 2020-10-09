@@ -3,6 +3,7 @@ using AnuitexTraining.BusinessLogicLayer.Mappers.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.PrintingEditions;
 using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.DataAccessLayer.Entities;
+using AnuitexTraining.DataAccessLayer.Providers;
 using AnuitexTraining.Shared.Enums;
 
 namespace AnuitexTraining.BusinessLogicLayer.Mappers
