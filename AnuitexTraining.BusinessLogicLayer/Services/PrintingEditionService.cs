@@ -27,18 +27,21 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
         private readonly IAuthorRepository _authorRepository;
         private readonly PrintingEditionMapper _printingEditionMapper;
         private readonly IPrintingEditionRepository _printingEditionRepository;
+        private readonly ExchangeRateProvider _exchangeRateProvider;
 
         public PrintingEditionService(IPrintingEditionRepository printingEditionRepository,
             IAuthorInPrintingEditionRepository authorInPrintingEditionRepository,
-            PrintingEditionMapper printingEditionMapper, IAuthorRepository authorRepository)
+            PrintingEditionMapper printingEditionMapper, IAuthorRepository authorRepository,
+            ExchangeRateProvider exchangeRateProvider)
         {
             _printingEditionMapper = printingEditionMapper;
             _printingEditionRepository = printingEditionRepository;
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
             _authorRepository = authorRepository;
+            _exchangeRateProvider = exchangeRateProvider;
         }
 
-        public async Task<PageDataModel<PrintingEditionModel>> GetPageAsync(
+        public async Task<PrintingEditionPageDataModel> GetPageAsync(
             PageModel<PrintingEditionFilterModel> pageModel)
         {
             var printingEditions = await _printingEditionRepository.GetPageAsync(new PageOptions<PrintingEditionFilter>
@@ -50,7 +53,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                         Title = pageModel.Filter.Title,
                         Description = pageModel.Filter.Description,
                         Currency = pageModel.Filter.Currency,
-                        Price = pageModel.Filter.Price,
+                        MinPrice = pageModel.Filter.MinPrice,
+                        MaxPrice = pageModel.Filter.MaxPrice,
                         Types = pageModel.Filter.Types,
                         CreationDate = pageModel.Filter.CreationDate,
                         SearchString = pageModel.Filter.SearchString
@@ -62,11 +66,14 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             });
 
             List<PrintingEditionModel> printingEditionModels = _printingEditionMapper.Map(printingEditions);
+            PriceRange priceRange = await _printingEditionRepository.GetPriceRangeAsync(pageModel.Filter.Currency);
 
-            return new PageDataModel<PrintingEditionModel>
+            return new PrintingEditionPageDataModel
             {
                 Data = printingEditionModels,
-                Length = printingEditions.TotalItemCount
+                Length = printingEditions.TotalItemCount,
+                MinPrice = priceRange.MinPrice,
+                MaxPrice = priceRange.MaxPrice
             };
         }
 
@@ -106,6 +113,9 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             {
                 throw new UserException(HttpStatusCode.BadRequest, model.Errors);
             }
+
+            model.Price = _exchangeRateProvider.ExchangeToUSD(model.Price, model.Currency);
+            model.Currency = CurrencyType.USD;
 
             List<Author> authors = new List<Author>();
             model.Authors.ForEach(item =>
@@ -191,11 +201,10 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 throw new UserException(HttpStatusCode.BadRequest, model.Errors);
             }
 
-            printingEdition.Price = model.Price;
+            printingEdition.Price = _exchangeRateProvider.ExchangeToUSD(model.Price, model.Currency);
             printingEdition.Title = model.Title;
             printingEdition.Type = model.Type;
             printingEdition.Description = model.Description;
-            printingEdition.Currency = model.Currency;
 
             List<Author> authors = new List<Author>();
             model.Authors.ForEach(item =>

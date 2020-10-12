@@ -7,6 +7,8 @@ export interface PrintingEditionFilterModel {
   description: string,
   types: PrintingEditionTypeEnum[],
   authors: string[],
-  price: number,
-  currency: CurrencyTypeEnum
+  minPrice: number,
+  maxPrice: number,
+  currency: CurrencyTypeEnum,
+  searchString: string
 }

@@ -9,7 +9,8 @@ namespace AnuitexTraining.DataAccessLayer.Models
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public double Price { get; set; }
+        public double MinPrice { get; set; }
+        public double MaxPrice { get; set; }
         public CurrencyType Currency { get; set; }
         public List<PrintingEditionType> Types { get; set; }
         public DateTime CreationDate { get; set; }

@@ -6,6 +6,7 @@ import {GetPageSuccessModel} from "../models/get-page-success.model";
 import {GetPageModel} from "../models/get-page.model";
 import {PrintingEditionModel} from "../models/printing-edition.model";
 import {PrintingEditionFilterModel} from "../models/printing-edition-filter.model";
+import {GetPrintingEditionPageSuccesModel} from "../models/get-printing-edition-page-succes.model";
 
 export const GetUsers = '[Administrator] Get Users';
 export const GetUsersSuccess = '[Administrator] Get Users Success';
@@ -118,7 +119,7 @@ export class GetPrintingEditionsAction implements Action {
 export class GetPrintingEditionsSuccessAction implements Action {
   readonly type = GetPrintingEditionsSuccess;
 
-  constructor(public payload: GetPageSuccessModel<PrintingEditionModel>) {
+  constructor(public payload: GetPrintingEditionPageSuccesModel) {
   }
 }
 

@@ -27,8 +27,9 @@ import {ClientsComponent} from "./modules/administrator/components/clients/clien
 import {AuthorsComponent} from "./modules/administrator/components/authors/authors.component";
 import {AdministratorRouterGuard} from "./router-guards/administrator.router-guard";
 import {PrintingEditionsComponent} from "./modules/administrator/components/printing-editions/printing-editions.component";
-import {CatalogComponent} from "./modules/printing-edition/components/printing-editions/catalog.component";
 import {PrintingEditionModule} from "./modules/printing-edition/printing-edition.module";
+import {CatalogComponent} from "./modules/printing-edition/components/catalog/catalog.component";
+import {DetailsComponent} from "./modules/printing-edition/components/details/details.component";
 
 const appRoutes: Routes = [
   {path: 'account/signIn', component: SignInComponent, canActivate: [UnauthorizedRouterGuard]},
@@ -51,7 +52,12 @@ const appRoutes: Routes = [
     component: PrintingEditionsComponent,
     canActivate: [AuthorizedRouterGuard, AdministratorRouterGuard]
   },
-  {path: 'printingEdition/catalog', component: CatalogComponent}
+  {
+    path: 'printingEdition/catalog', component: CatalogComponent
+  },
+  {
+    path: 'printingEdition/details', component: DetailsComponent
+  }
 ];
 
 @NgModule({

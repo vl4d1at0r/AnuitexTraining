@@ -56,13 +56,13 @@ export class CatalogComponent implements AfterViewInit {
     currency: CurrencyTypeEnum.USD,
     description: "",
     id: 0,
-    price: 0,
+    minPrice: 0,
+    maxPrice: 0,
     title: "",
-    types: undefined
+    types: undefined,
+    searchString: ""
   }
 
-  minPrice = 1;
-  maxPrice = 100;
   length: number;
   dataSource: PrintingEditionModel[];
   books = true;
@@ -71,11 +71,25 @@ export class CatalogComponent implements AfterViewInit {
   priceToHigh: boolean;
   sort = SortOrderEnum.asc;
   sortOrder = SortOrderEnum;
+  firstTime = true;
 
   ngAfterViewInit() {
     this.actions$.pipe(ofType(GetPrintingEditionsSuccess)).subscribe((action: GetPrintingEditionsSuccessAction) => {
       this.dataSource = action.payload.data;
       this.length = action.payload.length;
+      if (this.firstTime) {
+        this.sliderOptions = {
+          floor: action.payload.minPrice,
+          ceil: action.payload.maxPrice,
+          step: 0.01,
+          translate: () => '',
+          getPointerColor: () => '#673ab7',
+          getSelectionBarColor: () => '#673ab7'
+        };
+        this.filter.minPrice = action.payload.minPrice;
+        this.filter.maxPrice = action.payload.maxPrice;
+        this.firstTime = false;
+      }
     });
 
     merge(this.onChange).subscribe(() => {
@@ -115,6 +129,13 @@ export class CatalogComponent implements AfterViewInit {
   }
 
   sortChange() {
+    this.onChange.emit()
+  }
+
+  currencyChange() {
+    this.filter.minPrice = 0;
+    this.filter.maxPrice = 0;
+    this.firstTime = true;
     this.onChange.emit()
   }
 }

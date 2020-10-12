@@ -1,10 +1,12 @@
 ﻿import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {MaterialModule} from "../shared/material.module";
-import {CatalogComponent} from "./components/printing-editions/catalog.component";
 import {Ng5SliderModule} from "ng5-slider";
 import {FormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
+import {CatalogComponent} from "./components/catalog/catalog.component";;
+import { DetailsComponent } from './components/details/details.component'
+import {PrintingEditionService} from "./services/printing-edition.service";
 
 @NgModule({
   imports: [
@@ -15,10 +17,15 @@ import {RouterModule} from "@angular/router";
     RouterModule
   ],
   declarations: [
-    CatalogComponent
+    CatalogComponent,
+    DetailsComponent
   ],
   exports: [
-    CatalogComponent
+    CatalogComponent,
+    DetailsComponent
+  ],
+  providers: [
+    PrintingEditionService
   ]
 })
 export class PrintingEditionModule {

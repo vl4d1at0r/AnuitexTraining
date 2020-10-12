@@ -19,14 +19,19 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
     public class PrintingEditionRepository : BaseRepository<PrintingEdition>, IPrintingEditionRepository
     {
         private ExchangeRateProvider _exchangeRateProvider;
-        public PrintingEditionRepository(ApplicationContext context, ExchangeRateProvider exchangeRateProvider) : base(context)
+
+        public PrintingEditionRepository(ApplicationContext context, ExchangeRateProvider exchangeRateProvider) :
+            base(context)
         {
             _exchangeRateProvider = exchangeRateProvider;
         }
 
         public async Task<IPagedList<PrintingEdition>> GetPageAsync(PageOptions<PrintingEditionFilter> pageOptions)
         {
-            IQueryable<PrintingEdition> printingEditions = _dbSet.AsNoTracking().Include(item => item.AuthorInPrintingEditions)
+            double min = _exchangeRateProvider.ExchangeToUSD(pageOptions.Filter.MinPrice, pageOptions.Filter.Currency);
+            double max = _exchangeRateProvider.ExchangeToUSD(pageOptions.Filter.MaxPrice, pageOptions.Filter.Currency);
+            IQueryable<PrintingEdition> printingEditions = _dbSet.AsNoTracking()
+                .Include(item => item.AuthorInPrintingEditions)
                 .ThenInclude(item => item.Author);
             if (pageOptions.Filter != null)
             {
@@ -34,18 +39,19 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                     item.Title.ToLower().Contains(pageOptions.Filter.Title.ToLower()) &&
                     item.Description.ToLower().Contains(pageOptions.Filter.Description.ToLower()) &&
                     (pageOptions.Filter.CreationDate == default ||
-                     DateTime.Compare(item.CreationDate, pageOptions.Filter.CreationDate) == 0) &&
-                    (item.Price.ToString().Contains(pageOptions.Filter.Price.ToString()) ||
-                     pageOptions.Filter.Price == default) &&
-                    (pageOptions.Filter.Types == default || pageOptions.Filter.Types.Contains(item.Type)));
+                     DateTime.Compare(item.CreationDate, pageOptions.Filter.CreationDate) == 0) && (min - 1 <= item.Price || pageOptions.Filter.MinPrice == default) && (item.Price <= max + 1 || pageOptions.Filter.MaxPrice == default) && (pageOptions.Filter.Types == default || pageOptions.Filter.Types.Contains(item.Type)));
                 if (!string.IsNullOrEmpty(pageOptions.Filter.SearchString))
                 {
-                    var test = printingEditions.Select(item => item.AuthorInPrintingEditions.Where(x=>x.Author.Name.Contains(pageOptions.Filter.SearchString)) );
+                    printingEditions = printingEditions.Where(item =>
+                        item.AuthorInPrintingEditions.Select(authorInPrintingEdition => EF.Functions.Like(
+                            authorInPrintingEdition.Author.Name,
+                            $"%{pageOptions.Filter.SearchString}%")).Contains(true) | item.Title.ToLower()
+                            .Contains(pageOptions.Filter.SearchString.ToLower()));
                 }
             }
 
             List<PrintingEdition> items = await printingEditions.ToListAsync();
-            
+
             items.ForEach(item =>
             {
                 item.Price = _exchangeRateProvider.Exchange(item.Currency, pageOptions.Filter.Currency, item.Price);
@@ -53,13 +59,24 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             });
 
             IQueryable<PrintingEdition> sortedItems = items.AsQueryable();
-            
+
             if (pageOptions.SortOrder != SortOrder.Unspecified)
             {
                 sortedItems = sortedItems.OrderBy($"{pageOptions.SortField} {pageOptions.SortOrder.ToString()}");
             }
 
             return await sortedItems.ToPagedListAsync(pageOptions.Page, pageOptions.PageSize);
+        }
+
+        public async Task<PriceRange> GetPriceRangeAsync(CurrencyType currency)
+        {
+            PrintingEdition min = await _dbSet.FirstOrDefaultAsync(item => item.Price == _dbSet.Min(pe=> pe.Price));
+            PrintingEdition max = await _dbSet.FirstOrDefaultAsync(item => item.Price == _dbSet.Max(pe=> pe.Price));
+            return new PriceRange
+            {
+                MinPrice = _exchangeRateProvider.Exchange(min.Currency, currency, min.Price),
+                MaxPrice = _exchangeRateProvider.Exchange(max.Currency, currency, max.Price)
+            };
         }
     }
 }

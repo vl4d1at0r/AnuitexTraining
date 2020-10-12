@@ -36,6 +36,7 @@ import {GetPageSuccessModel} from "../models/get-page-success.model";
 import {AuthorModel} from "../models/author.model";
 import {UserState} from "../../user/models/user.state";
 import {PrintingEditionModel} from "../models/printing-edition.model";
+import {GetPrintingEditionPageSuccesModel} from "../models/get-printing-edition-page-succes.model";
 
 @Injectable()
 export class AdministratorEffects {
@@ -132,7 +133,7 @@ export class AdministratorEffects {
     mergeMap((action: GetPrintingEditionsAction) => {
       return this.administratorService.getPrintingEditions(action.payload)
         .pipe(
-          map((data: GetPageSuccessModel<PrintingEditionModel>) => {
+          map((data: GetPrintingEditionPageSuccesModel) => {
             return new GetPrintingEditionsSuccessAction(data);
           }),
           catchError(error => {

@@ -3,7 +3,7 @@
   <mat-form-field appearance="outline" class="search no-padding">
     <label class="search">
       <mat-icon>search</mat-icon>
-      <input class="search" matInput placeholder="Search by book title, by author">
+      <input class="search" [(ngModel)]="filter.searchString" (keydown.enter)="change()" matInput placeholder="Search by book title, by author">
     </label>
   </mat-form-field>
   <br>
@@ -11,7 +11,7 @@
     Currency
     <mat-form-field appearance="outline" class="no-padding currency">
       <label>
-        <mat-select [(ngModel)]="filter.currency" (selectionChange)="change()">
+        <mat-select [(ngModel)]="filter.currency" (selectionChange)="currencyChange()">
           <mat-option *ngFor="let currency of currencyOptions" [value]="currencies[currency]">{{currency}}</mat-option>
         </mat-select>
       </label>
@@ -48,24 +48,24 @@
       <br>
       <mat-form-field appearance="outline" class="price">
         <label>
-          <input [(ngModel)]="minPrice" matInput type="number">
+          <input [(ngModel)]="filter.minPrice" matInput type="number">
         </label>
       </mat-form-field>
       -
       <mat-form-field appearance="outline" class="price">
         <label>
-          <input [(ngModel)]="maxPrice" matInput type="number">
+          <input [(ngModel)]="filter.maxPrice" matInput type="number">
         </label>
       </mat-form-field>
       {{currencyMarks[filter.currency]}}
-      <button color="primary" mat-raised-button>OK</button>
-      <ng5-slider [(highValue)]="maxPrice" [(value)]="minPrice" [options]="sliderOptions">
+      <button color="primary" mat-raised-button (click)="change()">OK</button>
+      <ng5-slider [(highValue)]="filter.maxPrice" [(value)]="filter.minPrice" [options]="sliderOptions">
 
       </ng5-slider>
     </td>
     <td class="border-left">
       <div class="list">
-        <div *ngFor="let item of dataSource" class="item">
+        <div *ngFor="let item of dataSource" class="item" routerLink="/printingEdition/details" [queryParams]="{id: item.id}">
           <mat-icon class="item" color="accent">book</mat-icon>
           <br>
           <strong>{{item.title}}</strong>

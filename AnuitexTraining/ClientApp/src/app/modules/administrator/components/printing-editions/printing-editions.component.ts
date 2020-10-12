@@ -40,8 +40,10 @@ export class PrintingEditionsComponent implements AfterViewInit {
     description: "",
     id: 0,
     title: "",
-    price: 0,
-    currency: CurrencyTypeEnum.USD
+    minPrice: 0,
+    maxPrice: 0,
+    currency: CurrencyTypeEnum.USD,
+    searchString: ""
   }
 
   categoryFilter = false;
