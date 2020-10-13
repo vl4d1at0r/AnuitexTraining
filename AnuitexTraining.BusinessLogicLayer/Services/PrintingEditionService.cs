@@ -117,35 +117,16 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             model.Price = _exchangeRateProvider.ExchangeToUSD(model.Price, model.Currency);
             model.Currency = CurrencyType.USD;
 
-            List<Author> authors = new List<Author>();
-            model.Authors.ForEach(item =>
-            {
-                if (!string.IsNullOrEmpty(item))
-                {
-                    Author author = _authorRepository.GetByNameAsync(item).Result;
-                    if (author is null)
-                    {
-                        author = new Author
-                        {
-                            Name = item
-                        };
-                        _authorRepository.AddAsync(author);
-                    }
-
-                    authors.Add(author);
-                }
-            });
+            List<Author> authors = await _authorRepository.GetByNamesAsync(model.Authors);
 
             var printingEdition = _printingEditionMapper.Map(model);
             await _printingEditionRepository.AddAsync(printingEdition);
-            authors.ForEach(item =>
+            var authorInPrintingEditions = authors.Select(item => new AuthorInPrintingEdition
             {
-                _authorInPrintingEditionRepository.AddAsync(new AuthorInPrintingEdition
-                {
-                    AuthorId = item.Id,
-                    PrintingEditionId = printingEdition.Id
-                }).Wait();
-            });
+                AuthorId = item.Id,
+                PrintingEditionId = printingEdition.Id
+            }).ToList();
+            await _authorInPrintingEditionRepository.AddRangeAsync(authorInPrintingEditions);
         }
 
         public async Task DeleteAsync(long id)
@@ -206,35 +187,16 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             printingEdition.Type = model.Type;
             printingEdition.Description = model.Description;
 
-            List<Author> authors = new List<Author>();
-            model.Authors.ForEach(item =>
-            {
-                if (!string.IsNullOrEmpty(item))
-                {
-                    Author author = _authorRepository.GetByNameAsync(item).Result;
-                    if (author is null)
-                    {
-                        author = new Author
-                        {
-                            Name = item
-                        };
-                        _authorRepository.AddAsync(author).Wait();
-                    }
-
-                    authors.Add(author);
-                }
-            });
+            List<Author> authors = await _authorRepository.GetByNamesAsync(model.Authors);
 
             await _printingEditionRepository.UpdateAsync(printingEdition);
             await _authorInPrintingEditionRepository.DeleteAllForPrintingEditionIdAsync(model.Id);
-            authors.ForEach(item =>
+            var authorInPrintingEditions = authors.Select(item => new AuthorInPrintingEdition
             {
-                _authorInPrintingEditionRepository.AddAsync(new AuthorInPrintingEdition
-                {
-                    AuthorId = item.Id,
-                    PrintingEditionId = printingEdition.Id
-                }).Wait();
-            });
+                AuthorId = item.Id,
+                PrintingEditionId = printingEdition.Id
+            }).ToList();
+            await _authorInPrintingEditionRepository.AddRangeAsync(authorInPrintingEditions);
         }
 
         public async Task<PrintingEditionModel> GetAsync(long id)

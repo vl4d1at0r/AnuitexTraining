@@ -7,6 +7,8 @@ import {RouterModule} from "@angular/router";
 import {CatalogComponent} from "./components/catalog/catalog.component";;
 import { DetailsComponent } from './components/details/details.component'
 import {PrintingEditionService} from "./services/printing-edition.service";
+import {EffectsModule} from "@ngrx/effects";
+import {PrintingEditionEffects} from "./store/printing-edition.effects";
 
 @NgModule({
   imports: [
@@ -14,7 +16,8 @@ import {PrintingEditionService} from "./services/printing-edition.service";
     MaterialModule,
     Ng5SliderModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    EffectsModule.forFeature([PrintingEditionEffects])
   ],
   declarations: [
     CatalogComponent,

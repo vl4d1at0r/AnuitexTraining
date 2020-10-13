@@ -1,0 +1,39 @@
+mat-icon.book {
+  font-size: 200px;
+}
+
+td.book {
+  width: 200px;
+}
+
+table {
+  width: 100%;
+}
+
+td.price {
+  width: 25%;
+}
+
+button.add {
+  width: 100%;
+}
+
+input.qty {
+  width: 60px;
+}
+
+div.description {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 60px;
+}
+
+label.qty {
+  width: 100%;
+}
+
+span.price {
+  margin-top: 11px;
+}

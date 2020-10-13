@@ -78,5 +78,11 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                 MaxPrice = _exchangeRateProvider.Exchange(max.Currency, currency, max.Price)
             };
         }
+
+        public override async Task<PrintingEdition> GetAsync(long id)
+        {
+            return await _dbSet.Include(item => item.AuthorInPrintingEditions)
+                .ThenInclude(item => item.Author).FirstOrDefaultAsync(item => item.Id == id);
+        }
     }
 }

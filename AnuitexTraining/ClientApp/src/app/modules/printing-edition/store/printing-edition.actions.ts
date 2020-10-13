@@ -20,3 +20,5 @@ export class GetPrintingEditionSuccesAction implements Action {
 export class GetPrintingEditionFailAction implements Action {
   readonly type = GetPrintingEditionFail;
 }
+
+export type PrintingEditionActions = GetPrintingEditionAction | GetPrintingEditionSuccesAction | GetPrintingEditionFailAction;
