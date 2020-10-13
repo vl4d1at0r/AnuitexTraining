@@ -6,6 +6,8 @@ import {SignInSuccessAction, SignOutAction, SignOutSuccess} from "./modules/acco
 import {Router} from "@angular/router";
 import {Actions, ofType} from "@ngrx/effects";
 import {filter} from "rxjs/operators";
+import {MatDialog} from "@angular/material/dialog";
+import {ItemsComponent} from "./modules/cart/components/items/items.component";
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,8 @@ import {filter} from "rxjs/operators";
 export class AppComponent implements OnInit {
   private accessToken: string;
 
-  constructor(private store: Store<AccountState>,
+  constructor(private dialog: MatDialog,
+              private store: Store<AccountState>,
               private router: Router,
               private actions$: Actions) {
   }
@@ -57,5 +60,9 @@ export class AppComponent implements OnInit {
   changeTheme() {
     this.invert = !this.invert
     document.getElementsByTagName("html")[0].style.filter = "invert(" + Number(this.invert) + ")"
+  }
+
+  showCart() {
+    this.dialog.open(ItemsComponent)
   }
 }

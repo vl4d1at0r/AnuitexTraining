@@ -30,6 +30,8 @@ import {PrintingEditionsComponent} from "./modules/administrator/components/prin
 import {PrintingEditionModule} from "./modules/printing-edition/printing-edition.module";
 import {CatalogComponent} from "./modules/printing-edition/components/catalog/catalog.component";
 import {DetailsComponent} from "./modules/printing-edition/components/details/details.component";
+import {ItemsComponent} from "./modules/cart/components/items/items.component";
+import {CartModule} from "./modules/cart/cart.module";
 
 const appRoutes: Routes = [
   {path: 'account/signIn', component: SignInComponent, canActivate: [UnauthorizedRouterGuard]},
@@ -75,6 +77,7 @@ const appRoutes: Routes = [
     UserModule,
     AdministratorModule,
     PrintingEditionModule,
+    CartModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -87,7 +90,10 @@ const appRoutes: Routes = [
     MaterialModule
   ],
   providers: [AuthorizedRouterGuard, UnauthorizedRouterGuard, AdministratorRouterGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ItemsComponent
+  ]
 })
 export class AppModule {
 }
