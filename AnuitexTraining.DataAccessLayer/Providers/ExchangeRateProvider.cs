@@ -20,8 +20,8 @@ namespace AnuitexTraining.DataAccessLayer.Providers
 
         public double ExchangeToUSD(double value, CurrencyType currencyType)
         {
-            return value / (double) _exchangeRate.conversion_rates.GetType().GetProperty(currencyType.ToString())
-                .GetValue(_exchangeRate.conversion_rates);
+            return Math.Round(value / (double) _exchangeRate.conversion_rates.GetType().GetProperty(currencyType.ToString())
+                .GetValue(_exchangeRate.conversion_rates), 2, MidpointRounding.AwayFromZero);
         }
 
         public double Exchange(CurrencyType from, CurrencyType to, double value)

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {AccountState} from "./modules/account/interfaces/account.state";
 import {getAccessTokenSelector, getIsLoggedInSelector} from "./modules/account/store/account.selectors";
 import {SignInSuccessAction, SignOutAction, SignOutSuccess} from "./modules/account/store/account.actions";
@@ -8,6 +8,9 @@ import {Actions, ofType} from "@ngrx/effects";
 import {filter} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
 import {ItemsComponent} from "./modules/cart/components/items/items.component";
+import {AddCartItem, DeleteCartItem, EditCartItem} from "./modules/cart/store/cart.actions";
+import {OrderModel} from "./modules/cart/models/order.model";
+import {getItemsSelector} from "./modules/cart/store/cart.selectors";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +23,8 @@ export class AppComponent implements OnInit {
   constructor(private dialog: MatDialog,
               private store: Store<AccountState>,
               private router: Router,
-              private actions$: Actions) {
+              private actions$: Actions,
+              private cartStore: Store<OrderModel>) {
   }
 
   title = 'app';
@@ -41,6 +45,11 @@ export class AppComponent implements OnInit {
     this.actions$.pipe(ofType(SignOutSuccess)).subscribe(() => {
       this.router.navigate(["account", "signIn"]).then();
     })
+    this.actions$.pipe(ofType(AddCartItem, DeleteCartItem, EditCartItem)).subscribe(() => {
+      this.cartStore.pipe(select(getItemsSelector)).subscribe(item => {
+      })
+    })
+
   }
 
   signOut() {

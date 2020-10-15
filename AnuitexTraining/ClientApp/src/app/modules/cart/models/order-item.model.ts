@@ -5,5 +5,6 @@ export interface OrderItemModel {
   currency: CurrencyTypeEnum,
   printingEditionId: number,
   orderId: number,
-  count: number
+  count: number,
+  title: string
 }

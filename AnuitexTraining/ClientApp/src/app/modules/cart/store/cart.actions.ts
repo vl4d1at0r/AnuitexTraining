@@ -1,4 +1,6 @@
 ﻿import {Action} from "@ngrx/store";
+import {OrderItemModel} from "../models/order-item.model";
+import {OrderModel} from "../models/order.model";
 
 export const AddCartItem = "[Cart] Add Item";
 export const DeleteCartItem = "[Cart] Delete Item";
@@ -9,18 +11,26 @@ export const BuyCartFail = "[Cart] Buy Fail";
 
 export class AddCartItemAction implements Action {
   readonly type = AddCartItem;
+  constructor(public payload: OrderItemModel) {
+  }
 }
 
 export class DeleteCartItemAction implements Action {
   readonly type = DeleteCartItem;
+  constructor(public payload: number) {
+  }
 }
 
 export class EditCartItemAction implements Action {
   readonly type = EditCartItem;
+  constructor(public payload: OrderItemModel) {
+  }
 }
 
 export class BuyCartAction implements Action {
   readonly type = BuyCart;
+  constructor(public payload: OrderModel) {
+  }
 }
 
 export class BuyCartSuccessAction implements Action {

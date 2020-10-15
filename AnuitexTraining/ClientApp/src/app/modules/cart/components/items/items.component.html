@@ -14,5 +14,29 @@
       Order amount
     </th>
   </tr>
-  <tr></tr>
+  <tr *ngFor="let item of (items$ | async)">
+    <td>
+      {{item.title}}
+    </td>
+    <td>
+      ${{item.amount}}
+    </td>
+    <td>
+      <mat-form-field appearance="outline">
+        <label>
+          <input matInput type="number" [value]="item.count" (change)="edit(item)" [(ngModel)]="item.count">
+        </label>
+      </mat-form-field>
+    </td>
+    <td>
+      <span>USD ${{round(item.amount * item.count)}}</span>
+      <button class="float-right" (click)="delete(item.printingEditionId)" mat-icon-button>
+        <mat-icon>
+          remove
+        </mat-icon>
+      </button>
+    </td>
+  </tr>
 </table>
+<button (click)="dialogRef.close()" class="low" color="accent" mat-raised-button>Cancel</button>
+<button class="low" color="primary" mat-raised-button>Buy Now</button>
