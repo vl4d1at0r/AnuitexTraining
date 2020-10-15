@@ -11,6 +11,7 @@ using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Models;
+using AnuitexTraining.DataAccessLayer.Providers;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Stripe;
 using static AnuitexTraining.Shared.Constants.Constants;

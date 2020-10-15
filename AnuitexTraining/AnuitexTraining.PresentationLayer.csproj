@@ -34,7 +34,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AnuitexTraining.BusinessLogicLayer\AnuitexTraining.BusinessLogicLayer.csproj" />
-    <ProjectReference Include="..\AnuitexTraining.Shared\AnuitexTraining.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\modules\printing-edition\models" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

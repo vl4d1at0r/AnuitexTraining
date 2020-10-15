@@ -1,9 +1,10 @@
-﻿using System.Net;
-using AnuitexTraining.BusinessLogicLayer.Models.ExchangeRate;
+﻿using System;
+using System.Net;
+using AnuitexTraining.DataAccessLayer.Models.ExchangeRate;
 using Newtonsoft.Json;
 using static AnuitexTraining.Shared.Enums.Enums;
 
-namespace AnuitexTraining.BusinessLogicLayer.Providers
+namespace AnuitexTraining.DataAccessLayer.Providers
 {
     public class ExchangeRateProvider
     {
@@ -21,6 +22,15 @@ namespace AnuitexTraining.BusinessLogicLayer.Providers
         {
             return value / (double) _exchangeRate.conversion_rates.GetType().GetProperty(currencyType.ToString())
                 .GetValue(_exchangeRate.conversion_rates);
+        }
+
+        public double Exchange(CurrencyType from, CurrencyType to, double value)
+        {
+            double result = value / (double) _exchangeRate.conversion_rates.GetType().GetProperty(from.ToString())
+                .GetValue(_exchangeRate.conversion_rates);
+            result = result * (double) _exchangeRate.conversion_rates.GetType().GetProperty(to.ToString())
+                .GetValue(_exchangeRate.conversion_rates);
+            return Math.Round(result, 2, MidpointRounding.AwayFromZero);
         }
     }
 }

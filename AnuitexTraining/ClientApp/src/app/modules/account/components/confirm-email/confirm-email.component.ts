@@ -19,11 +19,11 @@ export class ConfirmEmailComponent implements OnInit {
   lastName = "";
   checkMarkImage = require('../../assets/check-mark.png');
 
-  constructor(private activateRoute: ActivatedRoute, private store: Store<AccountState>) {
+  constructor(private activatedRoute: ActivatedRoute, private store: Store<AccountState>) {
   }
 
   ngOnInit() {
-    this.activateRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe(params => {
       this.id = params.id;
       this.code = params.code;
     })

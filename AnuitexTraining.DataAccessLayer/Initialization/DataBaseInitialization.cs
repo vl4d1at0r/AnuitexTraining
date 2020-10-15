@@ -23,12 +23,12 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
             {
                 new PrintingEdition
                 {
-                    Id = 1, CreationDate = DateTime.UtcNow, Currency = CurrencyType.UAH, Title = "Neurotechnologies",
+                    Id = 1, CreationDate = DateTime.UtcNow, Currency = CurrencyType.USD, Title = "Neurotechnologies",
                     Description = "Neurotechnologies", Price = 1000, Type = PrintingEditionType.Newspaper
                 },
                 new PrintingEdition
                 {
-                    Id = 2, CreationDate = DateTime.UtcNow, Currency = CurrencyType.EUR, Title = "C# Starter",
+                    Id = 2, CreationDate = DateTime.UtcNow, Currency = CurrencyType.USD, Title = "C# Starter",
                     Description = "C# Starter", Price = 20, Type = PrintingEditionType.Book
                 },
                 new PrintingEdition
@@ -38,8 +38,8 @@ namespace AnuitexTraining.DataAccessLayer.Initialization
                 },
                 new PrintingEdition
                 {
-                    Id = 4, CreationDate = DateTime.UtcNow, Currency = CurrencyType.EUR, Title = "How it works",
-                    Description = "How it works", Price = 50, Type = PrintingEditionType.Journal
+                    Id = 4, CreationDate = DateTime.UtcNow, Currency = CurrencyType.USD, Title = "How it works",
+                    Description = "How it works", Price = 50, Type = PrintingEditionType.Magazine
                 },
                 new PrintingEdition
                 {

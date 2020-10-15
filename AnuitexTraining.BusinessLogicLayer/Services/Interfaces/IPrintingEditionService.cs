@@ -7,7 +7,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
 {
     public interface IPrintingEditionService
     {
-        public Task<PageDataModel<PrintingEditionModel>> GetPageAsync(PageModel<PrintingEditionModel> pageModel);
+        public Task<PrintingEditionPageDataModel> GetPageAsync(PageModel<PrintingEditionFilterModel> pageModel);
         public Task AddAsync(PrintingEditionModel model);
         public Task DeleteAsync(long id);
         public Task UpdateAsync(PrintingEditionModel model);

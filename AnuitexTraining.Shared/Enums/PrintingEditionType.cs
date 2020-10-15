@@ -6,7 +6,7 @@
         {
             None = 0,
             Book = 1,
-            Journal = 2,
+            Magazine = 2,
             Newspaper = 3
         }
     }

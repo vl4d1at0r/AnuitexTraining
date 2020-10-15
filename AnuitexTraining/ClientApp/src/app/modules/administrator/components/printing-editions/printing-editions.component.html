@@ -31,10 +31,19 @@
 
   <ng-container matColumnDef="category">
     <th *matHeaderCellDef mat-header-cell>
-      Category
+      <div (click)="categoryFilter=!categoryFilter" class="fill">Category</div>
+      <div [hidden]="!categoryFilter" class="filter">
+        <mat-card>
+          <mat-checkbox [(ngModel)]="book" (change)="change()">Book</mat-checkbox>
+          <br>
+          <mat-checkbox [(ngModel)]="newspaper" (change)="change()">Newspaper</mat-checkbox>
+          <br>
+          <mat-checkbox [(ngModel)]="magazine" (change)="change()">Magazine</mat-checkbox>
+        </mat-card>
+      </div>
     </th>
     <td *matCellDef="let element" mat-cell>
-      {{element.type}}
+      {{toEnum(element.type)}}
     </td>
   </ng-container>
 
@@ -48,11 +57,11 @@
   </ng-container>
 
   <ng-container matColumnDef="price">
-    <th *matHeaderCellDef mat-header-cell>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>
       Price
     </th>
     <td *matCellDef="let element" mat-cell>
-      {{element.price}}
+      ${{element.price}}
     </td>
   </ng-container>
 

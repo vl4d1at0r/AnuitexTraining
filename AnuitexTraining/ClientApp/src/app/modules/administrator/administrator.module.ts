@@ -12,6 +12,8 @@ import {AuthorsComponent} from "./components/authors/authors.component";
 import {AuthorsEditDialogComponent} from "./components/authors/dialogs/edit/authors-edit-dialog.component";
 import {AuthorsAddDialogComponent} from "./components/authors/dialogs/add/authors-add-dialog.component";
 import {PrintingEditionsComponent} from "./components/printing-editions/printing-editions.component";
+import {PrintingEditionsAddDialogComponent} from "./components/printing-editions/dialogs/add/printing-editions-add-dialog.component";
+import {PrintingEditionsEditDialogComponent} from "./components/printing-editions/dialogs/edit/printing-editions-edit-dialog.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import {PrintingEditionsComponent} from "./components/printing-editions/printing
     AuthorsComponent,
     AuthorsEditDialogComponent,
     AuthorsAddDialogComponent,
-    PrintingEditionsComponent
+    PrintingEditionsComponent,
+    PrintingEditionsAddDialogComponent,
+    PrintingEditionsEditDialogComponent
   ],
     imports: [
         CommonModule,
@@ -40,7 +44,9 @@ import {PrintingEditionsComponent} from "./components/printing-editions/printing
   entryComponents: [
     ClientsEditDialogComponent,
     AuthorsEditDialogComponent,
-    AuthorsAddDialogComponent
+    AuthorsAddDialogComponent,
+    PrintingEditionsAddDialogComponent,
+    PrintingEditionsEditDialogComponent
   ]
 })
 export class AdministratorModule {

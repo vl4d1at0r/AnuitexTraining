@@ -1,12 +1,20 @@
 ﻿import {AdministratorState} from "../models/administrator.state";
-import {AdministratorActions, AdministratorFail, GetAuthorsSuccess, GetUsersSuccess} from "./administrator.actions";
+import {
+  AdministratorActions,
+  AdministratorFail,
+  GetAuthorsSuccess,
+  GetPrintingEditionsSuccess,
+  GetUsersSuccess
+} from "./administrator.actions";
 
 export const administratorInitialState: AdministratorState = {
   users: [],
   authors: [],
+  printingEditions: [],
   errors: [],
   usersTotal: 0,
-  authorsTotal: 0
+  authorsTotal: 0,
+  printingEditionsTotal: 0
 };
 
 export const getUsers = (state: AdministratorState) => state.users;
@@ -25,6 +33,12 @@ export function administratorReducer(state = administratorInitialState, action: 
         ...state,
         authors: [...action.payload.data],
         authorsTotal: action.payload.length
+      }
+    case GetPrintingEditionsSuccess:
+      return {
+        ...state,
+        printingEditions: [...action.payload.data],
+        printingEditionsTotal: action.payload.length
       }
     case AdministratorFail:
       return {

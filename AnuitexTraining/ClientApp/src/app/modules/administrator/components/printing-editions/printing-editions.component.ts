@@ -1,4 +1,4 @@
-﻿import {AfterViewInit, Component, ViewChild} from "@angular/core";
+﻿import {AfterViewInit, Component, EventEmitter, ViewChild} from "@angular/core";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {PrintingEditionModel} from "../../models/printing-edition.model";
@@ -6,15 +6,21 @@ import {Store} from "@ngrx/store";
 import {AdministratorState} from "../../models/administrator.state";
 import {Actions, ofType} from "@ngrx/effects";
 import {
-  AddAuthorSuccess,
-  DeleteAuthorSuccess,
-  EditAuthorSuccess,
+  AddAuthorSuccess, AddPrintingEditionSuccess,
+  DeleteAuthorSuccess, DeletePrintingEditionAction, DeletePrintingEditionSuccess,
+  EditAuthorSuccess, EditPrintingEditionSuccess,
   GetPrintingEditionsAction,
   GetPrintingEditionsSuccess,
   GetPrintingEditionsSuccessAction
 } from "../../store/administrator.actions";
 import {merge} from "rxjs";
 import {SortOrderEnum} from "../../../shared/enums/sort-order.enum";
+import {PrintingEditionFilterModel} from "../../models/printing-edition-filter.model";
+import {PrintingEditionTypeEnum} from "../../../shared/enums/printing-edition-type.enum";
+import {CurrencyTypeEnum} from "../../../shared/enums/currency-type.enum";
+import {MatDialog} from "@angular/material/dialog";
+import {PrintingEditionsEditDialogComponent} from "./dialogs/edit/printing-editions-edit-dialog.component";
+import {PrintingEditionsAddDialogComponent} from "./dialogs/add/printing-editions-add-dialog.component";
 
 @Component({
   selector: 'administrator-printing-editions',
@@ -28,29 +34,40 @@ export class PrintingEditionsComponent implements AfterViewInit {
   dataSource: PrintingEditionModel[];
   displayedColumns: string[] = ['id', 'name', 'description', 'category', 'author', 'price', 'actions'];
   length: number;
-  filter: PrintingEditionModel = {
+  filter: PrintingEditionFilterModel = {
     authors: [],
-    type: undefined,
+    types: undefined,
     description: "",
     id: 0,
     title: "",
-    price: 0
+    minPrice: 0,
+    maxPrice: 0,
+    currency: CurrencyTypeEnum.USD,
+    searchString: ""
   }
 
+  categoryFilter = false;
+  book = true;
+  magazine = true;
+  newspaper = true
+  categoryChange = new EventEmitter()
+
+
   constructor(private store: Store<AdministratorState>,
-              private actions$: Actions) {
+              private actions$: Actions,
+              private dialog: MatDialog) {
   }
 
   edit(element) {
-
+    this.dialog.open(PrintingEditionsEditDialogComponent, {data: element})
   }
 
   delete(element) {
-
+    this.store.dispatch(new DeletePrintingEditionAction(element.id));
   }
 
   add() {
-
+    this.dialog.open(PrintingEditionsAddDialogComponent)
   }
 
   ngAfterViewInit() {
@@ -59,7 +76,7 @@ export class PrintingEditionsComponent implements AfterViewInit {
       this.length = action.payload.length;
     });
 
-    merge(this.sort.sortChange, this.actions$.pipe(ofType(DeleteAuthorSuccess, EditAuthorSuccess, AddAuthorSuccess))).subscribe(() => {
+    merge(this.categoryChange, this.sort.sortChange, this.actions$.pipe(ofType(DeletePrintingEditionSuccess, EditPrintingEditionSuccess, AddPrintingEditionSuccess))).subscribe(() => {
       this.paginator.firstPage();
       this.getPrintingEditions()
     });
@@ -79,5 +96,23 @@ export class PrintingEditionsComponent implements AfterViewInit {
       sortOrder: SortOrderEnum[this.sort.direction],
       filter: this.filter
     }))
+  }
+
+  toEnum(type) {
+    return PrintingEditionTypeEnum[type]
+  }
+
+  change() {
+    this.filter.types = [];
+    if (this.book) {
+      this.filter.types.push(PrintingEditionTypeEnum.Book)
+    }
+    if (this.magazine) {
+      this.filter.types.push(PrintingEditionTypeEnum.Magazine)
+    }
+    if (this.newspaper) {
+      this.filter.types.push(PrintingEditionTypeEnum.Newspaper)
+    }
+    this.categoryChange.emit()
   }
 }

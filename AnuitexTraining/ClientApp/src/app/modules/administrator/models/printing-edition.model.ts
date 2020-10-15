@@ -1,10 +1,12 @@
-﻿import {PrintingEditionCategoryEnum} from "../../shared/enums/printing-edition-category.enum";
+﻿import {PrintingEditionTypeEnum} from "../../shared/enums/printing-edition-type.enum";
+import {CurrencyTypeEnum} from "../../shared/enums/currency-type.enum";
 
 export interface PrintingEditionModel {
   id: number,
   title: string,
   description: string,
-  type: PrintingEditionCategoryEnum,
+  type: PrintingEditionTypeEnum,
   authors: string[],
-  price: number
+  price: number,
+  currency: CurrencyTypeEnum
 }

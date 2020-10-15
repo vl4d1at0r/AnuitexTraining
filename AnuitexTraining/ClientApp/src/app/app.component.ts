@@ -5,6 +5,9 @@ import {getAccessTokenSelector, getIsLoggedInSelector} from "./modules/account/s
 import {SignInSuccessAction, SignOutAction, SignOutSuccess} from "./modules/account/store/account.actions";
 import {Router} from "@angular/router";
 import {Actions, ofType} from "@ngrx/effects";
+import {filter} from "rxjs/operators";
+import {MatDialog} from "@angular/material/dialog";
+import {ItemsComponent} from "./modules/cart/components/items/items.component";
 
 @Component({
   selector: 'app-root',
@@ -14,15 +17,18 @@ import {Actions, ofType} from "@ngrx/effects";
 export class AppComponent implements OnInit {
   private accessToken: string;
 
-  constructor(private store: Store<AccountState>,
+  constructor(private dialog: MatDialog,
+              private store: Store<AccountState>,
               private router: Router,
               private actions$: Actions) {
   }
 
   title = 'app';
   isLoggedIn$ = this.store.select(getIsLoggedInSelector);
+  invert = false;
 
   ngOnInit() {
+    this.changeTheme();
     let accessToken = localStorage.getItem("accessToken");
     let refreshToken = localStorage.getItem("refreshToken")
     if ((accessToken != 'null' && accessToken != null) && (refreshToken != 'null' && refreshToken != null)) {
@@ -49,5 +55,14 @@ export class AppComponent implements OnInit {
         id: id
       }
     }).then()
+  }
+
+  changeTheme() {
+    this.invert = !this.invert
+    document.getElementsByTagName("html")[0].style.filter = "invert(" + Number(this.invert) + ")"
+  }
+
+  showCart() {
+    this.dialog.open(ItemsComponent)
   }
 }

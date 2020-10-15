@@ -22,7 +22,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories.Base
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<T> GetAsync(long id)
+        public virtual async Task<T> GetAsync(long id)
         {
             return await _dbSet.FindAsync(id);
         }

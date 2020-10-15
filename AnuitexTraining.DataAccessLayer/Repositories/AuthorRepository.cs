@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using AnuitexTraining.DataAccessLayer.AppContext;
@@ -18,9 +19,9 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
         {
         }
 
-        public async Task<Author> GetByNameAsync(string authorName)
+        public async Task<List<Author>> GetByNamesAsync(List<string> authors)
         {
-            return await _dbSet.FirstOrDefaultAsync(item => item.Name == authorName);
+            return await _dbSet.Where(item => authors.Contains(item.Name)).ToListAsync();
         }
 
         public async Task<IPagedList<Author>> GetPageAsync(PageOptions<Author> pageOptions)

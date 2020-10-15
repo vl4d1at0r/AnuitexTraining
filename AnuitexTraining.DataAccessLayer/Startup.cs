@@ -1,8 +1,12 @@
-﻿using AnuitexTraining.DataAccessLayer.Entities;
+﻿using AnuitexTraining.DataAccessLayer.AppContext;
+using AnuitexTraining.DataAccessLayer.Entities;
+using AnuitexTraining.DataAccessLayer.Providers;
 using AnuitexTraining.DataAccessLayer.Repositories;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using static AnuitexTraining.Shared.Constants.Constants;
 
 namespace AnuitexTraining.DataAccessLayer
 {
@@ -10,6 +14,14 @@ namespace AnuitexTraining.DataAccessLayer
     {
         public static void InitDataAccessLayerServices(this IServiceCollection services)
         {
+            services.AddDbContext<ApplicationContext>(
+                options => options.UseSqlServer(DBOptions.ConnectionString),
+                ServiceLifetime.Transient);
+            
+            services.AddIdentity<ApplicationUser, IdentityRole<long>>(options => options.User.RequireUniqueEmail = true)
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
+            
             services.AddTransient<UserManager<ApplicationUser>>();
             services.AddTransient<IPrintingEditionRepository, PrintingEditionRepository>();
             services.AddTransient<IAuthorRepository, AuthorRepository>();
@@ -17,6 +29,7 @@ namespace AnuitexTraining.DataAccessLayer
             services.AddTransient<IOrderItemRepository, OrderItemRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
+            services.AddTransient<ExchangeRateProvider>();
         }
     }
 }

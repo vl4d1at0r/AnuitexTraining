@@ -1,0 +1,28 @@
+Catalog<br>
+<table>
+  <tr>
+    <td class="book">
+      <mat-icon class="book" color="accent">book</mat-icon>
+    </td>
+    <td>
+      <p>
+        <strong>
+          {{data.title}}
+        </strong>
+      </p>
+      by {{data.authors.join(', ')}}
+    </td>
+    <td class="price">
+      Qty:
+      <mat-form-field appearance="outline">
+        <label class="qty">
+          <input class="qty" matInput type="number" [ngModel]="qty">
+        </label>
+      </mat-form-field>
+      <span class="float-right price">${{data.price}}</span>
+      <br>
+      <button class="add" color="primary" mat-raised-button>Add to Cart</button>
+    </td>
+  </tr>
+</table>
+<div class="description">{{data.description}}</div>
