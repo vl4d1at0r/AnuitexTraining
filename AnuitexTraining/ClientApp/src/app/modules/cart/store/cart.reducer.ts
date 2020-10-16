@@ -1,6 +1,6 @@
 ﻿import {OrderModel} from "../models/order.model";
 import {OrderStatusEnum} from "../../shared/enums/order-status.enum";
-import {AddCartItem, BuyCartSuccess, CartActions, DeleteCartItem, EditCartItem} from "./cart.actions";
+import {AddCartItem, BuyCartSuccess, CartActions, DeleteCartItem, EditCartItem, RestoreCart} from "./cart.actions";
 
 export const initialCartState: OrderModel = {
   date: null,
@@ -8,10 +8,12 @@ export const initialCartState: OrderModel = {
   items: [],
   paymentId: 0,
   status: OrderStatusEnum.None,
-  userId: 0
+  userId: 0,
+  transactionToken: ""
 }
 
 export const getItems = (state: OrderModel) => state.items;
+export const getState = (state: OrderModel) => state;
 
 export function cartReducer(state = initialCartState, action: CartActions) {
   switch (action.type) {
@@ -49,6 +51,8 @@ export function cartReducer(state = initialCartState, action: CartActions) {
       }
     case BuyCartSuccess:
       return initialCartState;
+    case RestoreCart:
+      return action.payload
     default:
       return state;
   }

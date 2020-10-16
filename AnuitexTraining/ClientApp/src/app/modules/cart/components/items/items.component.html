@@ -14,7 +14,7 @@
       Order amount
     </th>
   </tr>
-  <tr *ngFor="let item of (items$ | async)">
+  <tr *ngFor="let item of order.items">
     <td>
       {{item.title}}
     </td>
@@ -38,5 +38,6 @@
     </td>
   </tr>
 </table>
+<span class="float-right">TOTAL PRICE USD ${{getTotalPrice()}}</span><br>
 <button (click)="dialogRef.close()" class="low" color="accent" mat-raised-button>Cancel</button>
-<button class="low" color="primary" mat-raised-button>Buy Now</button>
+<button (click)="buy()" class="low" color="primary" mat-raised-button>Buy Now</button>

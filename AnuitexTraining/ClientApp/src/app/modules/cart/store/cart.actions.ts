@@ -8,6 +8,7 @@ export const EditCartItem = "[Cart] Edit Item";
 export const BuyCart = "[Cart] Buy";
 export const BuyCartSuccess = "[Cart] Buy Success";
 export const BuyCartFail = "[Cart] Buy Fail";
+export const RestoreCart = "[Cart] Restore";
 
 export class AddCartItemAction implements Action {
   readonly type = AddCartItem;
@@ -41,5 +42,11 @@ export class BuyCartFailAction implements Action {
   readonly type = BuyCartFail;
 }
 
+export class RestoreCartAction implements Action {
+  readonly type = RestoreCart;
+  constructor(public payload: OrderModel) {
+  }
+}
+
 export type CartActions = AddCartItemAction | DeleteCartItemAction | EditCartItemAction |
-  BuyCartAction | BuyCartSuccessAction | BuyCartFailAction;
+  BuyCartAction | BuyCartSuccessAction | BuyCartFailAction | RestoreCartAction;

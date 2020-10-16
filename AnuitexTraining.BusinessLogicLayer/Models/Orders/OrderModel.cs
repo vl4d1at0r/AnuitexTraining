@@ -13,5 +13,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Models.Orders
         public DateTime Date { get; set; }
         public OrderStatus Status { get; set; }
         public long PaymentId { get; set; }
+        public string TransactionToken { get; set; }
     }
 }

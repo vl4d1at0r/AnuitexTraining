@@ -66,7 +66,18 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             return models;
         }
 
-        public async Task AddAsync(OrderModel orderModel, long userId)
+        public async Task DeleteAsync(long id)
+        {
+            var order = await _orderRepository.GetAsync(id);
+            if (order is null)
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
+            }
+
+            await _orderRepository.DeleteAsync(id);
+        }
+
+        public async Task BuyAsync(OrderModel orderModel)
         {
             if (orderModel.Date == default)
             {
@@ -151,7 +162,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                     await _orderItemRepository.UpdateAsync(_orderItemMapper.Map(item));
                 }
             });
-            orderModel.UserId = userId;
             orderModel.Status = OrderStatus.Unpaid;
             var payment = new Payment();
             await _paymentRepository.AddAsync(payment);
@@ -160,28 +170,13 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             await _orderRepository.AddAsync(order);
             orderModel.Items.ForEach(item => item.OrderId = order.Id);
             await _orderItemRepository.AddRangeAsync(_orderItemMapper.Map(orderModel.Items));
-        }
-
-        public async Task DeleteAsync(long id)
-        {
-            var order = await _orderRepository.GetAsync(id);
+            
             if (order is null)
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
             }
 
-            await _orderRepository.DeleteAsync(id);
-        }
-
-        public async Task BuyAsync(long id, string transactionToken)
-        {
-            var order = await _orderRepository.GetAsync(id);
-            if (order is null)
-            {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
-            }
-
-            var orderItems = await _orderItemRepository.GetByOrderIdAsync(id);
+            var orderItems = orderModel.Items;
             long sum = 0;
             foreach (var item in orderItems)
             {
@@ -193,11 +188,11 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 Currency = CurrencyType.USD.ToString(),
                 Amount = sum,
                 Description = order.Description,
-                Source = transactionToken
+                Source = orderModel.TransactionToken
             };
             var service = new ChargeService();
             var charge = service.Create(options);
-            var payment = await _paymentRepository.GetAsync(order.PaymentId);
+            payment = await _paymentRepository.GetAsync(order.PaymentId);
             payment.TransactionId = charge.Id;
             order.Status = OrderStatus.Paid;
             await _orderRepository.UpdateAsync(order);

@@ -29,13 +29,6 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             return await _orderService.GetPageAsync(pageModel, admin, userId);
         }
 
-        [HttpPost("add")]
-        [Authorize]
-        public async Task AddAsync(OrderModel order)
-        {
-            await _orderService.AddAsync(order, long.Parse(User.FindFirst("Id").Value));
-        }
-
         [HttpDelete("delete/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task DeleteAsync(long id)
@@ -43,11 +36,11 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             await _orderService.DeleteAsync(id);
         }
 
-        [HttpGet("buy/{id}")]
+        [HttpGet("buy")]
         [Authorize]
-        public async Task BuyAsync(long id, string transactionToken)
+        public async Task BuyAsync(OrderModel orderModel)
         {
-            await _orderService.BuyAsync(id, transactionToken);
+            await _orderService.BuyAsync(orderModel);
         }
     }
 }

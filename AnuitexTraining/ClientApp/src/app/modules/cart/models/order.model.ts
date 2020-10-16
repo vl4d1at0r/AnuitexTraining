@@ -7,5 +7,6 @@ export interface OrderModel {
   userId: number,
   date: Date,
   status: OrderStatusEnum,
-  paymentId: number
+  paymentId: number,
+  transactionToken: string
 }

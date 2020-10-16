@@ -8,9 +8,9 @@ import {Actions, ofType} from "@ngrx/effects";
 import {filter} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
 import {ItemsComponent} from "./modules/cart/components/items/items.component";
-import {AddCartItem, DeleteCartItem, EditCartItem} from "./modules/cart/store/cart.actions";
+import {AddCartItem, DeleteCartItem, EditCartItem, RestoreCartAction} from "./modules/cart/store/cart.actions";
 import {OrderModel} from "./modules/cart/models/order.model";
-import {getItemsSelector} from "./modules/cart/store/cart.selectors";
+import {getItemsSelector, getStateSelector} from "./modules/cart/store/cart.selectors";
 
 @Component({
   selector: 'app-root',
@@ -41,12 +41,17 @@ export class AppComponent implements OnInit {
         refreshToken: refreshToken,
         rememberMe: true
       }))
+      let cart = localStorage.getItem("cart");
+      if (cart != null && cart != 'null') {
+        this.store.dispatch(new RestoreCartAction(JSON.parse(cart)))
+      }
     }
     this.actions$.pipe(ofType(SignOutSuccess)).subscribe(() => {
       this.router.navigate(["account", "signIn"]).then();
     })
     this.actions$.pipe(ofType(AddCartItem, DeleteCartItem, EditCartItem)).subscribe(() => {
-      this.cartStore.pipe(select(getItemsSelector)).subscribe(item => {
+      this.cartStore.pipe(select(getStateSelector)).subscribe(item => {
+        localStorage.setItem("cart", JSON.stringify(item))
       })
     })
 
