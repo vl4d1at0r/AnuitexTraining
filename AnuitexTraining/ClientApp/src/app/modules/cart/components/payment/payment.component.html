@@ -1,1 +1,6 @@
-<p>payment works!</p>
+<stripe-card
+  #stripeCard
+  (tokenChange)="setStripeToken($event)"
+></stripe-card>
+
+<button type="button" (click)="stripeCard.createToken()">Pay ${{data}}</button>

@@ -32,6 +32,7 @@ import {CatalogComponent} from "./modules/printing-edition/components/catalog/ca
 import {DetailsComponent} from "./modules/printing-edition/components/details/details.component";
 import {ItemsComponent} from "./modules/cart/components/items/items.component";
 import {CartModule} from "./modules/cart/cart.module";
+import {StripeModule} from "stripe-angular";
 
 const appRoutes: Routes = [
   {path: 'account/signIn', component: SignInComponent, canActivate: [UnauthorizedRouterGuard]},
@@ -87,7 +88,8 @@ const appRoutes: Routes = [
     }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    MaterialModule
+    MaterialModule,
+    StripeModule.forRoot("pk_test_51HMqTeKbwoGhmQ0BhRs6vDMqF8HBw5x4Tp3kvdGWZSYZxZmR1AQfApcYxDdj7ATzvA5zJxhS1NhzGRVNz1HkJ9ru00eSJCeCes")
   ],
   providers: [AuthorizedRouterGuard, UnauthorizedRouterGuard, AdministratorRouterGuard],
   bootstrap: [AppComponent],

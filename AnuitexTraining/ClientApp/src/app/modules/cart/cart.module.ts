@@ -8,6 +8,7 @@ import {CartService} from "./services/cart.service";
 import {FormsModule} from "@angular/forms";
 import { PaymentComponent } from './components/payment/payment.component';
 import { SuccessComponent } from './components/success/success.component';
+import {StripeModule} from "stripe-angular";
 
 
 
@@ -17,7 +18,8 @@ import { SuccessComponent } from './components/success/success.component';
         CommonModule,
         MaterialModule,
         EffectsModule.forFeature([CartEffects]),
-        FormsModule
+        FormsModule,
+        StripeModule
     ],
   providers: [
     CartService
