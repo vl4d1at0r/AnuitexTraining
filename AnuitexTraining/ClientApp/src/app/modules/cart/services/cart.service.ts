@@ -9,6 +9,6 @@ export class CartService {
   constructor(private http: HttpClient) { }
 
   buy(payload: OrderModel) {
-    return this.http.post(this.url, payload)
+    return this.http.post(this.url + "/buy", payload)
   }
 }

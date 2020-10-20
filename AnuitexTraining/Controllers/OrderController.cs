@@ -36,11 +36,11 @@ namespace AnuitexTraining.PresentationLayer.Controllers
             await _orderService.DeleteAsync(id);
         }
 
-        [HttpGet("buy")]
+        [HttpPost("buy")]
         [Authorize]
-        public async Task BuyAsync(OrderModel orderModel)
+        public async Task<long> BuyAsync(OrderModel orderModel)
         {
-            await _orderService.BuyAsync(orderModel);
+            return await _orderService.BuyAsync(orderModel);
         }
     }
 }

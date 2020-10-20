@@ -3,13 +3,14 @@ using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AnuitexTraining.BusinessLogicLayer
 {
     public static class Startup
     {
-        public static void InitBusinessLogicLayerServices(this IServiceCollection services)
+        public static void InitBusinessLogicLayerServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAccountService, AccountService>();
@@ -24,7 +25,7 @@ namespace AnuitexTraining.BusinessLogicLayer
             services.AddSingleton<OrderMapper>();
             services.AddSingleton<PasswordGeneratorProvider>();
 
-            services.InitDataAccessLayerServices();
+            services.InitDataAccessLayerServices(configuration);
         }
     }
 }

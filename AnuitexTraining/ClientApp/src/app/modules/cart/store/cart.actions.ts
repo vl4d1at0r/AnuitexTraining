@@ -12,30 +12,36 @@ export const RestoreCart = "[Cart] Restore";
 
 export class AddCartItemAction implements Action {
   readonly type = AddCartItem;
+
   constructor(public payload: OrderItemModel) {
   }
 }
 
 export class DeleteCartItemAction implements Action {
   readonly type = DeleteCartItem;
+
   constructor(public payload: number) {
   }
 }
 
 export class EditCartItemAction implements Action {
   readonly type = EditCartItem;
+
   constructor(public payload: OrderItemModel) {
   }
 }
 
 export class BuyCartAction implements Action {
   readonly type = BuyCart;
+
   constructor(public payload: OrderModel) {
   }
 }
 
 export class BuyCartSuccessAction implements Action {
   readonly type = BuyCartSuccess;
+  constructor(public payload: number) {
+  }
 }
 
 export class BuyCartFailAction implements Action {
@@ -44,6 +50,7 @@ export class BuyCartFailAction implements Action {
 
 export class RestoreCartAction implements Action {
   readonly type = RestoreCart;
+
   constructor(public payload: OrderModel) {
   }
 }

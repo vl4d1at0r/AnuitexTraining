@@ -1,0 +1,9 @@
+div.content {
+  text-align: center;
+}
+
+mat-icon {
+  font-size: 100px;
+  width: 100%;
+  height: 100%;
+}

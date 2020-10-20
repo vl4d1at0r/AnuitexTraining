@@ -39,11 +39,12 @@ export class DetailsComponent implements OnInit {
   addToCart() {
     this.cartStore.dispatch(new AddCartItemAction({
       count: this.qty,
-      printingEditionId: this.id,
+      printingEditionId: Number(this.id),
       amount: this.data.price,
       currency: this.data.currency,
       orderId: 0,
-      title: this.data.title
+      title: this.data.title,
+      id: 0
     }))
   }
 }

@@ -16,8 +16,8 @@ export class CartEffects {
     mergeMap((action: BuyCartAction) => {
       return this.cartService.buy(action.payload)
         .pipe(
-          map(item => {
-            return new BuyCartSuccessAction();
+          map((item: number) => {
+            return new BuyCartSuccessAction(item);
           }),
           catchError(error => {
             return of(new BuyCartFailAction())
