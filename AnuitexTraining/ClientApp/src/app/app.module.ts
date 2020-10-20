@@ -33,6 +33,8 @@ import {DetailsComponent} from "./modules/printing-edition/components/details/de
 import {ItemsComponent} from "./modules/cart/components/items/items.component";
 import {CartModule} from "./modules/cart/cart.module";
 import {StripeModule} from "stripe-angular";
+import {ListComponent} from "./modules/order/components/list/list.component";
+import {OrderModule} from "./modules/order/order.module";
 
 const appRoutes: Routes = [
   {path: 'account/signIn', component: SignInComponent, canActivate: [UnauthorizedRouterGuard]},
@@ -60,6 +62,11 @@ const appRoutes: Routes = [
   },
   {
     path: 'printingEdition/details', component: DetailsComponent
+  },
+  {
+    path: 'order/list',
+    component: ListComponent,
+    canActivate: [AuthorizedRouterGuard]
   }
 ];
 
@@ -79,6 +86,7 @@ const appRoutes: Routes = [
     AdministratorModule,
     PrintingEditionModule,
     CartModule,
+    OrderModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
