@@ -22,7 +22,7 @@ namespace AnuitexTraining.PresentationLayer.Controllers
 
         [HttpPost("getPage")]
         [Authorize]
-        public async Task<IEnumerable<OrderModel>> GetPageAsync(PageModel<OrderModel> pageModel)
+        public async Task<PageDataModel<OrderModel>> GetPageAsync(PageModel<OrderModel> pageModel)
         {
             bool admin = User.FindFirst(ClaimTypes.Role).Value == "Admin";
             long userId = long.Parse(User.FindFirst("Id").Value);

@@ -7,7 +7,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
 {
     public interface IOrderService
     {
-        public Task<IEnumerable<OrderModel>> GetPageAsync(PageModel<OrderModel> orderPageModel, bool admin, long userId);
+        public Task<PageDataModel<OrderModel>> GetPageAsync(PageModel<OrderModel> orderPageModel, bool admin, long userId);
         public Task DeleteAsync(long id);
         public Task<long> BuyAsync(OrderModel orderModel);
     }

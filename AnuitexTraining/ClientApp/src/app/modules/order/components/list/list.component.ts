@@ -34,6 +34,8 @@ export class ListComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.actions$.pipe(ofType(GetOrdersSuccess)).subscribe((action: GetOrdersSuccessAction) => {
+      console.log(action.payload.data)
+      console.log(action.payload.length)
       this.dataSource = action.payload.data;
       this.length = action.payload.length;
     });

@@ -18,7 +18,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
         {
         }
 
-        public async Task<IEnumerable<Order>> GetPageAsync(PageOptions<Order> pageOptions, bool isAdmin, long userId)
+        public async Task<IPagedList<Order>> GetPageAsync(PageOptions<Order> pageOptions, bool isAdmin, long userId)
         {
             IQueryable<Order> orders = _dbSet;
             if (pageOptions.Filter != null)

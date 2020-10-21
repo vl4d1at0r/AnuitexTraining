@@ -43,12 +43,22 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             _exchangeRateProvider = exchangeRateProvider;
         }
 
-        public async Task<IEnumerable<OrderModel>> GetPageAsync(PageModel<OrderModel> orderPageModel, bool admin,
+        public async Task<PageDataModel<OrderModel>> GetPageAsync(PageModel<OrderModel> orderPageModel, bool admin,
             long userId)
         {
             var orderPage = new PageOptions<Order>
             {
-                Filter = _orderMapper.Map(orderPageModel.Filter),
+                Filter = orderPageModel.Filter == null
+                    ? null
+                    : new Order
+                    {
+                        Date = orderPageModel.Filter.Date,
+                        Description = orderPageModel.Filter.Description,
+                        Id = orderPageModel.Filter.Id,
+                        PaymentId = orderPageModel.Filter.PaymentId,
+                        Status = orderPageModel.Filter.Status,
+                        UserId = orderPageModel.Filter.UserId
+                    },
                 Page = orderPageModel.Page,
                 PageSize = orderPageModel.PageSize,
                 SortField = orderPageModel.SortField,
@@ -63,7 +73,11 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                     _orderItemRepository.GetByOrderIdAsync(item.Id).Result;
                 item.Items = _orderItemMapper.Map(orderItems);
             });
-            return models;
+            return new PageDataModel<OrderModel>
+            {
+                Data = models,
+                Length = orders.TotalItemCount
+            };
         }
 
         public async Task DeleteAsync(long id)
