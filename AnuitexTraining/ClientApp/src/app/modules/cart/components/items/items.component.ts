@@ -47,7 +47,7 @@ export class ItemsComponent implements OnInit {
   }
 
   buy() {
-    this.dialog.open(PaymentComponent, {data: this.totalPrice })
+    this.dialog.open(PaymentComponent, {data: {orderId: this.order.id, amount: this.getTotalPrice()} })
     this.dialogRef.close()
   }
 

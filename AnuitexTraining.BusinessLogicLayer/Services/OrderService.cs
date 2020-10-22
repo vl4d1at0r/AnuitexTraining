@@ -67,12 +67,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
 
             var orders = await _orderRepository.GetPageAsync(orderPage, admin, userId);
             var models = _orderMapper.Map(orders);
-            models.ForEach(item =>
-            {
-                var orderItems =
-                    _orderItemRepository.GetByOrderIdAsync(item.Id).Result;
-                item.Items = _orderItemMapper.Map(orderItems);
-            });
             return new PageDataModel<OrderModel>
             {
                 Data = models,
@@ -183,7 +177,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             var order = _orderMapper.Map(orderModel);
             await _orderRepository.AddAsync(order);
             orderModel.Items.ForEach(item => item.OrderId = order.Id);
-            await _orderItemRepository.AddRangeAsync(_orderItemMapper.Map(orderModel.Items));
 
             if (order is null)
             {
@@ -206,11 +199,44 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             };
             var service = new ChargeService();
             var charge = service.Create(options);
-            payment = await _paymentRepository.GetAsync(order.PaymentId);
-            payment.TransactionId = charge.Id;
-            await _paymentRepository.UpdateAsync(payment);
-            order.Status = OrderStatus.Paid;
-            await _orderRepository.UpdateAsync(order);
+            if (charge.Status == "succeeded")
+            {
+                payment = await _paymentRepository.GetAsync(order.PaymentId);
+                payment.TransactionId = charge.Id;
+                await _paymentRepository.UpdateAsync(payment);
+                order.Status = OrderStatus.Paid;
+                await _orderRepository.UpdateAsync(order);
+            }
+            return payment.Id;
+        }
+
+        public async Task<long> BuyExistingAsync(long id, string token)
+        {
+            Order order = await _orderRepository.GetAsync(id);
+            long sum = 0;
+            foreach (var item in order.Items)
+            {
+                sum += Convert.ToInt64(item.Amount.ToString("F").Replace(",", string.Empty));
+            }
+
+            var options = new ChargeCreateOptions
+            {
+                Currency = CurrencyType.USD.ToString(),
+                Amount = sum,
+                Description = order.Description,
+                Source = token
+            };
+            var service = new ChargeService();
+            var charge = service.Create(options);
+            Payment payment = new Payment();
+            if (charge.Status == "succeeded")
+            {
+                payment = await _paymentRepository.GetAsync(order.PaymentId);
+                payment.TransactionId = charge.Id;
+                await _paymentRepository.UpdateAsync(payment);
+                order.Status = OrderStatus.Paid;
+                await _orderRepository.UpdateAsync(order);
+            }
             return payment.Id;
         }
     }

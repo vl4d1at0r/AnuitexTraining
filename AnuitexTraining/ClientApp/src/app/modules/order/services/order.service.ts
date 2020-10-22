@@ -11,6 +11,6 @@ export class OrderService {
   }
 
   getOrders(options: GetPageModel<OrderModel>) {
-    return this.http.post(this.url + "/getPage", options)
+    return this.http.post(this.url + "/getUserPage", options)
   }
 }

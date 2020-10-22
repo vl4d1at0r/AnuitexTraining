@@ -21,7 +21,7 @@ namespace AnuitexTraining.DataAccessLayer.Providers
         public double ExchangeToUSD(double value, CurrencyType currencyType)
         {
             return Math.Round(value / (double) _exchangeRate.conversion_rates.GetType().GetProperty(currencyType.ToString())
-                .GetValue(_exchangeRate.conversion_rates), 2, MidpointRounding.AwayFromZero);
+                .GetValue(_exchangeRate.conversion_rates), 2, MidpointRounding.AwayFromZero); // 2 stands for count of numbers after point
         }
 
         public double Exchange(CurrencyType from, CurrencyType to, double value)
@@ -30,7 +30,7 @@ namespace AnuitexTraining.DataAccessLayer.Providers
                 .GetValue(_exchangeRate.conversion_rates);
             result = result * (double) _exchangeRate.conversion_rates.GetType().GetProperty(to.ToString())
                 .GetValue(_exchangeRate.conversion_rates);
-            return Math.Round(result, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(result, 2, MidpointRounding.AwayFromZero); // 2 stands for count of numbers after point
         }
     }
 }

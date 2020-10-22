@@ -6,6 +6,13 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
 {
     public class OrderItemMapper : BaseMapper<OrderItem, OrderItemModel>
     {
+        private readonly PrintingEditionMapper _printingEditionMapper;
+        
+        public OrderItemMapper()
+        {
+            _printingEditionMapper = new PrintingEditionMapper();
+        }
+        
         public override OrderItem Map(OrderItemModel item)
         {
             return new OrderItem
@@ -30,7 +37,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 CreationDate = item.CreationDate,
                 Currency = item.Currency,
                 OrderId = item.OrderId,
-                PrintingEditionId = item.PrintingEditionId
+                PrintingEditionId = item.PrintingEditionId,
+                PrintingEdition = _printingEditionMapper.Map(item.PrintingEdition)
             };
         }
     }

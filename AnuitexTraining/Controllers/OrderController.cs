@@ -21,13 +21,21 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         }
 
         [HttpPost("getPage")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<PageDataModel<OrderModel>> GetPageAsync(PageModel<OrderModel> pageModel)
         {
-            bool admin = User.FindFirst(ClaimTypes.Role).Value == "Admin";
             long userId = long.Parse(User.FindFirst("Id").Value);
-            return await _orderService.GetPageAsync(pageModel, admin, userId);
+            return await _orderService.GetPageAsync(pageModel, true, userId);
         }
+
+        [HttpPost("getUserPage")]
+        [Authorize]
+        public async Task<PageDataModel<OrderModel>> GetUserPageAsync(PageModel<OrderModel> pageModel)
+        {
+            long userId = long.Parse(User.FindFirst("Id").Value);
+            return await _orderService.GetPageAsync(pageModel, false, userId);
+        }
+
 
         [HttpDelete("delete/{id}")]
         [Authorize(Roles = "Admin")]
@@ -41,6 +49,13 @@ namespace AnuitexTraining.PresentationLayer.Controllers
         public async Task<long> BuyAsync(OrderModel orderModel)
         {
             return await _orderService.BuyAsync(orderModel);
+        }
+
+        [HttpGet("buyExisting")]
+        [Authorize]
+        public async Task<long> BuyExistingAsync(long id, string token)
+        {
+            return await _orderService.BuyExistingAsync(id, token);
         }
     }
 }

@@ -97,7 +97,7 @@ const appRoutes: Routes = [
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     MaterialModule,
-    StripeModule.forRoot("pk_test_51HMqTeKbwoGhmQ0BhRs6vDMqF8HBw5x4Tp3kvdGWZSYZxZmR1AQfApcYxDdj7ATzvA5zJxhS1NhzGRVNz1HkJ9ru00eSJCeCes")
+    StripeModule.forRoot(environment.stripe_key)
   ],
   providers: [AuthorizedRouterGuard, UnauthorizedRouterGuard, AdministratorRouterGuard],
   bootstrap: [AppComponent],

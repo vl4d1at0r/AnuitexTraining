@@ -2,6 +2,7 @@
 import {OrderStatusEnum} from "../../shared/enums/order-status.enum";
 
 export interface OrderModel {
+  id: number,
   items: OrderItemModel[],
   description: string,
   userId: number,

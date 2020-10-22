@@ -6,6 +6,13 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
 {
     public class OrderMapper : BaseMapper<Order, OrderModel>
     {
+        private readonly OrderItemMapper _orderItemMapper;
+        
+        public OrderMapper(OrderItemMapper orderItemMapper)
+        {
+            _orderItemMapper = orderItemMapper;
+        }
+        
         public override Order Map(OrderModel item)
         {
             return new Order
@@ -16,7 +23,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 Description = item.Description,
                 PaymentId = item.PaymentId,
                 Status = item.Status,
-                UserId = item.UserId
+                UserId = item.UserId,
+                Items = _orderItemMapper.Map(item.Items)
             };
         }
 
@@ -30,7 +38,8 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
                 Description = item.Description,
                 PaymentId = item.PaymentId,
                 Status = item.Status,
-                UserId = item.UserId
+                UserId = item.UserId,
+                Items = _orderItemMapper.Map(item.Items)
             };
         }
     }

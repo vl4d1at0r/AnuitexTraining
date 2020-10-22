@@ -11,7 +11,7 @@
     <th *matHeaderCellDef mat-header-cell mat-sort-header>
       Order Time
     </th>
-    <td *matCellDef="let element" mat-cell> {{element.date}} </td>
+    <td *matCellDef="let element" mat-cell> {{element.date | date: "longDate"}} </td>
   </ng-container>
 
   <ng-container matColumnDef="product">
@@ -19,7 +19,7 @@
       Product
     </th>
     <td *matCellDef="let element" mat-cell>
-      <div *ngFor="let item of element.items">{{item.type}}<br></div>
+      <div *ngFor="let item of element.items">{{toType(item.printingEdition.type)}}<br></div>
     </td>
   </ng-container>
 
@@ -28,7 +28,7 @@
       Title
     </th>
     <td *matCellDef="let element" mat-cell>
-      <div *ngFor="let item of element.items">{{item.title}}</div>
+      <div *ngFor="let item of element.items">{{item.printingEdition.title}}</div>
     </td>
   </ng-container>
 
@@ -46,7 +46,7 @@
       Order amount
     </th>
     <td *matCellDef="let element" mat-cell>
-      {{element.amount}}
+      ${{getTotalPrice(element)}}
     </td>
   </ng-container>
 
@@ -56,7 +56,7 @@
     </th>
     <td *matCellDef="let element" mat-cell>
       <div *ngIf="isPaid(element)">Paid</div>
-      <button *ngIf="!isPaid(element)">Pay</button>
+      <button *ngIf="!isPaid(element)" color="primary" (click)="payOrder(element)" mat-raised-button>Pay</button>
     </td>
   </ng-container>
 
