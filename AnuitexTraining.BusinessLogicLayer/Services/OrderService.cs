@@ -7,7 +7,6 @@ using AnuitexTraining.BusinessLogicLayer.Exceptions;
 using AnuitexTraining.BusinessLogicLayer.Mappers;
 using AnuitexTraining.BusinessLogicLayer.Models.Base;
 using AnuitexTraining.BusinessLogicLayer.Models.Orders;
-using AnuitexTraining.BusinessLogicLayer.Providers;
 using AnuitexTraining.BusinessLogicLayer.Services.Interfaces;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Models;
@@ -44,17 +43,28 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             _exchangeRateProvider = exchangeRateProvider;
         }
 
-        public async Task<IEnumerable<OrderModel>> GetPageAsync(PageModel<OrderModel> orderPageModel, bool admin, long userId)
+        public async Task<PageDataModel<OrderModel>> GetPageAsync(PageModel<OrderModel> orderPageModel, bool admin,
+            long userId)
         {
             var orderPage = new PageOptions<Order>
             {
-                Filter = _orderMapper.Map(orderPageModel.Filter),
+                Filter = orderPageModel.Filter == null
+                    ? null
+                    : new Order
+                    {
+                        Date = orderPageModel.Filter.Date,
+                        Description = orderPageModel.Filter.Description,
+                        Id = orderPageModel.Filter.Id,
+                        PaymentId = orderPageModel.Filter.PaymentId,
+                        Status = orderPageModel.Filter.Status,
+                        UserId = orderPageModel.Filter.UserId
+                    },
                 Page = orderPageModel.Page,
                 PageSize = orderPageModel.PageSize,
                 SortField = orderPageModel.SortField,
                 SortOrder = orderPageModel.SortOrder
             };
-            
+
             var orders = await _orderRepository.GetPageAsync(orderPage, admin, userId);
             var models = _orderMapper.Map(orders);
             models.ForEach(item =>
@@ -63,10 +73,25 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                     _orderItemRepository.GetByOrderIdAsync(item.Id).Result;
                 item.Items = _orderItemMapper.Map(orderItems);
             });
-            return models;
+            return new PageDataModel<OrderModel>
+            {
+                Data = models,
+                Length = orders.TotalItemCount
+            };
         }
 
-        public async Task AddAsync(OrderModel orderModel, long userId)
+        public async Task DeleteAsync(long id)
+        {
+            var order = await _orderRepository.GetAsync(id);
+            if (order is null)
+            {
+                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
+            }
+
+            await _orderRepository.DeleteAsync(id);
+        }
+
+        public async Task<long> BuyAsync(OrderModel orderModel)
         {
             if (orderModel.Date == default)
             {
@@ -78,7 +103,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 orderModel.Errors.Add(ExceptionsInfo.EmptyOrder);
             }
 
-            if (string.IsNullOrEmpty(orderModel.Description))
+            if (orderModel.Description == null)
             {
                 orderModel.Errors.Add(ExceptionsInfo.InvalidDescription);
             }
@@ -151,7 +176,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                     await _orderItemRepository.UpdateAsync(_orderItemMapper.Map(item));
                 }
             });
-            orderModel.UserId = userId;
             orderModel.Status = OrderStatus.Unpaid;
             var payment = new Payment();
             await _paymentRepository.AddAsync(payment);
@@ -160,28 +184,13 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             await _orderRepository.AddAsync(order);
             orderModel.Items.ForEach(item => item.OrderId = order.Id);
             await _orderItemRepository.AddRangeAsync(_orderItemMapper.Map(orderModel.Items));
-        }
 
-        public async Task DeleteAsync(long id)
-        {
-            var order = await _orderRepository.GetAsync(id);
             if (order is null)
             {
                 throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
             }
 
-            await _orderRepository.DeleteAsync(id);
-        }
-
-        public async Task BuyAsync(long id, string transactionToken)
-        {
-            var order = await _orderRepository.GetAsync(id);
-            if (order is null)
-            {
-                throw new UserException(HttpStatusCode.BadRequest, new List<string> {ExceptionsInfo.InvalidId});
-            }
-
-            var orderItems = await _orderItemRepository.GetByOrderIdAsync(id);
+            var orderItems = orderModel.Items;
             long sum = 0;
             foreach (var item in orderItems)
             {
@@ -193,14 +202,16 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                 Currency = CurrencyType.USD.ToString(),
                 Amount = sum,
                 Description = order.Description,
-                Source = transactionToken
+                Source = orderModel.TransactionToken
             };
             var service = new ChargeService();
             var charge = service.Create(options);
-            var payment = await _paymentRepository.GetAsync(order.PaymentId);
+            payment = await _paymentRepository.GetAsync(order.PaymentId);
             payment.TransactionId = charge.Id;
+            await _paymentRepository.UpdateAsync(payment);
             order.Status = OrderStatus.Paid;
             await _orderRepository.UpdateAsync(order);
+            return payment.Id;
         }
     }
 }

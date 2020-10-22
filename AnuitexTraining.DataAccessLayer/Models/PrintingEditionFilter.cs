@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using AnuitexTraining.DataAccessLayer.Entities;
 using static AnuitexTraining.Shared.Enums.Enums;
 
 namespace AnuitexTraining.DataAccessLayer.Models

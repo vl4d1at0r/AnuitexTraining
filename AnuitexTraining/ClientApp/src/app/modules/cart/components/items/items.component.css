@@ -1,0 +1,21 @@
+th, td {
+  padding-left: 0 !important;
+  min-width: 100px;
+  border-right: 2px solid #bdbdbd;
+}
+
+table {
+  border: 2px solid #bdbdbd;
+}
+
+button.low {
+  width: 50%;
+}
+
+/deep/ div.mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+mat-form-field {
+  width: 50px;
+}

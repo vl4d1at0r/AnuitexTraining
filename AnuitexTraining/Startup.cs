@@ -3,8 +3,6 @@ using System.IdentityModel.Tokens.Jwt;
 using AnuitexTraining.BusinessLogicLayer;
 using AnuitexTraining.BusinessLogicLayer.Common;
 using AnuitexTraining.BusinessLogicLayer.Common.Interfaces;
-using AnuitexTraining.DataAccessLayer.AppContext;
-using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.PresentationLayer.Extensions;
 using AnuitexTraining.PresentationLayer.Providers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +10,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -69,7 +66,7 @@ namespace AnuitexTraining
             });
 
             //Connecting BLL and DAL
-            services.InitBusinessLogicLayerServices();
+            services.InitBusinessLogicLayerServices(Configuration);
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(options =>

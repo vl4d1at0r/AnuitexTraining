@@ -1,0 +1,66 @@
+<table [dataSource]="dataSource" mat-table matSort>
+
+  <ng-container matColumnDef="id">
+    <th *matHeaderCellDef mat-header-cell>
+      Order ID
+    </th>
+    <td *matCellDef="let element" mat-cell> {{element.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>
+      Order Time
+    </th>
+    <td *matCellDef="let element" mat-cell> {{element.date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="product">
+    <th *matHeaderCellDef mat-header-cell>
+      Product
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      <div *ngFor="let item of element.items">{{item.type}}<br></div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <th *matHeaderCellDef mat-header-cell>
+      Title
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      <div *ngFor="let item of element.items">{{item.title}}</div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="qty">
+    <th *matHeaderCellDef mat-header-cell>
+      Qty
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      <div *ngFor="let item of element.items">{{item.count}}</div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="amount">
+    <th *matHeaderCellDef mat-header-cell>
+      Order amount
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      {{element.amount}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th *matHeaderCellDef mat-header-cell>
+      Order status
+    </th>
+    <td *matCellDef="let element" mat-cell>
+      <div *ngIf="isPaid(element)">Paid</div>
+      <button *ngIf="!isPaid(element)">Pay</button>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+</table>
+<mat-paginator [length]="length" [pageSize]="5"></mat-paginator>

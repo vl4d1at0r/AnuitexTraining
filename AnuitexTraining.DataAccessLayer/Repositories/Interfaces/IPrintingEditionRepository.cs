@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Models;
 using static AnuitexTraining.Shared.Enums.Enums;
