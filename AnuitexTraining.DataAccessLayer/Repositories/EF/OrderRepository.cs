@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Models;
-using AnuitexTraining.DataAccessLayer.Repositories.Base;
+using AnuitexTraining.DataAccessLayer.Repositories.EF.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using static AnuitexTraining.Shared.Enums.Enums;
 
-namespace AnuitexTraining.DataAccessLayer.Repositories
+namespace AnuitexTraining.DataAccessLayer.Repositories.EF
 {
     public class OrderRepository : BaseRepository<Order>, IOrderRepository
     {

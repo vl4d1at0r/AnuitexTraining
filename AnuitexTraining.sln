@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnuitexTraining.DataAccessL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnuitexTraining.Shared", "AnuitexTraining.Shared\AnuitexTraining.Shared.csproj", "{81DA92B8-1544-4511-BC0F-ED42A9430B95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperTest", "DapperTest\DapperTest.csproj", "{21102F10-BBC9-4552-BAC6-F09D35F8F2B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{81DA92B8-1544-4511-BC0F-ED42A9430B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DA92B8-1544-4511-BC0F-ED42A9430B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DA92B8-1544-4511-BC0F-ED42A9430B95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21102F10-BBC9-4552-BAC6-F09D35F8F2B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21102F10-BBC9-4552-BAC6-F09D35F8F2B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21102F10-BBC9-4552-BAC6-F09D35F8F2B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21102F10-BBC9-4552-BAC6-F09D35F8F2B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

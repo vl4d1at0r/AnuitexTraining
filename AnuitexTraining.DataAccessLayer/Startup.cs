@@ -2,6 +2,7 @@
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Providers;
 using AnuitexTraining.DataAccessLayer.Repositories;
+using AnuitexTraining.DataAccessLayer.Repositories.EF;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Models;
-using AnuitexTraining.DataAccessLayer.Repositories.Base;
+using AnuitexTraining.DataAccessLayer.Repositories.EF.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
-namespace AnuitexTraining.DataAccessLayer.Repositories
+namespace AnuitexTraining.DataAccessLayer.Repositories.EF
 {
     public class AuthorRepository : BaseRepository<Author>, IAuthorRepository
     {
