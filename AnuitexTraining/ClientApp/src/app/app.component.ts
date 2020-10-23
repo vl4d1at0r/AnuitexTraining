@@ -2,7 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {AccountState} from "./modules/account/interfaces/account.state";
 import {getAccessTokenSelector, getIsLoggedInSelector} from "./modules/account/store/account.selectors";
-import {SignInSuccessAction, SignOutAction, SignOutSuccess} from "./modules/account/store/account.actions";
+import {
+  SignInSuccess,
+  SignInSuccessAction,
+  SignOutAction,
+  SignOutSuccess
+} from "./modules/account/store/account.actions";
 import {Router} from "@angular/router";
 import {Actions, ofType} from "@ngrx/effects";
 import {filter} from "rxjs/operators";
@@ -30,6 +35,7 @@ export class AppComponent implements OnInit {
   title = 'app';
   isLoggedIn$ = this.store.select(getIsLoggedInSelector);
   invert = false;
+  isAdmin = false;
 
   ngOnInit() {
     this.changeTheme();
@@ -46,6 +52,12 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new RestoreCartAction(JSON.parse(cart)))
       }
     }
+    this.actions$.pipe(ofType(SignInSuccess)).subscribe((action: SignInSuccessAction) => {
+      this.accessToken = action.payload.accessToken;
+      let json = JSON.parse(atob(this.accessToken.split('.')[1]));
+      let role = json["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+      this.isAdmin = role == "Admin";
+    })
     this.actions$.pipe(ofType(SignOutSuccess)).subscribe(() => {
       this.router.navigate(["account", "signIn"]).then();
     })

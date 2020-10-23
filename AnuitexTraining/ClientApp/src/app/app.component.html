@@ -4,7 +4,7 @@
     <mat-icon color="primary" class="book" (click)="changeTheme()">
       menu_book
     </mat-icon>
-    Book Publishing Company
+    <div routerLink="printingEdition/catalog" style="cursor: pointer">Book Publishing Company</div>
     <a routerLink="/account/signIn" class="log-in" *ngIf="!(isLoggedIn$ | async)">Log in</a>
     <div class="right-button" *ngIf="isLoggedIn$ | async">
       <button mat-icon-button [matMenuTriggerFor]="accountActions">
@@ -13,11 +13,30 @@
         </mat-icon>
       </button>
       <mat-menu #accountActions="matMenu">
+        <div *ngIf="!isAdmin">
+          <button routerLink="order/list" mat-menu-item>
+            My Orders
+          </button>
+        </div>
+        <div *ngIf="isAdmin">
+          <button routerLink="administrator/orders" mat-menu-item>
+            Order management
+          </button>
+          <button routerLink="administrator/clients" mat-menu-item>
+            Users management
+          </button>
+          <button routerLink="administrator/printingEditions" mat-menu-item>
+            Product management
+          </button>
+          <button routerLink="administrator/authors" mat-menu-item>
+            Authors Page
+          </button>
+        </div>
         <button (click)="profile()" mat-menu-item>
-          Profile
+          My Profile
         </button>
         <button mat-menu-item (click)="signOut()">
-          Sign out
+          Log out
         </button>
       </mat-menu>
       <button mat-icon-button (click)="showCart()">

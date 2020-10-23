@@ -10,6 +10,7 @@ export const initialCartState: OrderModel = {
   paymentId: 0,
   status: OrderStatusEnum.None,
   userId: 0,
+  user: null,
   transactionToken: ""
 }
 

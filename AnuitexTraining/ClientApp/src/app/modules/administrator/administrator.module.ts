@@ -13,7 +13,8 @@ import {AuthorsEditDialogComponent} from "./components/authors/dialogs/edit/auth
 import {AuthorsAddDialogComponent} from "./components/authors/dialogs/add/authors-add-dialog.component";
 import {PrintingEditionsComponent} from "./components/printing-editions/printing-editions.component";
 import {PrintingEditionsAddDialogComponent} from "./components/printing-editions/dialogs/add/printing-editions-add-dialog.component";
-import {PrintingEditionsEditDialogComponent} from "./components/printing-editions/dialogs/edit/printing-editions-edit-dialog.component";
+import {PrintingEditionsEditDialogComponent} from "./components/printing-editions/dialogs/edit/printing-editions-edit-dialog.component";;
+import { OrdersComponent } from './components/orders/orders.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {PrintingEditionsEditDialogComponent} from "./components/printing-edition
     AuthorsAddDialogComponent,
     PrintingEditionsComponent,
     PrintingEditionsAddDialogComponent,
-    PrintingEditionsEditDialogComponent
+    PrintingEditionsEditDialogComponent,
+    OrdersComponent
   ],
     imports: [
         CommonModule,

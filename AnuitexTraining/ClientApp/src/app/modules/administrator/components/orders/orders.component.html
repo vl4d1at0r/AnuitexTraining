@@ -14,6 +14,20 @@
     <td *matCellDef="let element" mat-cell> {{element.date | date: "longDate"}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="username">
+    <th *matHeaderCellDef mat-header-cell>
+      User Name
+    </th>
+    <td *matCellDef="let element" mat-cell> {{element.user.firstName + " " + element.user.lastName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th *matHeaderCellDef mat-header-cell>
+      User Email
+    </th>
+    <td *matCellDef="let element" mat-cell> {{element.user.email}} </td>
+  </ng-container>
+
   <ng-container matColumnDef="product">
     <th *matHeaderCellDef mat-header-cell>
       Product
@@ -56,7 +70,7 @@
     </th>
     <td *matCellDef="let element" mat-cell>
       <div *ngIf="isPaid(element)">Paid</div>
-      <button *ngIf="!isPaid(element)" color="primary" (click)="payOrder(element)" mat-raised-button>Pay</button>
+      <div *ngIf="!isPaid(element)">Unpaid</div>
     </td>
   </ng-container>
 

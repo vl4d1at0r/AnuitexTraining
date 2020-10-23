@@ -21,7 +21,8 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         public async Task<IPagedList<Order>> GetPageAsync(PageOptions<Order> pageOptions, bool isAdmin, long userId)
         {
-            IQueryable<Order> orders = _dbSet.Include(item => item.Items).ThenInclude(item => item.PrintingEdition)
+            IQueryable<Order> orders = _dbSet.Include(item => item.User).Include(item => item.Items)
+                .ThenInclude(item => item.PrintingEdition)
                 .ThenInclude(item => item.AuthorInPrintingEditions).ThenInclude(item => item.Author);
             if (pageOptions.Filter != null)
             {
@@ -51,7 +52,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         public override async Task<Order> GetAsync(long id)
         {
-            return await _dbSet.Include(item => item.Items).Include(item => item.Payment)
+            return await _dbSet.Include(item => item.User).Include(item => item.Items).Include(item => item.Payment)
                 .FirstOrDefaultAsync(item => item.Id == id);
         }
     }
