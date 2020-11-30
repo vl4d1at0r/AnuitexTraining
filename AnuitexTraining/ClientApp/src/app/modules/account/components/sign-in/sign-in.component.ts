@@ -1,18 +1,26 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormGroup, FormControl, Validators, FormGroupDirective, NgForm} from "@angular/forms";
 import {AccountState} from "../../interfaces/account.state";
 import {Store} from "@ngrx/store";
-import {SignInAction} from "../../store/account.actions";
+import {SignInAction, SignInSuccess, SignInSuccessAction} from "../../store/account.actions";
 import {ErrorStateMatcher} from "@angular/material/core";
+import {Actions, ofType} from "@ngrx/effects";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'account-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
 
-  constructor(private store: Store<AccountState>) {
+  constructor(private store: Store<AccountState>, private actions$: Actions, private router: Router) {
+  }
+
+  ngOnInit() {
+    this.actions$.pipe(ofType(SignInSuccess)).subscribe((action: SignInSuccessAction) => {
+      this.router.navigate(['']);
+    });
   }
 
   emailControl = new FormControl('', [

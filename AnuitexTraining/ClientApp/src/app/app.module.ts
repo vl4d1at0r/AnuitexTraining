@@ -73,6 +73,11 @@ const appRoutes: Routes = [
     path: 'administrator/orders',
     component: OrdersComponent,
     canActivate: [AuthorizedRouterGuard, AdministratorRouterGuard]
+  },
+  {
+    path: '',
+    redirectTo: 'printingEdition/catalog',
+    pathMatch: 'full'
   }
 ];
 

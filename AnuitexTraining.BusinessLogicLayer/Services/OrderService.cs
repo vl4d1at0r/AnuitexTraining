@@ -187,7 +187,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
             long sum = 0;
             foreach (var item in orderItems)
             {
-                sum += Convert.ToInt64(item.Amount.ToString("F").Replace(",", string.Empty));
+                sum += Convert.ToInt64((item.Amount * item.Count).ToString("F").Replace(",", string.Empty));
             }
 
             var options = new ChargeCreateOptions
