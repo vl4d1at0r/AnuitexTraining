@@ -15,6 +15,8 @@ import {CurrencyTypeEnum} from "../../../shared/enums/currency-type.enum";
 import {PrintingEditionModel} from "../../../administrator/models/printing-edition.model";
 import {PrintingEditionFilterModel} from "../../../administrator/models/printing-edition-filter.model";
 import {PrintingEditionTypeEnum} from "../../../shared/enums/printing-edition-type.enum";
+import {checkAdmin} from "../../../shared/common";
+import {AccountState} from "../../../account/interfaces/account.state";
 
 @Component({
   selector: 'printing-edition-catalog',
@@ -24,6 +26,7 @@ import {PrintingEditionTypeEnum} from "../../../shared/enums/printing-edition-ty
 export class CatalogComponent implements AfterViewInit {
 
   constructor(private store: Store<AdministratorState>,
+              private userStore: Store<AccountState>,
               private actions$: Actions) {
   }
 
@@ -72,6 +75,7 @@ export class CatalogComponent implements AfterViewInit {
   sort = SortOrderEnum.asc;
   sortOrder = SortOrderEnum;
   firstTime = true;
+  isAdmin = checkAdmin(this.userStore);
 
   ngAfterViewInit() {
     this.actions$.pipe(ofType(GetPrintingEditionsSuccess)).subscribe((action: GetPrintingEditionsSuccessAction) => {

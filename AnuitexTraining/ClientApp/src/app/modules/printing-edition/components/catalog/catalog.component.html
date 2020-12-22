@@ -79,7 +79,7 @@
   </tr>
 </table>
 <div>
-  <button mat-flat-button routerLink="/administrator/printingEditions">
+  <button *ngIf="isAdmin" mat-flat-button routerLink="/administrator/printingEditions">
     <mat-icon>settings</mat-icon>
     Service
   </button>

@@ -16,6 +16,7 @@ import {ItemsComponent} from "./modules/cart/components/items/items.component";
 import {AddCartItem, DeleteCartItem, EditCartItem, RestoreCartAction} from "./modules/cart/store/cart.actions";
 import {OrderModel} from "./modules/cart/models/order.model";
 import {getItemsSelector, getStateSelector} from "./modules/cart/store/cart.selectors";
+import {checkAdmin} from "./modules/shared/common";
 
 @Component({
   selector: 'app-root',
@@ -38,9 +39,11 @@ export class AppComponent implements OnInit {
   isAdmin = false;
 
   ngOnInit() {
-    this.changeTheme();
     let accessToken = localStorage.getItem("accessToken");
     let refreshToken = localStorage.getItem("refreshToken")
+    this.actions$.pipe(ofType(SignInSuccess)).subscribe((action: SignInSuccessAction) => {
+      this.isAdmin = checkAdmin(this.store);
+    })
     if ((accessToken != 'null' && accessToken != null) && (refreshToken != 'null' && refreshToken != null)) {
       this.store.dispatch(new SignInSuccessAction({
         accessToken: accessToken,
@@ -52,12 +55,6 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new RestoreCartAction(JSON.parse(cart)))
       }
     }
-    this.actions$.pipe(ofType(SignInSuccess)).subscribe((action: SignInSuccessAction) => {
-      this.accessToken = action.payload.accessToken;
-      let json = JSON.parse(atob(this.accessToken.split('.')[1]));
-      let role = json["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
-      this.isAdmin = role == "Admin";
-    })
     this.actions$.pipe(ofType(SignOutSuccess)).subscribe(() => {
       this.router.navigate(["account", "signIn"]).then();
     })
@@ -81,11 +78,6 @@ export class AppComponent implements OnInit {
         id: id
       }
     }).then()
-  }
-
-  changeTheme() {
-    this.invert = !this.invert
-    document.getElementsByTagName("html")[0].style.filter = "invert(" + Number(this.invert) + ")"
   }
 
   showCart() {
