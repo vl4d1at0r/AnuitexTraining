@@ -17,5 +17,10 @@ button.low {
 }
 
 mat-form-field {
-  width: 50px;
+  width: 70px;
+}
+
+.vertical-center {
+  margin-top: auto;
+  margin-bottom: auto;
 }

@@ -8,7 +8,7 @@ import {
   SignOutAction,
   SignOutSuccess
 } from "./modules/account/store/account.actions";
-import {Router} from "@angular/router";
+import {NavigationStart, Router} from "@angular/router";
 import {Actions, ofType} from "@ngrx/effects";
 import {filter} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
@@ -31,12 +31,18 @@ export class AppComponent implements OnInit {
               private router: Router,
               private actions$: Actions,
               private cartStore: Store<OrderModel>) {
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.isOnAuthPage = event.url.includes("signIn") || event.url.includes("signUp");
+      }
+    })
   }
 
   title = 'app';
   isLoggedIn$ = this.store.select(getIsLoggedInSelector);
   invert = false;
   isAdmin = false;
+  isOnAuthPage = false;
 
   ngOnInit() {
     let accessToken = localStorage.getItem("accessToken");

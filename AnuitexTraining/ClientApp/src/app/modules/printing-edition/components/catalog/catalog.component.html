@@ -1,4 +1,4 @@
-﻿Catalog
+﻿<span class="header">Catalog</span>
 <div class="right-up-filter">
   <mat-form-field appearance="outline" class="search no-padding">
     <label class="search">
@@ -79,9 +79,9 @@
   </tr>
 </table>
 <div>
-  <button *ngIf="isAdmin" mat-flat-button routerLink="/administrator/printingEditions">
+  <button *ngIf="isAdmin" mat-flat-button routerLink="/administrator/printingEditions" class="wallpaper">
     <mat-icon>settings</mat-icon>
     Service
   </button>
-  <mat-paginator [length]="length" [pageSize]="6" class="d-inline-block float-right"></mat-paginator>
+  <mat-paginator [length]="length" [pageSize]="6" class="d-inline-block float-right wallpaper"></mat-paginator>
 </div>

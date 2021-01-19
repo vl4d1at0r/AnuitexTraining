@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, ViewChild} from '@angular/core';
 import {OrderModel} from "../../../cart/models/order.model";
 import {Store} from "@ngrx/store";
 import {AdministratorState} from "../../models/administrator.state";
@@ -20,8 +20,23 @@ import {GetOrdersAction, GetOrdersSuccess, GetOrdersSuccessAction} from "../../s
 export class OrdersComponent implements OnInit, AfterViewInit {
   dataSource: OrderModel[]
   displayedColumns = ["id", "date", "username", "email", "product", "title", "qty", "amount", "status"];
-  length: number
-  totalPrice: number
+  length: number;
+  totalPrice: number;
+  statusFilter: boolean;
+  paid = true;
+  unPaid = true;
+  refresh = new EventEmitter();
+  filter: OrderModel = {
+    id: 0,
+    date: null,
+    description: "",
+    paymentId: 0,
+    status: OrderStatusEnum.None,
+    transactionToken: "",
+    userId: 0,
+    user: null,
+    items: null
+  };
 
   constructor(private administratorStore: Store<AdministratorState>,
               private actions$: Actions) { }
@@ -48,7 +63,7 @@ export class OrdersComponent implements OnInit, AfterViewInit {
       this.length = action.payload.length;
     });
 
-    merge(this.sort.sortChange, this.actions$.pipe(ofType(BuyExistingOrderSuccess))).subscribe(() => {
+    merge(this.sort.sortChange, this.refresh, this.actions$.pipe(ofType(BuyExistingOrderSuccess))).subscribe(() => {
       this.paginator.firstPage();
       this.getOrders()
     });
@@ -66,7 +81,7 @@ export class OrdersComponent implements OnInit, AfterViewInit {
       pageSize: this.paginator.pageSize,
       sortField: this.sort.active,
       sortOrder: SortOrderEnum[this.sort.direction],
-      filter: undefined
+      filter: this.filter
     }))
   }
 
@@ -74,4 +89,16 @@ export class OrdersComponent implements OnInit, AfterViewInit {
     return PrintingEditionTypeEnum[type]
   }
 
+  change() {
+    if (this.paid == this.unPaid) {
+      this.filter.status = OrderStatusEnum.None;
+    }
+    else if (this.paid) {
+      this.filter.status = OrderStatusEnum.Paid;
+    }
+    else if(this.unPaid) {
+      this.filter.status = OrderStatusEnum.Unpaid;
+    }
+    this.refresh.emit();
+  }
 }

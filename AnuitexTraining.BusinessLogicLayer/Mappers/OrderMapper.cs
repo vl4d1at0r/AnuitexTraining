@@ -21,7 +21,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
             {
                 Id = item.Id,
                 CreationDate = item.CreationDate ?? default,
-                Date = item.Date,
+                Date = item.Date ?? default,
                 Description = item.Description,
                 PaymentId = item.PaymentId,
                 Status = item.Status,

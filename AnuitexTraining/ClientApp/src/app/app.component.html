@@ -1,11 +1,13 @@
-<body>
-<mat-toolbar>
+<body class="wallpaper">
+<mat-toolbar class="background">
   <mat-toolbar-row>
-    <mat-icon color="primary" class="book">
-      menu_book
-    </mat-icon>
-    <div routerLink="printingEdition/catalog" style="cursor: pointer">Book Publishing Company</div>
-    <a routerLink="/account/signIn" class="log-in" *ngIf="!(isLoggedIn$ | async)">Log in</a>
+    <div class="logo" [class.centered-logo]="isOnAuthPage">
+      <mat-icon color="primary" class="book">
+        menu_book
+      </mat-icon>
+      <div routerLink="printingEdition/catalog" style="cursor: pointer; outline: none">Book Publishing Company</div>
+    </div>
+    <a routerLink="/account/signIn" class="log-in" *ngIf="!(isLoggedIn$ | async) && !isOnAuthPage">Log in</a>
     <div class="right-button" *ngIf="isLoggedIn$ | async">
       <button mat-icon-button [matMenuTriggerFor]="accountActions">
         <mat-icon>

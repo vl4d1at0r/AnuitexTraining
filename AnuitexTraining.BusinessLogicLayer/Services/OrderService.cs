@@ -52,7 +52,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Services
                     ? null
                     : new Order
                     {
-                        Date = orderPageModel.Filter.Date,
+                        Date = orderPageModel.Filter.Date ?? default,
                         Description = orderPageModel.Filter.Description,
                         Id = orderPageModel.Filter.Id,
                         PaymentId = orderPageModel.Filter.PaymentId,

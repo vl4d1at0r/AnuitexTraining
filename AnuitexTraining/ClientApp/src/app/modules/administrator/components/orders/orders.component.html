@@ -66,7 +66,14 @@
 
   <ng-container matColumnDef="status">
     <th *matHeaderCellDef mat-header-cell>
-      Order status
+      <div (click)="statusFilter=!statusFilter" class="fill">Order status</div>
+      <div [hidden]="!statusFilter" class="filter">
+        <mat-card>
+          <mat-checkbox [(ngModel)]="paid" (change)="change()">Paid</mat-checkbox>
+          <br>
+          <mat-checkbox [(ngModel)]="unPaid" (change)="change()">Unpaid</mat-checkbox>
+        </mat-card>
+      </div>
     </th>
     <td *matCellDef="let element" mat-cell>
       <div *ngIf="isPaid(element)">Paid</div>
@@ -77,4 +84,4 @@
   <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
   <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 </table>
-<mat-paginator [length]="length" [pageSize]="5"></mat-paginator>
+<mat-paginator [length]="length" [pageSize]="5" class="wallpaper"></mat-paginator>
