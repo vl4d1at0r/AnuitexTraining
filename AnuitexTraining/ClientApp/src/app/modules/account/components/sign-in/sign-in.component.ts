@@ -38,8 +38,6 @@ export class SignInComponent implements OnInit {
     rememberMe: this.rememberMeControl
   });
 
-  userImage = require("../../assets/user.png");
-
   signIn() {
     if (this.form.valid) {
       this.store.dispatch(new SignInAction({
