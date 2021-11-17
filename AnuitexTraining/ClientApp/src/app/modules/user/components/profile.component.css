@@ -13,3 +13,14 @@ button.cancel {
 mat-form-field {
   width: 100%;
 }
+
+.form-center {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+label {
+  width: 100%;
+}

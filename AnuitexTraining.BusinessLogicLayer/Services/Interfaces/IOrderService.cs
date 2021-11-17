@@ -10,5 +10,6 @@ namespace AnuitexTraining.BusinessLogicLayer.Services.Interfaces
         public Task<PageDataModel<OrderModel>> GetPageAsync(PageModel<OrderModel> orderPageModel, bool admin, long userId);
         public Task DeleteAsync(long id);
         public Task<long> BuyAsync(OrderModel orderModel);
+        public Task<long> BuyExistingAsync(long id, string token);
     }
 }

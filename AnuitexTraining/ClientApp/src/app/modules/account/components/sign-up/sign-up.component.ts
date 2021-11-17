@@ -20,8 +20,6 @@ export class SignUpComponent{
   constructor(private store:Store<AccountState>) {
   }
 
-  userImage = require('../../assets/user.png')
-
   firstNameControl = new FormControl('', [
     Validators.required
   ]);

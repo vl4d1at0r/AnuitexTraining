@@ -7,6 +7,7 @@ import {GetPageModel} from "../models/get-page.model";
 import {PrintingEditionModel} from "../models/printing-edition.model";
 import {PrintingEditionFilterModel} from "../models/printing-edition-filter.model";
 import {GetPrintingEditionPageSuccesModel} from "../models/get-printing-edition-page-succes.model";
+import {OrderModel} from "../../cart/models/order.model";
 
 export const GetUsers = '[Administrator] Get Users';
 export const GetUsersSuccess = '[Administrator] Get Users Success';
@@ -29,6 +30,8 @@ export const DeletePrintingEdition = '[Administrator] Delete Printing Edition'
 export const DeletePrintingEditionSuccess = '[Administrator] Delete Printing Edition Success'
 export const EditPrintingEdition = '[Administrator] Edit Printing Edition'
 export const EditPrintingEditionSuccess = '[Administrator] Edit Printing Edition Success'
+export const GetOrders = "[Administrator] Get Orders";
+export const GetOrdersSuccess = "[Administrator] Get Orders Success"
 
 export class DeleteUserSuccessAction implements Action {
   readonly type = DeleteUserSuccess
@@ -156,6 +159,20 @@ export class EditPrintingEditionSuccessAction implements Action {
   readonly type = EditPrintingEditionSuccess;
 }
 
+export class GetOrdersAction implements Action {
+  readonly type = GetOrders;
+
+  constructor(public payload: GetPageModel<OrderModel>) {
+  }
+}
+
+export class GetOrdersSuccessAction implements Action {
+  readonly type = GetOrdersSuccess;
+
+  constructor(public payload: GetPageSuccessModel<OrderModel>) {
+  }
+}
+
 export type AdministratorActions =
   GetUsersAction
   | GetAuthorsSuccessAction
@@ -177,4 +194,6 @@ export type AdministratorActions =
   | DeletePrintingEditionAction
   | DeletePrintingEditionSuccessAction
   | EditPrintingEditionAction
-  | EditPrintingEditionSuccessAction;
+  | EditPrintingEditionSuccessAction
+  | GetOrdersAction
+  | GetOrdersSuccessAction;

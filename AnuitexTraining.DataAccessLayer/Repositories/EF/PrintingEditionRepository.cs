@@ -7,14 +7,14 @@ using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Models;
 using AnuitexTraining.DataAccessLayer.Providers;
-using AnuitexTraining.DataAccessLayer.Repositories.Base;
+using AnuitexTraining.DataAccessLayer.Repositories.EF.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using static AnuitexTraining.Shared.Enums.Enums;
 
-namespace AnuitexTraining.DataAccessLayer.Repositories
+namespace AnuitexTraining.DataAccessLayer.Repositories.EF
 {
     public class PrintingEditionRepository : BaseRepository<PrintingEdition>, IPrintingEditionRepository
     {
@@ -43,7 +43,7 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
                 if (!string.IsNullOrEmpty(pageOptions.Filter.SearchString))
                 {
                     printingEditions = printingEditions.Where(item =>
-                        item.AuthorInPrintingEditions.Select(authorInPrintingEdition => EF.Functions.Like(
+                        item.AuthorInPrintingEditions.Select(authorInPrintingEdition => Microsoft.EntityFrameworkCore.EF.Functions.Like(
                             authorInPrintingEdition.Author.Name,
                             $"%{pageOptions.Filter.SearchString}%")).Contains(true) | item.Title.ToLower()
                             .Contains(pageOptions.Filter.SearchString.ToLower()));

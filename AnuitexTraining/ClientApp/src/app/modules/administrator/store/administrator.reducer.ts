@@ -3,6 +3,7 @@ import {
   AdministratorActions,
   AdministratorFail,
   GetAuthorsSuccess,
+  GetOrdersSuccess,
   GetPrintingEditionsSuccess,
   GetUsersSuccess
 } from "./administrator.actions";
@@ -11,10 +12,12 @@ export const administratorInitialState: AdministratorState = {
   users: [],
   authors: [],
   printingEditions: [],
+  orders: [],
   errors: [],
   usersTotal: 0,
   authorsTotal: 0,
-  printingEditionsTotal: 0
+  printingEditionsTotal: 0,
+  ordersTotal: 0
 };
 
 export const getUsers = (state: AdministratorState) => state.users;
@@ -39,6 +42,12 @@ export function administratorReducer(state = administratorInitialState, action: 
         ...state,
         printingEditions: [...action.payload.data],
         printingEditionsTotal: action.payload.length
+      }
+    case GetOrdersSuccess:
+      return {
+        ...state,
+        orders: [...action.payload.data],
+        ordersTotal: action.payload.length
       }
     case AdministratorFail:
       return {

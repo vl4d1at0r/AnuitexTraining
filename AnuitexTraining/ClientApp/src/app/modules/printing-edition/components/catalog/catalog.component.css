@@ -76,3 +76,11 @@ input.search {
 mat-icon.item {
   font-size: 170px;
 }
+
+.header {
+  font-size: 24px;
+  font-weight: bold;
+  position: absolute;
+  left: 84px;
+  top: 95px;
+}

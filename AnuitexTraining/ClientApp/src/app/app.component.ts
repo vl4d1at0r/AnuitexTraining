@@ -2,8 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {AccountState} from "./modules/account/interfaces/account.state";
 import {getAccessTokenSelector, getIsLoggedInSelector} from "./modules/account/store/account.selectors";
-import {SignInSuccessAction, SignOutAction, SignOutSuccess} from "./modules/account/store/account.actions";
-import {Router} from "@angular/router";
+import {
+  SignInSuccess,
+  SignInSuccessAction,
+  SignOutAction,
+  SignOutSuccess
+} from "./modules/account/store/account.actions";
+import {NavigationStart, Router} from "@angular/router";
 import {Actions, ofType} from "@ngrx/effects";
 import {filter} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
@@ -11,6 +16,7 @@ import {ItemsComponent} from "./modules/cart/components/items/items.component";
 import {AddCartItem, DeleteCartItem, EditCartItem, RestoreCartAction} from "./modules/cart/store/cart.actions";
 import {OrderModel} from "./modules/cart/models/order.model";
 import {getItemsSelector, getStateSelector} from "./modules/cart/store/cart.selectors";
+import {checkAdmin} from "./modules/shared/common";
 
 @Component({
   selector: 'app-root',
@@ -25,16 +31,25 @@ export class AppComponent implements OnInit {
               private router: Router,
               private actions$: Actions,
               private cartStore: Store<OrderModel>) {
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.isOnAuthPage = event.url.includes("signIn") || event.url.includes("signUp");
+      }
+    })
   }
 
   title = 'app';
   isLoggedIn$ = this.store.select(getIsLoggedInSelector);
   invert = false;
+  isAdmin = false;
+  isOnAuthPage = false;
 
   ngOnInit() {
-    this.changeTheme();
     let accessToken = localStorage.getItem("accessToken");
     let refreshToken = localStorage.getItem("refreshToken")
+    this.actions$.pipe(ofType(SignInSuccess)).subscribe((action: SignInSuccessAction) => {
+      this.isAdmin = checkAdmin(this.store);
+    })
     if ((accessToken != 'null' && accessToken != null) && (refreshToken != 'null' && refreshToken != null)) {
       this.store.dispatch(new SignInSuccessAction({
         accessToken: accessToken,
@@ -69,11 +84,6 @@ export class AppComponent implements OnInit {
         id: id
       }
     }).then()
-  }
-
-  changeTheme() {
-    this.invert = !this.invert
-    document.getElementsByTagName("html")[0].style.filter = "invert(" + Number(this.invert) + ")"
   }
 
   showCart() {

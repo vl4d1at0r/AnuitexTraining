@@ -5,6 +5,7 @@ import {AuthorModel} from "../models/author.model";
 import {GetPageModel} from "../models/get-page.model";
 import {PrintingEditionModel} from "../models/printing-edition.model";
 import {PrintingEditionFilterModel} from "../models/printing-edition-filter.model";
+import {OrderModel} from "../../cart/models/order.model";
 
 @Injectable()
 export class AdministratorService {
@@ -15,6 +16,7 @@ export class AdministratorService {
   private accountUrl = "/api/accounts/";
   private authorUrl = "/api/authors/";
   private printingEditionUrl = "/api/printingEditions/";
+  private orderUrl = "/api/orders/";
 
   getUsers(model: GetPageModel<UserState>) {
     return this.http.post(this.userUrl + "getPage", model);
@@ -54,5 +56,9 @@ export class AdministratorService {
 
   editPrintingEdition(model: PrintingEditionModel) {
     return this.http.put(this.printingEditionUrl + "update", model)
+  }
+
+  getOrders(payload: GetPageModel<OrderModel>) {
+    return this.http.post(this.orderUrl + "getPage", payload)
   }
 }

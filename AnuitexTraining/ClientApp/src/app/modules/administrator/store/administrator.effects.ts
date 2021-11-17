@@ -21,7 +21,7 @@ import {
   EditAuthorSuccessAction, EditPrintingEdition, EditPrintingEditionAction, EditPrintingEditionSuccessAction,
   GetAuthors,
   GetAuthorsAction,
-  GetAuthorsSuccessAction,
+  GetAuthorsSuccessAction, GetOrders, GetOrdersAction, GetOrdersSuccessAction,
   GetPrintingEditions,
   GetPrintingEditionsAction,
   GetPrintingEditionsSuccessAction,
@@ -37,6 +37,7 @@ import {AuthorModel} from "../models/author.model";
 import {UserState} from "../../user/models/user.state";
 import {PrintingEditionModel} from "../models/printing-edition.model";
 import {GetPrintingEditionPageSuccesModel} from "../models/get-printing-edition-page-succes.model";
+import {OrderModel} from "../../cart/models/order.model";
 
 @Injectable()
 export class AdministratorEffects {
@@ -177,6 +178,20 @@ export class AdministratorEffects {
         .pipe(
           map(() => {
             return new EditPrintingEditionSuccessAction();
+          }),
+          catchError(error => {
+            return of(new AdministratorFailAction(error.error));
+          })
+        )
+    }))
+
+  @Effect()
+  getOrders$ = this.actions$.pipe(ofType(GetOrders),
+    mergeMap((action: GetOrdersAction) => {
+      return this.administratorService.getOrders(action.payload)
+        .pipe(
+          map((data: GetPageSuccessModel<OrderModel>) => {
+            return new GetOrdersSuccessAction(data)
           }),
           catchError(error => {
             return of(new AdministratorFailAction(error.error));

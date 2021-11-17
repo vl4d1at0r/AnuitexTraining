@@ -3,12 +3,14 @@ import {OrderStatusEnum} from "../../shared/enums/order-status.enum";
 import {AddCartItem, BuyCartSuccess, CartActions, DeleteCartItem, EditCartItem, RestoreCart} from "./cart.actions";
 
 export const initialCartState: OrderModel = {
+  id: 0,
   date: null,
   description: '',
   items: [],
   paymentId: 0,
   status: OrderStatusEnum.None,
   userId: 0,
+  user: null,
   transactionToken: ""
 }
 

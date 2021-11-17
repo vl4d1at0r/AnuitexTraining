@@ -1,7 +1,14 @@
 <div class="content">
-  <mat-icon color="primary">done</mat-icon>
-  <br>
-  Thank You for your purchase! <br>
-  Order number is: {{data}} <br>
+  <div *ngIf="data != undefined">
+    <mat-icon color="primary">done</mat-icon>
+    <br>
+    Thank You for your purchase! <br>
+    Order number is: {{data}} <br>
+  </div>
+  <div *ngIf="data == undefined">
+    <mat-icon>clear</mat-icon>
+    <br>
+    Failed to purchase order! <br>
+  </div>
   <button (click)="dialogRef.close()" color="primary" mat-raised-button>Continue</button>
 </div>

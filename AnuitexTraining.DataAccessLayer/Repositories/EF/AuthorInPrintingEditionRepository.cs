@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
-using AnuitexTraining.DataAccessLayer.Repositories.Base;
+using AnuitexTraining.DataAccessLayer.Repositories.EF.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace AnuitexTraining.DataAccessLayer.Repositories
+namespace AnuitexTraining.DataAccessLayer.Repositories.EF
 {
     public class AuthorInPrintingEditionRepository : BaseRepository<AuthorInPrintingEdition>,
         IAuthorInPrintingEditionRepository

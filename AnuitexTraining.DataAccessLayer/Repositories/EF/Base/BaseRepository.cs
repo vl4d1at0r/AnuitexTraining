@@ -4,7 +4,7 @@ using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace AnuitexTraining.DataAccessLayer.Repositories.Base
+namespace AnuitexTraining.DataAccessLayer.Repositories.EF.Base
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {

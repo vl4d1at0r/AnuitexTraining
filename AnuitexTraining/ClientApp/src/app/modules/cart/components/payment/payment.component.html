@@ -3,4 +3,4 @@
   (tokenChange)="setStripeToken($event)"
 ></stripe-card>
 
-<button type="button" color="primary" (click)="stripeCard.createToken()" mat-raised-button>Pay ${{data}}</button>
+<button type="button" color="primary" (click)="stripeCard.createToken()" mat-raised-button>Pay ${{data.amount}}</button>

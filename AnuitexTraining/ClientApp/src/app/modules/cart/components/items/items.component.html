@@ -24,12 +24,12 @@
     <td>
       <mat-form-field appearance="outline">
         <label>
-          <input matInput type="number" [value]="item.count" (change)="edit(item)" [(ngModel)]="item.count">
+          <input matInput type="number" min="1" [value]="item.count" (change)="edit(item)" [(ngModel)]="item.count">
         </label>
       </mat-form-field>
     </td>
-    <td>
-      <span>USD ${{round(item.amount * item.count)}}</span>
+    <td class="d-flex">
+      <div class="vertical-center">USD ${{round(item.amount * item.count)}}</div>
       <button class="float-right" (click)="delete(item.printingEditionId)" mat-icon-button>
         <mat-icon>
           remove
@@ -39,5 +39,5 @@
   </tr>
 </table>
 <span class="float-right">TOTAL PRICE USD ${{getTotalPrice()}}</span><br>
-<button (click)="dialogRef.close()" class="low" color="accent" mat-raised-button>Cancel</button>
+<button (click)="dialogRef.close()" class="low" color="warn" mat-raised-button>Cancel</button>
 <button (click)="buy()" class="low" color="primary" mat-raised-button>Buy Now</button>

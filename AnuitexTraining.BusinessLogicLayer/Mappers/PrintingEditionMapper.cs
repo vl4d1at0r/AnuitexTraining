@@ -8,13 +8,7 @@ namespace AnuitexTraining.BusinessLogicLayer.Mappers
 {
     public class PrintingEditionMapper : BaseMapper<PrintingEdition, PrintingEditionModel>
     {
-        private ExchangeRateProvider _exchangeRateProvider;
-        
-        public PrintingEditionMapper(ExchangeRateProvider exchangeRateProvider)
-        {
-            _exchangeRateProvider = exchangeRateProvider;
-        }
-        
+
         public override PrintingEdition Map(PrintingEditionModel item)
         {
             return new PrintingEdition

@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AnuitexTraining.DataAccessLayer.AppContext;
 using AnuitexTraining.DataAccessLayer.Entities;
 using AnuitexTraining.DataAccessLayer.Models;
-using AnuitexTraining.DataAccessLayer.Repositories.Base;
+using AnuitexTraining.DataAccessLayer.Repositories.EF.Base;
 using AnuitexTraining.DataAccessLayer.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using static AnuitexTraining.Shared.Enums.Enums;
 
-namespace AnuitexTraining.DataAccessLayer.Repositories
+namespace AnuitexTraining.DataAccessLayer.Repositories.EF
 {
     public class OrderRepository : BaseRepository<Order>, IOrderRepository
     {
@@ -20,7 +20,9 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
 
         public async Task<IPagedList<Order>> GetPageAsync(PageOptions<Order> pageOptions, bool isAdmin, long userId)
         {
-            IQueryable<Order> orders = _dbSet;
+            IQueryable<Order> orders = _dbSet.Include(item => item.User).Include(item => item.Items)
+                .ThenInclude(item => item.PrintingEdition)
+                .ThenInclude(item => item.AuthorInPrintingEditions).ThenInclude(item => item.Author);
             if (pageOptions.Filter != null)
             {
                 orders = orders.Where(item =>
@@ -45,6 +47,12 @@ namespace AnuitexTraining.DataAccessLayer.Repositories
             }
 
             return await orders.ToPagedListAsync(pageOptions.Page, pageOptions.PageSize);
+        }
+
+        public override async Task<Order> GetAsync(long id)
+        {
+            return await _dbSet.Include(item => item.User).Include(item => item.Items).Include(item => item.Payment)
+                .FirstOrDefaultAsync(item => item.Id == id);
         }
     }
 }

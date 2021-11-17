@@ -14,7 +14,6 @@ export class ForgotPasswordComponent {
   constructor(private store:Store<AccountState>) {
   }
 
-  userImage = require('../../assets/user.png');
   passwordSent: boolean;
 
   emailControl = new FormControl('', {

@@ -17,7 +17,6 @@ export class ConfirmEmailComponent implements OnInit {
   confirming: boolean;
   firstName = "";
   lastName = "";
-  checkMarkImage = require('../../assets/check-mark.png');
 
   constructor(private activatedRoute: ActivatedRoute, private store: Store<AccountState>) {
   }

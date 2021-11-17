@@ -35,6 +35,7 @@ import {CartModule} from "./modules/cart/cart.module";
 import {StripeModule} from "stripe-angular";
 import {ListComponent} from "./modules/order/components/list/list.component";
 import {OrderModule} from "./modules/order/order.module";
+import {OrdersComponent} from "./modules/administrator/components/orders/orders.component";
 
 const appRoutes: Routes = [
   {path: 'account/signIn', component: SignInComponent, canActivate: [UnauthorizedRouterGuard]},
@@ -67,6 +68,16 @@ const appRoutes: Routes = [
     path: 'order/list',
     component: ListComponent,
     canActivate: [AuthorizedRouterGuard]
+  },
+  {
+    path: 'administrator/orders',
+    component: OrdersComponent,
+    canActivate: [AuthorizedRouterGuard, AdministratorRouterGuard]
+  },
+  {
+    path: '',
+    redirectTo: 'printingEdition/catalog',
+    pathMatch: 'full'
   }
 ];
 
@@ -97,7 +108,7 @@ const appRoutes: Routes = [
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     MaterialModule,
-    StripeModule.forRoot("pk_test_51HMqTeKbwoGhmQ0BhRs6vDMqF8HBw5x4Tp3kvdGWZSYZxZmR1AQfApcYxDdj7ATzvA5zJxhS1NhzGRVNz1HkJ9ru00eSJCeCes")
+    StripeModule.forRoot(environment.stripe_key)
   ],
   providers: [AuthorizedRouterGuard, UnauthorizedRouterGuard, AdministratorRouterGuard],
   bootstrap: [AppComponent],
